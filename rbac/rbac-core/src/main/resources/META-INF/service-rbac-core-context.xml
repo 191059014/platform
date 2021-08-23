@@ -8,11 +8,11 @@
 	http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
     <!-- component扫描 -->
-    <context:component-scan base-package="com.hb.platform.configcenter.core"/>
+    <context:component-scan base-package="com.hb.platform.rbac.core"/>
 
     <!-- mapper -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.hb.platform.configcenter.core.dao.mapper"/>
+        <property name="basePackage" value="com.hb.platform.rbac.core.dao.mapper"/>
     </bean>
 
 </beans>

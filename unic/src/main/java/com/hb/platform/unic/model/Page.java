@@ -49,7 +49,7 @@ public class Page<T> {
      * @return 分页条件
      */
     public static Page createBefore(Integer pageNum, Integer pageSize) {
-        if (pageNum == null || pageNum < 1 || pageSize == null || pageSize < 0) {
+        if (pageNum == null || pageNum < 1 || pageSize == null || pageSize < 1) {
             throw new BusinessException(ResultCode.PAGE_PARAM_ERROR);
         }
         Page page = new Page();

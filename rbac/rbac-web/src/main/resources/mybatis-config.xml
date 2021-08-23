@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <!-- 当没有为参数提供特定的JDBC类型时，为空值指定JDBC类型 -->
+        <setting name="jdbcTypeForNull" value="NULL"/>
+        <!-- 指定mybatis所用日志的具体实现，未指定时将自动查找 -->
+        <setting name="logImpl" value="SLF4J"/>
+        <!-- 指定mybatis增加到日志名称的前缀 -->
+        <setting name="logPrefix" value="dao."/>
+    </settings>
+
+</configuration>

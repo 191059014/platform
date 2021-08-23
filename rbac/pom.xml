@@ -10,6 +10,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>rbac</artifactId>
+    <packaging>pom</packaging>
     <name>rbac</name>
+
+    <modules>
+        <module>rbac-core</module>
+        <module>rbac-web</module>
+    </modules>
 
 </project>
