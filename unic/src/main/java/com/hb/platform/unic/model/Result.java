@@ -1,7 +1,7 @@
 package com.hb.platform.unic.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.hb.platform.unic.common.constant.IErrorCode;
+import com.hb.platform.unic.common.standardinterface.IErrorCode;
 import com.hb.platform.unic.common.enums.ResultCode;
 import lombok.Data;
 

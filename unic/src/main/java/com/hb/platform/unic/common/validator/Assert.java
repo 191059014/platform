@@ -1,6 +1,6 @@
 package com.hb.platform.unic.common.validator;
 
-import com.hb.platform.unic.common.constant.IErrorCode;
+import com.hb.platform.unic.common.standardinterface.IErrorCode;
 import com.hb.platform.unic.common.exception.BusinessException;
 
 import java.util.Collection;

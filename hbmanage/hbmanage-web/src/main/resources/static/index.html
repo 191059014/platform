@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+
+    <!-- 引入 layui.css -->
+    <link rel="stylesheet" href="./layui/css/layui.css">
+
+    <!-- 引入 layui.js -->
+    <script type="text/javascript" src="./layui/layui.js"></script>
+
+</head>
+
+<body>
+<table id="demo" lay-filter="test"></table>
+
+
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
+
+        //第一个实例
+        table.render({
+            elem: '#demo'
+            ,height: 312
+            ,data: [{"id":"1","username":"1","sex":"1","city":"1"},{"id":"1","username":"1","sex":"1","city":"1"},{"id":"1","username":"1","sex":"1","city":"1"}] //数据接口
+            ,page: true //开启分页
+            ,cols: [[ //表头
+                {field: 'id', title: 'ID', sort: true, fixed: 'left'}
+                ,{field: 'username', title: '用户名'}
+                ,{field: 'sex', title: '性别', sort: true}
+                ,{field: 'city', title: '城市'}
+            ]]
+        });
+
+    });
+</script>
+</body>
+</html>

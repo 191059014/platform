@@ -9,16 +9,13 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>unic</artifactId>
-    <name>unic</name>
+    <artifactId>hbmanage</artifactId>
+    <packaging>pom</packaging>
+    <name>hbmanage</name>
 
-    <dependencies>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
-        </dependency>
-
-    </dependencies>
+    <modules>
+        <module>hbmanage-core</module>
+        <module>hbmanage-web</module>
+    </modules>
 
 </project>

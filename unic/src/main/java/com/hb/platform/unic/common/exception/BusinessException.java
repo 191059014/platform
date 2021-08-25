@@ -1,6 +1,6 @@
 package com.hb.platform.unic.common.exception;
 
-import com.hb.platform.unic.common.constant.IErrorCode;
+import com.hb.platform.unic.common.standardinterface.IErrorCode;
 import lombok.Getter;
 
 /**

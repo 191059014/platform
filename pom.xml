@@ -6,7 +6,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>configcenter</module>
-        <module>hb-admin</module>
+        <module>hbmanage</module>
         <module>rbac</module>
         <module>unic</module>
     </modules>

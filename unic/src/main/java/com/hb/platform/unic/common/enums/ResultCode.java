@@ -1,6 +1,6 @@
 package com.hb.platform.unic.common.enums;
 
-import com.hb.platform.unic.common.constant.IErrorCode;
+import com.hb.platform.unic.common.standardinterface.IErrorCode;
 
 /**
  * 返回码

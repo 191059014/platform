@@ -2,6 +2,7 @@ package com.hb.platform.configcenter.web.controller;
 
 import com.hb.platform.configcenter.core.dao.dobj.CfgGlobalDO;
 import com.hb.platform.configcenter.core.service.ICfgGlobalService;
+import com.hb.platform.unic.annotation.InOutLog;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,6 +49,7 @@ public class CfgGlobalController {
      * @return 分页结果
      */
     @PostMapping("/queryPages")
+    @InOutLog("分页查询全局配置表")
     public Result<Page<CfgGlobalDO>> queryPages(@RequestBody CfgGlobalDO cfgGlobal,
                                                 @RequestParam("pageNum") Integer pageNum,
                                                 @RequestParam("pageSize") Integer pageSize) {
