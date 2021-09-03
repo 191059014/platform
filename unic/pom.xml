@@ -10,15 +10,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>unic</artifactId>
+    <packaging>pom</packaging>
     <name>unic</name>
-
-    <dependencies>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
-        </dependency>
-
-    </dependencies>
+    <modules>
+        <module>unic-rbac</module>
+        <module>unic-base</module>
+        <module>unic-common</module>
+    </modules>
 
 </project>

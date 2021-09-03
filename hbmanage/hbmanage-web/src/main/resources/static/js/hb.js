@@ -1,0 +1,5 @@
+window.info = function (msg) {
+
+};
+
+

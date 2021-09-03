@@ -11,7 +11,7 @@
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <!--<Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %level %C.%M[%F:%L] - %msg%n</Pattern>-->
-            <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %level %C.%M[%F:%L] - %msg%n</Pattern>
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %level %C.%M[%F:%L] [traceId=%X{traceId:-default}] - %msg%n</Pattern>
         </encoder>
     </appender>
 
@@ -31,7 +31,7 @@
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <!--output format：%d is for date，%thread is for thread name，%-5level：loglevel
                 with 5 character %msg：log message，%n line breaker -->
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %level %C.%M[%F:%L] - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %level %C.%M[%F:%L] [traceId=%X{traceId:-default}] - %msg%n</pattern>
             <!-- encoding -->
             <charset>UTF-8</charset>
         </encoder>
@@ -58,7 +58,7 @@
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <!--output format：%d is for date，%thread is for thread name，%-5level：loglevel
                 with 5 character %msg：log message，%n line breaker -->
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %level %C.%M[%F:%L] - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %level %C.%M[%F:%L] [traceId=%X{traceId:-default}] - %msg%n</pattern>
             <charset>UTF-8</charset>
         </encoder>
     </appender>

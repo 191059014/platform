@@ -13,11 +13,10 @@
     <name>hbmanage-core</name>
 
     <dependencies>
-        <!-- unic -->
+        <!-- unic-rbac -->
         <dependency>
             <groupId>com.hb.platform</groupId>
-            <artifactId>unic</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <artifactId>unic-rbac</artifactId>
         </dependency>
         <!--mybatis -->
         <dependency>
