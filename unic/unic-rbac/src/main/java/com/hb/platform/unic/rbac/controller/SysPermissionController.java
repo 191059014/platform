@@ -1,11 +1,9 @@
 package com.hb.platform.unic.rbac.controller;
 
-import com.hb.platform.unic.base.common.enums.ResultCode;
 import com.hb.platform.unic.base.model.Page;
 import com.hb.platform.unic.base.model.Result;
-import com.hb.platform.unic.common.validator.Assert;
-import com.hb.platform.unic.rbac.dao.dobj.SysPermissionDO;
 import com.hb.platform.unic.rbac.service.ISysPermissionService;
+import com.hb.platform.unic.rbac.dao.dobj.SysPermissionDO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,10 +18,10 @@ import javax.annotation.Resource;
 /**
  * 权限信息表控制层
  *
- * @version v0.1, 2021-08-23 23:06:14, create by Mr.Huang.
+ * @version v0.1, 2021-09-04 12:48:40, create by Mr.Huang.
  */
 @RestController
-@RequestMapping("/unic/rbac/sysPermission")
+@RequestMapping("/sysPermission")
 public class SysPermissionController {
 
     /**
@@ -50,7 +48,7 @@ public class SysPermissionController {
      */
     @PostMapping("/queryPages")
     public Result<Page<SysPermissionDO>> queryPages(@RequestBody SysPermissionDO sysPermission,
-        @RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize) {
+                                                    @RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize) {
         return Result.success(sysPermissionService.selectPages(sysPermission, pageNum, pageSize));
     }
 
@@ -75,7 +73,6 @@ public class SysPermissionController {
      */
     @PostMapping("/updateById")
     public Result updateById(@RequestBody SysPermissionDO sysPermission) {
-        Assert.notNull(sysPermission.getId(), ResultCode.PARAM_ILLEGAL);
         return Result.success(sysPermissionService.updateById(sysPermission));
     }
 
@@ -88,7 +85,6 @@ public class SysPermissionController {
      */
     @GetMapping("/deleteById")
     public Result deleteById(@RequestParam("id") Long id) {
-        Assert.notNull(id, ResultCode.PARAM_ILLEGAL);
         return Result.success(sysPermissionService.deleteById(id));
     }
 

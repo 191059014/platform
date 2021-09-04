@@ -10,7 +10,7 @@ import com.hb.platform.unic.base.model.Page;
 /**
  * 角色权限关系表数据库层接口
  *
- * @version v0.1, 2021-08-23 23:21:57, create by Mr.Huang.
+ * @version v0.1, 2021-09-04 12:48:44, create by Mr.Huang.
  */
 public interface ISysRolePermissionMapper {
 

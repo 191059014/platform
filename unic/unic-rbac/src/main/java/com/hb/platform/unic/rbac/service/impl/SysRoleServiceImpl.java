@@ -17,7 +17,7 @@ import com.hb.platform.unic.base.model.Page;
 /**
  * 角色信息表服务层实现类
  *
- * @version v0.1, 2021-08-23 23:21:51, create by Mr.Huang.
+ * @version v0.1, 2021-09-04 12:48:42, create by Mr.Huang.
  */
 @Service
 public class SysRoleServiceImpl implements ISysRoleService {
@@ -55,7 +55,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
     @Override
     public SysRoleDO selectOne(SysRoleDO sysRole) {
         List<SysRoleDO> list = this.sysRoleMapper.selectList(sysRole);
-        return CollectionUtils.isEmpty(list) ? new SysRoleDO() : list.get(0);
+        return CollectionUtils.isEmpty(list) ? null : list.get(0);
     }
 
     /**

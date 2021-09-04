@@ -1,30 +1,27 @@
 package com.hb.platform.unic.rbac.controller;
 
-import com.hb.platform.unic.base.common.enums.ResultCode;
-import com.hb.platform.unic.common.validator.Assert;
+import com.hb.platform.unic.base.model.Page;
+import com.hb.platform.unic.base.model.Result;
 import com.hb.platform.unic.rbac.service.ISysUserRoleService;
 import com.hb.platform.unic.rbac.dao.dobj.SysUserRoleDO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
 
 import javax.annotation.Resource;
-
-import com.hb.platform.unic.base.model.Page;
-import com.hb.platform.unic.base.model.Result;
 
 /**
  * 用户角色关系表控制层
  *
- * @version v0.1, 2021-08-23 23:22:03, create by Mr.Huang.
+ * @version v0.1, 2021-09-04 12:48:47, create by Mr.Huang.
  */
 @RestController
-@RequestMapping("/unic/rbac/sysUserRole")
+@RequestMapping("/sysUserRole")
 public class SysUserRoleController {
 
     /**
@@ -42,17 +39,16 @@ public class SysUserRoleController {
      * 分页查询用户角色关系表
      *
      * @param sysUserRole
-     *              查询条件对象
+     *            查询条件对象
      * @param pageNum
-     *              当前第几页
+     *            当前第几页
      * @param pageSize
-     *              每页条数
+     *            每页条数
      * @return 分页结果
      */
     @PostMapping("/queryPages")
     public Result<Page<SysUserRoleDO>> queryPages(@RequestBody SysUserRoleDO sysUserRole,
-                                                  @RequestParam("pageNum") Integer pageNum,
-                                                  @RequestParam("pageSize") Integer pageSize) {
+                                                  @RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize) {
         return Result.success(sysUserRoleService.selectPages(sysUserRole, pageNum, pageSize));
     }
 
@@ -77,7 +73,6 @@ public class SysUserRoleController {
      */
     @PostMapping("/updateById")
     public Result updateById(@RequestBody SysUserRoleDO sysUserRole) {
-        Assert.notNull(sysUserRole.getId(), ResultCode.PARAM_ILLEGAL);
         return Result.success(sysUserRoleService.updateById(sysUserRole));
     }
 
@@ -90,7 +85,6 @@ public class SysUserRoleController {
      */
     @GetMapping("/deleteById")
     public Result deleteById(@RequestParam("id") Long id) {
-        Assert.notNull(id, ResultCode.PARAM_ILLEGAL);
         return Result.success(sysUserRoleService.deleteById(id));
     }
 

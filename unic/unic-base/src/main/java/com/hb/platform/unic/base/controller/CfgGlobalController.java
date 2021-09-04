@@ -1,7 +1,7 @@
 package com.hb.platform.unic.base.controller;
 
 import com.hb.platform.unic.base.annotation.InOutLog;
-import com.hb.platform.unic.base.common.enums.ResultCode;
+import com.hb.platform.unic.base.common.enums.BaseResCode;
 import com.hb.platform.unic.base.dao.dobj.CfgGlobalDO;
 import com.hb.platform.unic.base.model.Page;
 import com.hb.platform.unic.base.model.Result;
@@ -77,7 +77,7 @@ public class CfgGlobalController {
      */
     @PostMapping("/updateById")
     public Result updateById(@RequestBody CfgGlobalDO cfgGlobal) {
-        Assert.notNull(cfgGlobal.getId(), ResultCode.PARAM_ILLEGAL);
+        Assert.notNull(cfgGlobal.getId(), BaseResCode.PARAM_ILLEGAL);
         return Result.success(cfgGlobalService.updateById(cfgGlobal));
     }
 
@@ -90,7 +90,7 @@ public class CfgGlobalController {
      */
     @GetMapping("/deleteById")
     public Result deleteById(@RequestParam("id") Long id) {
-        Assert.notNull(id, ResultCode.PARAM_ILLEGAL);
+        Assert.notNull(id, BaseResCode.PARAM_ILLEGAL);
         return Result.success(cfgGlobalService.deleteById(id));
     }
 

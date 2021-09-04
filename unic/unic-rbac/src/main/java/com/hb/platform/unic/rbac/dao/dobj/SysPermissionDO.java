@@ -4,12 +4,11 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import com.hb.platform.unic.base.model.BaseDO;
-import com.hb.platform.unic.common.util.DateUtils;
 
 /**
  * 权限信息表数据模型
  *
- * @version v0.1, 2021-08-23 23:06:14, create by Mr.Huang.
+ * @version v0.1, 2021-09-04 12:48:40, create by Mr.Huang.
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

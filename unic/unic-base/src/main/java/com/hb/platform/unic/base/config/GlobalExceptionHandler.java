@@ -1,6 +1,6 @@
 package com.hb.platform.unic.base.config;
 
-import com.hb.platform.unic.base.common.enums.ResultCode;
+import com.hb.platform.unic.base.common.enums.BaseResCode;
 import com.hb.platform.unic.base.model.Result;
 import com.hb.platform.unic.common.standard.BusinessException;
 import com.hb.platform.unic.common.util.LogUtils;
@@ -42,7 +42,7 @@ public class GlobalExceptionHandler {
     public Result exception(Exception e) {
         String baseLog = LogUtils.getBaseLog("系统异常");
         LOGGER.error("{}\n{}", baseLog, LogUtils.getStackTrace(e));
-        return Result.fail(ResultCode.ERROR);
+        return Result.fail(BaseResCode.ERROR);
     }
 
 }

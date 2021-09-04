@@ -1,14 +1,14 @@
 package com.hb.platform.unic.rbac.dao.dobj;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.hb.platform.unic.base.model.BaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import com.hb.platform.unic.base.model.BaseDO;
 
 /**
  * 角色信息表数据模型
  *
- * @version v0.1, 2021-08-23 23:21:51, create by Mr.Huang.
+ * @version v0.1, 2021-09-04 12:48:42, create by Mr.Huang.
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

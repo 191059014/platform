@@ -17,7 +17,7 @@ import com.hb.platform.unic.base.model.Page;
 /**
  * 权限信息表服务层实现类
  *
- * @version v0.1, 2021-08-23 23:06:14, create by Mr.Huang.
+ * @version v0.1, 2021-09-04 12:48:40, create by Mr.Huang.
  */
 @Service
 public class SysPermissionServiceImpl implements ISysPermissionService {
@@ -55,7 +55,7 @@ public class SysPermissionServiceImpl implements ISysPermissionService {
     @Override
     public SysPermissionDO selectOne(SysPermissionDO sysPermission) {
         List<SysPermissionDO> list = this.sysPermissionMapper.selectList(sysPermission);
-        return CollectionUtils.isEmpty(list) ? new SysPermissionDO() : list.get(0);
+        return CollectionUtils.isEmpty(list) ? null : list.get(0);
     }
 
     /**

@@ -17,7 +17,7 @@ import com.hb.platform.unic.base.model.Page;
 /**
  * 角色权限关系表服务层实现类
  *
- * @version v0.1, 2021-08-23 23:21:57, create by Mr.Huang.
+ * @version v0.1, 2021-09-04 12:48:44, create by Mr.Huang.
  */
 @Service
 public class SysRolePermissionServiceImpl implements ISysRolePermissionService {
@@ -55,7 +55,7 @@ public class SysRolePermissionServiceImpl implements ISysRolePermissionService {
     @Override
     public SysRolePermissionDO selectOne(SysRolePermissionDO sysRolePermission) {
         List<SysRolePermissionDO> list = this.sysRolePermissionMapper.selectList(sysRolePermission);
-        return CollectionUtils.isEmpty(list) ? new SysRolePermissionDO() : list.get(0);
+        return CollectionUtils.isEmpty(list) ? null : list.get(0);
     }
 
     /**

@@ -1,9 +1,7 @@
 package com.hb.platform.unic.rbac.controller;
 
-import com.hb.platform.unic.base.common.enums.ResultCode;
 import com.hb.platform.unic.base.model.Page;
 import com.hb.platform.unic.base.model.Result;
-import com.hb.platform.unic.common.validator.Assert;
 import com.hb.platform.unic.rbac.dao.dobj.SysRoleDO;
 import com.hb.platform.unic.rbac.service.ISysRoleService;
 import org.slf4j.Logger;
@@ -20,10 +18,10 @@ import javax.annotation.Resource;
 /**
  * 角色信息表控制层
  *
- * @version v0.1, 2021-08-23 23:21:51, create by Mr.Huang.
+ * @version v0.1, 2021-09-04 12:48:42, create by Mr.Huang.
  */
 @RestController
-@RequestMapping("/unic/rbac/sysRole")
+@RequestMapping("/sysRole")
 public class SysRoleController {
 
     /**
@@ -50,7 +48,7 @@ public class SysRoleController {
      */
     @PostMapping("/queryPages")
     public Result<Page<SysRoleDO>> queryPages(@RequestBody SysRoleDO sysRole, @RequestParam("pageNum") Integer pageNum,
-        @RequestParam("pageSize") Integer pageSize) {
+                                              @RequestParam("pageSize") Integer pageSize) {
         return Result.success(sysRoleService.selectPages(sysRole, pageNum, pageSize));
     }
 
@@ -75,7 +73,6 @@ public class SysRoleController {
      */
     @PostMapping("/updateById")
     public Result updateById(@RequestBody SysRoleDO sysRole) {
-        Assert.notNull(sysRole.getId(), ResultCode.PARAM_ILLEGAL);
         return Result.success(sysRoleService.updateById(sysRole));
     }
 
@@ -88,7 +85,6 @@ public class SysRoleController {
      */
     @GetMapping("/deleteById")
     public Result deleteById(@RequestParam("id") Long id) {
-        Assert.notNull(id, ResultCode.PARAM_ILLEGAL);
         return Result.success(sysRoleService.deleteById(id));
     }
 

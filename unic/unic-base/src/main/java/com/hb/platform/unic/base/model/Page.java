@@ -1,7 +1,7 @@
 package com.hb.platform.unic.base.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.hb.platform.unic.base.common.enums.ResultCode;
+import com.hb.platform.unic.base.common.enums.BaseResCode;
 import com.hb.platform.unic.common.standard.BusinessException;
 import lombok.Data;
 
@@ -50,7 +50,7 @@ public class Page<T> {
      */
     public static Page createBefore(Integer pageNum, Integer pageSize) {
         if (pageNum == null || pageNum < 1 || pageSize == null || pageSize < 1) {
-            throw new BusinessException(ResultCode.PAGE_PARAM_ERROR);
+            throw new BusinessException(BaseResCode.PAGE_PARAM_ERROR);
         }
         Page page = new Page();
         page.setPageNum(pageNum);

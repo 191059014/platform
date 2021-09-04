@@ -7,7 +7,10 @@ package com.hb.platform.hbmanage.web.common.constant;
  */
 public interface Const {
 
-
+    /**
+     * 工程名
+     */
+    String PROJECT_NAME = "hbmanage-web";
 
 }
 

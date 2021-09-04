@@ -3,13 +3,13 @@ package com.hb.platform.unic.rbac.service;
 import java.util.List;
 import java.util.Set;
 
-import com.hb.platform.unic.rbac.dao.dobj.SysUserRoleDO;
 import com.hb.platform.unic.base.model.Page;
+import com.hb.platform.unic.rbac.dao.dobj.SysUserRoleDO;
 
 /**
  * 用户角色关系表服务层接口
  *
- * @version v0.1, 2021-08-23 23:22:03, create by Mr.Huang.
+ * @version v0.1, 2021-09-04 12:48:47, create by Mr.Huang.
  */
 public interface ISysUserRoleService {
 

@@ -12,6 +12,8 @@
         <result column="updator" property="updator"/>
         <result column="update_time" property="updateTime"/>
         <result column="is_valid" property="isValid"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="tenant_id" property="tenantId"/>
     </resultMap>
 
     <!--查询单个-->
@@ -90,6 +92,12 @@
             <if test="qc.isValid != null">
                 is_valid,
             </if>
+            <if test="qc.parentId != null">
+                parent_id,
+            </if>
+            <if test="qc.tenantId != null">
+                tenant_id,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="qc.roleId != null">
@@ -115,6 +123,12 @@
             </if>
             <if test="qc.isValid != null">
                 #{qc.isValid},
+            </if>
+            <if test="qc.parentId != null">
+                #{qc.parentId},
+            </if>
+            <if test="qc.tenantId != null">
+                #{qc.tenantId},
             </if>
         </trim>
     </insert>
@@ -147,6 +161,12 @@
             <if test="qc.isValid != null">
                 and is_valid = #{qc.isValid}
             </if>
+            <if test="qc.parentId != null">
+                and parent_id = #{qc.parentId}
+            </if>
+            <if test="qc.tenantId != null">
+                and tenant_id = #{qc.tenantId}
+            </if>
         </where>
     </sql>
 
@@ -176,6 +196,12 @@
             </if>
             <if test="qc.isValid != null">
                 is_valid = #{qc.isValid},
+            </if>
+            <if test="qc.parentId != null">
+                parent_id = #{qc.parentId},
+            </if>
+            <if test="qc.tenantId != null">
+                tenant_id = #{qc.tenantId},
             </if>
         </set>
     </sql>

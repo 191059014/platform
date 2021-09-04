@@ -1,11 +1,9 @@
 package com.hb.platform.unic.rbac.controller;
 
-import com.hb.platform.unic.base.common.enums.ResultCode;
 import com.hb.platform.unic.base.model.Page;
 import com.hb.platform.unic.base.model.Result;
-import com.hb.platform.unic.common.validator.Assert;
-import com.hb.platform.unic.rbac.dao.dobj.SysUserDO;
 import com.hb.platform.unic.rbac.service.ISysUserService;
+import com.hb.platform.unic.rbac.dao.dobj.SysUserDO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,10 +18,10 @@ import javax.annotation.Resource;
 /**
  * 用户信息表控制层
  *
- * @version v0.1, 2021-08-23 23:22:00, create by Mr.Huang.
+ * @version v0.1, 2021-09-04 12:48:45, create by Mr.Huang.
  */
 @RestController
-@RequestMapping("/unic/rbac/sysUser")
+@RequestMapping("/sysUser")
 public class SysUserController {
 
     /**
@@ -50,7 +48,7 @@ public class SysUserController {
      */
     @PostMapping("/queryPages")
     public Result<Page<SysUserDO>> queryPages(@RequestBody SysUserDO sysUser, @RequestParam("pageNum") Integer pageNum,
-        @RequestParam("pageSize") Integer pageSize) {
+                                              @RequestParam("pageSize") Integer pageSize) {
         return Result.success(sysUserService.selectPages(sysUser, pageNum, pageSize));
     }
 
@@ -75,7 +73,6 @@ public class SysUserController {
      */
     @PostMapping("/updateById")
     public Result updateById(@RequestBody SysUserDO sysUser) {
-        Assert.notNull(sysUser.getId(), ResultCode.PARAM_ILLEGAL);
         return Result.success(sysUserService.updateById(sysUser));
     }
 
@@ -88,7 +85,6 @@ public class SysUserController {
      */
     @GetMapping("/deleteById")
     public Result deleteById(@RequestParam("id") Long id) {
-        Assert.notNull(id, ResultCode.PARAM_ILLEGAL);
         return Result.success(sysUserService.deleteById(id));
     }
 

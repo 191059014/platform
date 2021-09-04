@@ -10,6 +10,8 @@ CREATE TABLE `sys_user` (
   `updator` varchar(32) DEFAULT NULL COMMENT '更新人',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `is_valid` int NOT NULL DEFAULT '1' COMMENT '记录有效状态',
+  `parent_id` bigint DEFAULT NULL COMMENT '父级id',
+  `tenant_id` bigint DEFAULT NULL COMMENT '多租户ID',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户信息表';
 
@@ -21,6 +23,8 @@ CREATE TABLE `sys_role` (
   `updator` varchar(32) DEFAULT NULL COMMENT '更新人',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `is_valid` int NOT NULL DEFAULT '1' COMMENT '记录有效状态',
+  `parent_id` bigint DEFAULT NULL COMMENT '父级id',
+  `tenant_id` bigint DEFAULT NULL COMMENT '多租户ID',
   PRIMARY KEY (`id`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色信息表';
 
@@ -36,6 +40,8 @@ CREATE TABLE `sys_permission` (
   `updator` varchar(32) DEFAULT NULL COMMENT '更新人',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `is_valid` int NOT NULL DEFAULT '1' COMMENT '记录有效状态',
+  `parent_id` bigint DEFAULT NULL COMMENT '父级id',
+  `tenant_id` bigint DEFAULT NULL COMMENT '多租户ID',
   PRIMARY KEY (`id`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='权限信息表';
 
@@ -48,6 +54,8 @@ CREATE TABLE `sys_user_role` (
   `updator` varchar(32) DEFAULT NULL COMMENT '更新人',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `is_valid` int NOT NULL DEFAULT '1' COMMENT '记录有效状态',
+  `parent_id` bigint DEFAULT NULL COMMENT '父级id',
+  `tenant_id` bigint DEFAULT NULL COMMENT '多租户ID',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户角色关系表';
 
@@ -60,5 +68,20 @@ CREATE TABLE `sys_role_permission` (
   `updator` varchar(32) DEFAULT NULL COMMENT '更新人',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `is_valid` int NOT NULL DEFAULT '1' COMMENT '记录有效状态',
+  `parent_id` bigint DEFAULT NULL COMMENT '父级id',
+  `tenant_id` bigint DEFAULT NULL COMMENT '多租户ID',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色权限关系表';
+
+CREATE TABLE `sys_merchant` (
+  `merchant_name` varchar(64) NOT NULL COMMENT '商户名称',
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `creator` varchar(32) DEFAULT NULL COMMENT '创建人',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updator` varchar(32) DEFAULT NULL COMMENT '更新人',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `is_valid` int NOT NULL DEFAULT '1' COMMENT '记录有效状态',
+  `parent_id` bigint DEFAULT NULL COMMENT '父级id',
+  `tenant_id` bigint DEFAULT NULL COMMENT '多租户ID',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商户表';

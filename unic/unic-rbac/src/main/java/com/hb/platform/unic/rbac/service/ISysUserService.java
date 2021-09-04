@@ -3,13 +3,13 @@ package com.hb.platform.unic.rbac.service;
 import java.util.List;
 import java.util.Set;
 
-import com.hb.platform.unic.rbac.dao.dobj.SysUserDO;
 import com.hb.platform.unic.base.model.Page;
+import com.hb.platform.unic.rbac.dao.dobj.SysUserDO;
 
 /**
  * 用户信息表服务层接口
  *
- * @version v0.1, 2021-08-23 23:22:00, create by Mr.Huang.
+ * @version v0.1, 2021-09-04 12:48:45, create by Mr.Huang.
  */
 public interface ISysUserService {
 

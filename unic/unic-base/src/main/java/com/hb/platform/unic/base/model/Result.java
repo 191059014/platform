@@ -1,7 +1,7 @@
 package com.hb.platform.unic.base.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.hb.platform.unic.base.common.enums.ResultCode;
+import com.hb.platform.unic.base.common.enums.BaseResCode;
 import com.hb.platform.unic.common.standard.IErrorCode;
 import lombok.Data;
 
@@ -52,7 +52,7 @@ public class Result<T> {
      * @return 完整返回对象
      */
     public static <T> Result<T> success() {
-        return of(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMsg(), null);
+        return of(BaseResCode.SUCCESS.getCode(), BaseResCode.SUCCESS.getMsg(), null);
     }
 
     /**
@@ -63,7 +63,7 @@ public class Result<T> {
      * @return 完整返回对象
      */
     public static <T> Result<T> success(T data) {
-        return of(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMsg(), data);
+        return of(BaseResCode.SUCCESS.getCode(), BaseResCode.SUCCESS.getMsg(), data);
     }
 
     /**

@@ -19,7 +19,6 @@ public class BaseDO {
      */
     private Long id;
 
-
     /**
      * 创建人
      */
@@ -46,5 +45,15 @@ public class BaseDO {
      * 记录有效状态
      */
     private Integer isValid;
+
+    /**
+     * 父级ID
+     */
+    private Long parentId;
+
+    /**
+     * 商户ID
+     */
+    private Long tenantId;
 
 }
