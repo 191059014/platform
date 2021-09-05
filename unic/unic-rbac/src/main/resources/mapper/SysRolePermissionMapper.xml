@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hb.platform.unic.rbac.dao.mapper.ISysRolePermissionMapper">
+<mapper namespace="com.hb.platform.unic.rbac.mapper.ISysRolePermissionMapper">
 
     <!--字段映射-->
-    <resultMap id="sysRolePermissionMap" type="com.hb.platform.unic.rbac.dao.dobj.SysRolePermissionDO">
+    <resultMap id="sysRolePermissionMap" type="com.hb.platform.unic.rbac.dobj.SysRolePermissionDO">
         <result column="role_id" property="roleId"/>
         <result column="permission_id" property="permissionId"/>
         <result column="id" property="id"/>
@@ -43,13 +43,12 @@
     </select>
 
     <!--通过id集合查询-->
-    <select id="selectByIdSet" resultMap="sysRolePermissionMap">
+    <select id="selectByRoleIdSet" resultMap="sysRolePermissionMap">
         select * from sys_role_permission
-        where id in
-        <foreach collection="idSet" item="id" open="(" separator="," close=")">
-            #{id}
+        where role_id in
+        <foreach collection="roleIdSet" item="roleId" open="(" separator="," close=")">
+            #{roleId}
         </foreach>
-        <include refid="whereCondition"/>
     </select>
 
     <!--通过主键修改-->

@@ -1,6 +1,6 @@
 package com.hb.platform.hbmanage.web.config.filter;
 
-import com.hb.platform.unic.base.common.util.FilterUtils;
+import com.hb.platform.unic.base.util.FilterUtils;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

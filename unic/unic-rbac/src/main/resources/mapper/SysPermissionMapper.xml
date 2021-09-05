@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hb.platform.unic.rbac.dao.mapper.ISysPermissionMapper">
+<mapper namespace="com.hb.platform.unic.rbac.mapper.ISysPermissionMapper">
 
     <!--字段映射-->
-    <resultMap id="sysPermissionMap" type="com.hb.platform.unic.rbac.dao.dobj.SysPermissionDO">
+    <resultMap id="sysPermissionMap" type="com.hb.platform.unic.rbac.dobj.SysPermissionDO">
         <result column="permission_name" property="permissionName"/>
         <result column="resource_type" property="resourceType"/>
         <result column="permission_value" property="permissionValue"/>
@@ -53,6 +53,26 @@
             #{id}
         </foreach>
         <include refid="whereCondition"/>
+    </select>
+
+    <!--通过id集合分页查询-->
+    <select id="selectCountByIdSet" resultMap="sysPermissionMap">
+        select count(1) from sys_permission
+        where id in
+        <foreach collection="idSet" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <!--通过id集合分页查询-->
+    <select id="selectPagesByIdSet" resultMap="sysPermissionMap">
+        select * from sys_permission
+        where id in
+        <foreach collection="idSet" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        order by update_time desc
+        limit #{pc.startIndex}, #{pc.pageSize}
     </select>
 
     <!--通过主键修改-->

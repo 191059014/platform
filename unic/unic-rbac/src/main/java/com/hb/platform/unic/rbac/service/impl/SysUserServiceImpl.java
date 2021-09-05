@@ -1,18 +1,18 @@
 package com.hb.platform.unic.rbac.service.impl;
 
-import com.hb.platform.unic.rbac.dao.dobj.SysUserDO;
-import com.hb.platform.unic.rbac.dao.mapper.ISysUserMapper;
+import com.hb.platform.unic.base.model.Page;
+import com.hb.platform.unic.base.model.PageCondition;
+import com.hb.platform.unic.rbac.dobj.SysUserDO;
+import com.hb.platform.unic.rbac.mapper.ISysUserMapper;
 import com.hb.platform.unic.rbac.service.ISysUserService;
-import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Set;
-import javax.annotation.Resource;
-
-import com.hb.platform.unic.base.model.Page;
 
 /**
  * 用户信息表服务层实现类
@@ -84,8 +84,8 @@ public class SysUserServiceImpl implements ISysUserService {
     @Override
     public Page<SysUserDO> selectPages(SysUserDO sysUser, int pageNum, int pageSize) {
         Long count = this.sysUserMapper.selectCount(sysUser);
-        List<SysUserDO> dataList = this.sysUserMapper.selectPages(sysUser, Page.createBefore(pageNum, pageSize));
-        return Page.createAfter(count, dataList);
+        List<SysUserDO> dataList = this.sysUserMapper.selectPages(sysUser, PageCondition.create(pageNum, pageSize));
+        return Page.create(count, dataList);
     }
 
     /**
@@ -101,7 +101,6 @@ public class SysUserServiceImpl implements ISysUserService {
     public List<SysUserDO> selectByIdSet(Set<Long> idSet, SysUserDO sysUser) {
         return this.sysUserMapper.selectByIdSet(idSet, sysUser);
     }
-
 
     /**
      * 选择性新增

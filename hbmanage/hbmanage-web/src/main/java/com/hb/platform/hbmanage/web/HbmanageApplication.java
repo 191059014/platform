@@ -15,7 +15,7 @@ public class HbmanageApplication {
     public static void main(String[] args) {
         SpringApplication.run(HbmanageApplication.class, args);
         System.out.println("==================================================");
-        System.out.println("  管理后台：http://localhost:8080/index.html");
+        System.out.println("  管理后台：http://127.0.0.1:80");
         System.out.println("==================================================");
     }
 

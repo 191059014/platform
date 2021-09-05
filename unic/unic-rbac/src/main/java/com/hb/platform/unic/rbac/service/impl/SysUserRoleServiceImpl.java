@@ -1,18 +1,18 @@
 package com.hb.platform.unic.rbac.service.impl;
 
-import com.hb.platform.unic.rbac.dao.dobj.SysUserRoleDO;
-import com.hb.platform.unic.rbac.dao.mapper.ISysUserRoleMapper;
+import com.hb.platform.unic.base.model.Page;
+import com.hb.platform.unic.base.model.PageCondition;
+import com.hb.platform.unic.rbac.dobj.SysUserRoleDO;
+import com.hb.platform.unic.rbac.mapper.ISysUserRoleMapper;
 import com.hb.platform.unic.rbac.service.ISysUserRoleService;
-import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Set;
-import javax.annotation.Resource;
-
-import com.hb.platform.unic.base.model.Page;
 
 /**
  * 用户角色关系表服务层实现类
@@ -84,24 +84,22 @@ public class SysUserRoleServiceImpl implements ISysUserRoleService {
     @Override
     public Page<SysUserRoleDO> selectPages(SysUserRoleDO sysUserRole, int pageNum, int pageSize) {
         Long count = this.sysUserRoleMapper.selectCount(sysUserRole);
-        List<SysUserRoleDO> dataList = this.sysUserRoleMapper.selectPages(sysUserRole, Page.createBefore(pageNum, pageSize));
-        return Page.createAfter(count, dataList);
+        List<SysUserRoleDO> dataList =
+            this.sysUserRoleMapper.selectPages(sysUserRole, PageCondition.create(pageNum, pageSize));
+        return Page.create(count, dataList);
     }
 
     /**
      * 通过id集合查询
      *
-     * @param idSet
+     * @param roleIdSet
      *            id集合
-     * @param sysUserRole
-     *            查询条件
      * @return 结果集
      */
     @Override
-    public List<SysUserRoleDO> selectByIdSet(Set<Long> idSet, SysUserRoleDO sysUserRole) {
-        return this.sysUserRoleMapper.selectByIdSet(idSet, sysUserRole);
+    public List<SysUserRoleDO> selectByRoleIdSet(Set<Long> roleIdSet) {
+        return this.sysUserRoleMapper.selectByRoleIdSet(roleIdSet);
     }
-
 
     /**
      * 选择性新增

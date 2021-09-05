@@ -123,6 +123,18 @@ public class Assert {
      *
      * @param assertTrue
      *            表达式
+     * @param errorCode
+     *            错误码
+     */
+    public static void ifTrueThrows(boolean assertTrue, IErrorCode errorCode) {
+        ifTrueThrows(assertTrue, errorCode.getCode(), errorCode.getMsg());
+    }
+
+    /**
+     * 表达式为false则抛出异常
+     *
+     * @param assertTrue
+     *            表达式
      * @param msg
      *            错误信息
      */

@@ -11,7 +11,7 @@ CREATE TABLE `sys_user` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `is_valid` int NOT NULL DEFAULT '1' COMMENT '记录有效状态',
   `parent_id` bigint DEFAULT NULL COMMENT '父级id',
-  `tenant_id` bigint DEFAULT NULL COMMENT '多租户ID',
+  `tenant_id` bigint NOT NULL COMMENT '多租户ID',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户信息表';
 

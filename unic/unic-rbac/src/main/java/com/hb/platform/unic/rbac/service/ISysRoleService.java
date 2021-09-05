@@ -1,10 +1,11 @@
 package com.hb.platform.unic.rbac.service;
 
+import com.hb.platform.unic.base.model.Page;
+import com.hb.platform.unic.rbac.dobj.SysPermissionDO;
+import com.hb.platform.unic.rbac.dobj.SysRoleDO;
+
 import java.util.List;
 import java.util.Set;
-
-import com.hb.platform.unic.base.model.Page;
-import com.hb.platform.unic.rbac.dao.dobj.SysRoleDO;
 
 /**
  * 角色信息表服务层接口
@@ -58,12 +59,9 @@ public interface ISysRoleService {
      *
      * @param idSet
      *            id集合
-     * @param sysRole
-     *            查询条件
      * @return 结果集
      */
-    List<SysRoleDO> selectByIdSet(Set<Long> idSet, SysRoleDO sysRole);
-
+    List<SysRoleDO> selectByIdSet(Set<Long> idSet);
 
     /**
      * 新增
@@ -91,5 +89,23 @@ public interface ISysRoleService {
      * @return 影响行数
      */
     int deleteById(Long id);
+
+    /**
+     * 获取某个商户下的权限id集合
+     *
+     * @param tenantId
+     *            商户ID 主键
+     * @return 结果
+     */
+    Set<Long> getPermissionIdSetUnderRoleByTenantId(Long tenantId);
+
+    /**
+     * 获取某个商户下的权限id集合
+     *
+     * @param tenantId
+     *            商户ID 主键
+     * @return 结果
+     */
+    List<SysPermissionDO> getPermissionListUnderRoleByTenantId(Long tenantId);
 
 }

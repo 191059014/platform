@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.hb.platform.unic.base.model.Page;
-import com.hb.platform.unic.rbac.dao.dobj.SysUserDO;
+import com.hb.platform.unic.rbac.dobj.SysUserDO;
 
 /**
  * 用户信息表服务层接口

@@ -1,18 +1,18 @@
 package com.hb.platform.unic.rbac.service.impl;
 
-import com.hb.platform.unic.rbac.dao.dobj.SysRolePermissionDO;
-import com.hb.platform.unic.rbac.dao.mapper.ISysRolePermissionMapper;
+import com.hb.platform.unic.base.model.Page;
+import com.hb.platform.unic.base.model.PageCondition;
+import com.hb.platform.unic.rbac.dobj.SysRolePermissionDO;
+import com.hb.platform.unic.rbac.mapper.ISysRolePermissionMapper;
 import com.hb.platform.unic.rbac.service.ISysRolePermissionService;
-import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Set;
-import javax.annotation.Resource;
-
-import com.hb.platform.unic.base.model.Page;
 
 /**
  * 角色权限关系表服务层实现类
@@ -84,24 +84,22 @@ public class SysRolePermissionServiceImpl implements ISysRolePermissionService {
     @Override
     public Page<SysRolePermissionDO> selectPages(SysRolePermissionDO sysRolePermission, int pageNum, int pageSize) {
         Long count = this.sysRolePermissionMapper.selectCount(sysRolePermission);
-        List<SysRolePermissionDO> dataList = this.sysRolePermissionMapper.selectPages(sysRolePermission, Page.createBefore(pageNum, pageSize));
-        return Page.createAfter(count, dataList);
+        List<SysRolePermissionDO> dataList =
+            this.sysRolePermissionMapper.selectPages(sysRolePermission, PageCondition.create(pageNum, pageSize));
+        return Page.create(count, dataList);
     }
 
     /**
      * 通过id集合查询
      *
-     * @param idSet
+     * @param roleIdSet
      *            id集合
-     * @param sysRolePermission
-     *            查询条件
      * @return 结果集
      */
     @Override
-    public List<SysRolePermissionDO> selectByIdSet(Set<Long> idSet, SysRolePermissionDO sysRolePermission) {
-        return this.sysRolePermissionMapper.selectByIdSet(idSet, sysRolePermission);
+    public List<SysRolePermissionDO> selectByRoleIdSet(Set<Long> roleIdSet) {
+        return this.sysRolePermissionMapper.selectByRoleIdSet(roleIdSet);
     }
-
 
     /**
      * 选择性新增

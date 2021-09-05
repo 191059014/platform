@@ -1,7 +1,7 @@
 package com.hb.platform.hbmanage.web.config.aspect;
 
 import com.hb.platform.unic.base.model.BaseDO;
-import com.hb.platform.unic.rbac.container.RbacContext;
+import com.hb.platform.hbmanage.web.container.RbacContext;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;

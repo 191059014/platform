@@ -5,7 +5,7 @@ import Ajax from './axios.js'
  */
 // 获取枚举下拉框
 export const getEnumCombobox = (type) => {
-  return Ajax.get(`bs/noauth/common/combobox/` + type).then(res => res.data);
+  return Ajax.get(`common/dropdown/` + type).then(res => res.data);
 };
 
 /**
@@ -67,11 +67,11 @@ export const deleteUser = (id) => {
 };
 // 获取用户的角色集合
 export const getRolesUnderUser = (userId) => {
-  return Ajax.get(`bs/auth/user/getRolesUnderUser?userId=` + userId).then(res => res.data);
+  return Ajax.get(`sysRole/getRolesUnderUser?userId=` + userId).then(res => res.data);
 };
 // 获取用户对应商户下所有角色集合
 export const getRolesUnderMerchant = () => {
-  return Ajax.get(`bs/auth/user/getRolesUnderMerchant`).then(res => res.data);
+  return Ajax.get(`sysRole/getRolesUnderMerchant`).then(res => res.data);
 };
 // 更新用户的角色
 export const updateUserRole = (userId, params) => {
@@ -82,23 +82,23 @@ export const updateUserRole = (userId, params) => {
  */
 // 分页查询角色列表
 export const getRolePages = (params, pageNum, pageSize) => {
-  return Ajax.post(`bs/auth/role/queryPages?pageNum=` + pageNum + '&pageSize=' + pageSize, params).then(res => res.data);
+  return Ajax.post(`sysRole/queryPages?pageNum=` + pageNum + '&pageSize=' + pageSize, params).then(res => res.data);
 };
 // 添加角色
 export const addRole = (params) => {
-  return Ajax.post(`bs/auth/role/add`, params).then(res => res.data);
+  return Ajax.post(`sysRole/save`, params).then(res => res.data);
 };
 // 修改角色
-export const updateRole = (params, roleId) => {
-  return Ajax.post(`bs/auth/role/update?roleId=` + roleId, params).then(res => res.data);
+export const updateRole = (params) => {
+  return Ajax.post(`sysRole/updateById`, params).then(res => res.data);
 };
 // 删除角色
-export const deleteRole = (roleId) => {
-  return Ajax.get(`bs/auth/role/delete?roleId=` + roleId).then(res => res.data);
+export const deleteRole = (id) => {
+  return Ajax.get(`sysRole/deleteById?id=` + id).then(res => res.data);
 };
 // 获取角色的权限集合
 export const getPermissionsUnderRole = (roleId) => {
-  return Ajax.get(`bs/auth/role/getPermissionsUnderRole?roleId=` + roleId).then(res => res.data);
+  return Ajax.get(`sysPermission/getPermissionsUnderRole?roleId=` + roleId).then(res => res.data);
 };
 // 更新角色的权限
 export const updateRolePermission = (roleId, params) => {
@@ -106,34 +106,34 @@ export const updateRolePermission = (roleId, params) => {
 };
 // 获取角色对应商户下所有权限集合
 export const getPermissionTreeUnderMerchant = () => {
-  return Ajax.get(`bs/auth/role/getPermissionTreeUnderMerchant`).then(res => res.data);
+  return Ajax.get(`sysPermission/getPermissionTreeUnderMerchant`).then(res => res.data);
 };
 /**
  * 权限管理
  */
 // 获取私人的所有菜单信息
 export const getPrivateMenuDatas = () => {
-  return Ajax.get(`menu/getPrivateMenuDatas`).then(res => res.data);
+  return Ajax.get(`sysPermission/getPrivateMenuDatas`).then(res => res.data);
 };
 // 分页查询权限列表
 export const getPermissionPages = (params, pageNum, pageSize) => {
-  return Ajax.post(`bs/auth/access/queryPages?pageNum=` + pageNum + '&pageSize=' + pageSize, params).then(res => res.data);
+  return Ajax.post(`sysPermission/queryPages?pageNum=` + pageNum + '&pageSize=' + pageSize, params).then(res => res.data);
 };
 // 添加权限
 export const addPermission = (params) => {
-  return Ajax.post(`bs/auth/access/add`, params).then(res => res.data);
+  return Ajax.post(`sysPermission/save`, params).then(res => res.data);
 };
 // 修改权限
-export const updatePermission = (params, permissionId) => {
-  return Ajax.post(`bs/auth/access/update?permissionId=` + permissionId, params).then(res => res.data);
+export const updatePermission = (params) => {
+  return Ajax.post(`sysPermission/updateById`, params).then(res => res.data);
 };
 // 删除权限
-export const deletePermission = (permissionId) => {
-  return Ajax.get(`bs/auth/access/delete?permissionId=` + permissionId).then(res => res.data);
+export const deletePermission = (id) => {
+  return Ajax.get(`sysPermission?id=` + id).then(res => res.data);
 };
 // 通过资源类型获取当前商户下的资源
 export const getResourcesUnderMerchantByResourceType = (resourceType, tenantId) => {
-  return Ajax.get(`bs/auth/access/getResourcesUnderMerchantByResourceType?resourceType=` + resourceType + "&tenantId=" + tenantId).then(res => res.data);
+  return Ajax.get(`sysPermission/getResourcesUnderMerchantByResourceType?resourceType=` + resourceType + '&tenantId=' + tenantId).then(res => res.data);
 };
 
 /**

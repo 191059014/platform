@@ -1,10 +1,10 @@
 package com.hb.platform.unic.rbac.service;
 
+import com.hb.platform.unic.base.model.Page;
+import com.hb.platform.unic.rbac.dobj.SysPermissionDO;
+
 import java.util.List;
 import java.util.Set;
-
-import com.hb.platform.unic.base.model.Page;
-import com.hb.platform.unic.rbac.dao.dobj.SysPermissionDO;
 
 /**
  * 权限信息表服务层接口
@@ -64,7 +64,6 @@ public interface ISysPermissionService {
      */
     List<SysPermissionDO> selectByIdSet(Set<Long> idSet, SysPermissionDO sysPermission);
 
-
     /**
      * 新增
      *
@@ -91,5 +90,18 @@ public interface ISysPermissionService {
      * @return 影响行数
      */
     int deleteById(Long id);
+
+    /**
+     * 分页查询数据
+     *
+     * @param idSet
+     *            查询条件
+     * @param pageNum
+     *            当前页数
+     * @param pageSize
+     *            每页查询条数
+     * @return 对象列表
+     */
+    Page<SysPermissionDO> selectPagesByIdSet(Set<Long> idSet, Integer pageNum, Integer pageSize);
 
 }

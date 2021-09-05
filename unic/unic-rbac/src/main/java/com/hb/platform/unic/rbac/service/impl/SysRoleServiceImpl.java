@@ -1,18 +1,22 @@
 package com.hb.platform.unic.rbac.service.impl;
 
-import com.hb.platform.unic.rbac.dao.dobj.SysRoleDO;
-import com.hb.platform.unic.rbac.dao.mapper.ISysRoleMapper;
+import com.hb.platform.unic.base.model.Page;
+import com.hb.platform.unic.base.model.PageCondition;
+import com.hb.platform.unic.rbac.dobj.SysPermissionDO;
+import com.hb.platform.unic.rbac.dobj.SysRoleDO;
+import com.hb.platform.unic.rbac.dobj.SysRolePermissionDO;
+import com.hb.platform.unic.rbac.mapper.ISysPermissionMapper;
+import com.hb.platform.unic.rbac.mapper.ISysRoleMapper;
+import com.hb.platform.unic.rbac.mapper.ISysRolePermissionMapper;
 import com.hb.platform.unic.rbac.service.ISysRoleService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Set;
-import javax.annotation.Resource;
-
-import com.hb.platform.unic.base.model.Page;
+import java.util.stream.Collectors;
 
 /**
  * 角色信息表服务层实现类
@@ -20,18 +24,26 @@ import com.hb.platform.unic.base.model.Page;
  * @version v0.1, 2021-09-04 12:48:42, create by Mr.Huang.
  */
 @Service
+@Slf4j
 public class SysRoleServiceImpl implements ISysRoleService {
-
-    /**
-     * 日志
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(SysRoleServiceImpl.class);
 
     /**
      * 角色信息表操作数据库层
      */
     @Resource
     private ISysRoleMapper sysRoleMapper;
+
+    /**
+     * 角色权限关系信息表操作数据库层
+     */
+    @Resource
+    private ISysRolePermissionMapper sysRolePermissionMapper;
+
+    /**
+     * 权限信息表操作数据库层
+     */
+    @Resource
+    private ISysPermissionMapper sysPermissionMapper;
 
     /**
      * 通过主键查询单条数据
@@ -84,8 +96,8 @@ public class SysRoleServiceImpl implements ISysRoleService {
     @Override
     public Page<SysRoleDO> selectPages(SysRoleDO sysRole, int pageNum, int pageSize) {
         Long count = this.sysRoleMapper.selectCount(sysRole);
-        List<SysRoleDO> dataList = this.sysRoleMapper.selectPages(sysRole, Page.createBefore(pageNum, pageSize));
-        return Page.createAfter(count, dataList);
+        List<SysRoleDO> dataList = this.sysRoleMapper.selectPages(sysRole, PageCondition.create(pageNum, pageSize));
+        return Page.create(count, dataList);
     }
 
     /**
@@ -93,15 +105,12 @@ public class SysRoleServiceImpl implements ISysRoleService {
      *
      * @param idSet
      *            id集合
-     * @param sysRole
-     *            查询条件
      * @return 结果集
      */
     @Override
-    public List<SysRoleDO> selectByIdSet(Set<Long> idSet, SysRoleDO sysRole) {
-        return this.sysRoleMapper.selectByIdSet(idSet, sysRole);
+    public List<SysRoleDO> selectByIdSet(Set<Long> idSet) {
+        return this.sysRoleMapper.selectByIdSet(idSet);
     }
-
 
     /**
      * 选择性新增
@@ -137,6 +146,33 @@ public class SysRoleServiceImpl implements ISysRoleService {
     @Override
     public int deleteById(Long id) {
         return this.sysRoleMapper.deleteById(id);
+    }
+
+    @Override
+    public Set<Long> getPermissionIdSetUnderRoleByTenantId(Long tenantId) {
+        Set<Long> permissionIdSet = null;
+        SysRoleDO roleQuery = new SysRoleDO();
+        roleQuery.setTenantId(tenantId);
+        List<SysRoleDO> roleList = sysRoleMapper.selectList(roleQuery);
+        if (!CollectionUtils.isEmpty(roleList)) {
+            Set<Long> roleIdSet = roleList.stream().map(SysRoleDO::getId).collect(Collectors.toSet());
+            List<SysRolePermissionDO> rolePermissionList = sysRolePermissionMapper.selectByRoleIdSet(roleIdSet);
+            if (!CollectionUtils.isEmpty(rolePermissionList)) {
+                permissionIdSet =
+                    rolePermissionList.stream().map(SysRolePermissionDO::getPermissionId).collect(Collectors.toSet());
+            }
+        }
+        return permissionIdSet;
+    }
+
+    @Override
+    public List<SysPermissionDO> getPermissionListUnderRoleByTenantId(Long tenantId) {
+        List<SysPermissionDO> list = null;
+        Set<Long> permissionIdSet = getPermissionIdSetUnderRoleByTenantId(tenantId);
+        if (!CollectionUtils.isEmpty(permissionIdSet)) {
+            list = sysPermissionMapper.selectByIdSet(permissionIdSet, new SysPermissionDO());
+        }
+        return list;
     }
 
 }

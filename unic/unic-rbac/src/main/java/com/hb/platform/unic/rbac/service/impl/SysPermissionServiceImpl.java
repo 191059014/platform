@@ -1,18 +1,17 @@
 package com.hb.platform.unic.rbac.service.impl;
 
-import com.hb.platform.unic.rbac.dao.dobj.SysPermissionDO;
-import com.hb.platform.unic.rbac.dao.mapper.ISysPermissionMapper;
+import com.hb.platform.unic.base.model.Page;
+import com.hb.platform.unic.base.model.PageCondition;
+import com.hb.platform.unic.rbac.dobj.SysPermissionDO;
+import com.hb.platform.unic.rbac.mapper.ISysPermissionMapper;
 import com.hb.platform.unic.rbac.service.ISysPermissionService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Set;
-import javax.annotation.Resource;
-
-import com.hb.platform.unic.base.model.Page;
 
 /**
  * 权限信息表服务层实现类
@@ -20,12 +19,8 @@ import com.hb.platform.unic.base.model.Page;
  * @version v0.1, 2021-09-04 12:48:40, create by Mr.Huang.
  */
 @Service
+@Slf4j
 public class SysPermissionServiceImpl implements ISysPermissionService {
-
-    /**
-     * 日志
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(SysPermissionServiceImpl.class);
 
     /**
      * 权限信息表操作数据库层
@@ -84,8 +79,9 @@ public class SysPermissionServiceImpl implements ISysPermissionService {
     @Override
     public Page<SysPermissionDO> selectPages(SysPermissionDO sysPermission, int pageNum, int pageSize) {
         Long count = this.sysPermissionMapper.selectCount(sysPermission);
-        List<SysPermissionDO> dataList = this.sysPermissionMapper.selectPages(sysPermission, Page.createBefore(pageNum, pageSize));
-        return Page.createAfter(count, dataList);
+        List<SysPermissionDO> dataList =
+            this.sysPermissionMapper.selectPages(sysPermission, PageCondition.create(pageNum, pageSize));
+        return Page.create(count, dataList);
     }
 
     /**
@@ -101,7 +97,6 @@ public class SysPermissionServiceImpl implements ISysPermissionService {
     public List<SysPermissionDO> selectByIdSet(Set<Long> idSet, SysPermissionDO sysPermission) {
         return this.sysPermissionMapper.selectByIdSet(idSet, sysPermission);
     }
-
 
     /**
      * 选择性新增
@@ -137,6 +132,14 @@ public class SysPermissionServiceImpl implements ISysPermissionService {
     @Override
     public int deleteById(Long id) {
         return this.sysPermissionMapper.deleteById(id);
+    }
+
+    @Override
+    public Page<SysPermissionDO> selectPagesByIdSet(Set<Long> idSet, Integer pageNum, Integer pageSize) {
+        Long count = this.sysPermissionMapper.selectCountByIdSet(idSet);
+        List<SysPermissionDO> dataList =
+            this.sysPermissionMapper.selectPagesByIdSet(idSet, PageCondition.create(pageNum, pageSize));
+        return Page.create(count, dataList);
     }
 
 }

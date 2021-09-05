@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hb.platform.unic.rbac.dao.mapper.ISysRoleMapper">
+<mapper namespace="com.hb.platform.unic.rbac.mapper.ISysRoleMapper">
 
     <!--字段映射-->
-    <resultMap id="sysRoleMap" type="com.hb.platform.unic.rbac.dao.dobj.SysRoleDO">
+    <resultMap id="sysRoleMap" type="com.hb.platform.unic.rbac.dobj.SysRoleDO">
         <result column="role_name" property="roleName"/>
         <result column="id" property="id"/>
         <result column="creator" property="creator"/>
@@ -48,7 +48,6 @@
         <foreach collection="idSet" item="id" open="(" separator="," close=")">
             #{id}
         </foreach>
-        <include refid="whereCondition"/>
     </select>
 
     <!--通过主键修改-->

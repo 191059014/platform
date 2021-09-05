@@ -1,18 +1,18 @@
 package com.hb.platform.unic.rbac.service.impl;
 
-import com.hb.platform.unic.rbac.dao.dobj.SysMerchantDO;
-import com.hb.platform.unic.rbac.dao.mapper.ISysMerchantMapper;
+import com.hb.platform.unic.base.model.Page;
+import com.hb.platform.unic.base.model.PageCondition;
+import com.hb.platform.unic.rbac.dobj.SysMerchantDO;
+import com.hb.platform.unic.rbac.mapper.ISysMerchantMapper;
 import com.hb.platform.unic.rbac.service.ISysMerchantService;
-import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Set;
-import javax.annotation.Resource;
-
-import com.hb.platform.unic.base.model.Page;
 
 /**
  * 商户表服务层实现类
@@ -84,8 +84,9 @@ public class SysMerchantServiceImpl implements ISysMerchantService {
     @Override
     public Page<SysMerchantDO> selectPages(SysMerchantDO sysMerchant, int pageNum, int pageSize) {
         Long count = this.sysMerchantMapper.selectCount(sysMerchant);
-        List<SysMerchantDO> dataList = this.sysMerchantMapper.selectPages(sysMerchant, Page.createBefore(pageNum, pageSize));
-        return Page.createAfter(count, dataList);
+        List<SysMerchantDO> dataList =
+            this.sysMerchantMapper.selectPages(sysMerchant, PageCondition.create(pageNum, pageSize));
+        return Page.create(count, dataList);
     }
 
     /**
@@ -101,7 +102,6 @@ public class SysMerchantServiceImpl implements ISysMerchantService {
     public List<SysMerchantDO> selectByIdSet(Set<Long> idSet, SysMerchantDO sysMerchant) {
         return this.sysMerchantMapper.selectByIdSet(idSet, sysMerchant);
     }
-
 
     /**
      * 选择性新增

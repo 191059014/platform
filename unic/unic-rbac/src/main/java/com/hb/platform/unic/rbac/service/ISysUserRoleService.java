@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.hb.platform.unic.base.model.Page;
-import com.hb.platform.unic.rbac.dao.dobj.SysUserRoleDO;
+import com.hb.platform.unic.rbac.dobj.SysUserRoleDO;
 
 /**
  * 用户角色关系表服务层接口
@@ -56,13 +56,11 @@ public interface ISysUserRoleService {
     /**
      * 通过id集合查询
      *
-     * @param idSet
+     * @param roleIdSet
      *            id集合
-     * @param sysUserRole
-     *            查询条件
      * @return 结果集
      */
-    List<SysUserRoleDO> selectByIdSet(Set<Long> idSet, SysUserRoleDO sysUserRole);
+    List<SysUserRoleDO> selectByRoleIdSet(Set<Long> roleIdSet);
 
 
     /**

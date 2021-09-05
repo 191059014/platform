@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.hb.platform.unic.base.model.Page;
-import com.hb.platform.unic.rbac.dao.dobj.SysRolePermissionDO;
+import com.hb.platform.unic.rbac.dobj.SysRolePermissionDO;
 
 /**
  * 角色权限关系表服务层接口
@@ -56,13 +56,11 @@ public interface ISysRolePermissionService {
     /**
      * 通过id集合查询
      *
-     * @param idSet
+     * @param roleIdSet
      *            id集合
-     * @param sysRolePermission
-     *            查询条件
      * @return 结果集
      */
-    List<SysRolePermissionDO> selectByIdSet(Set<Long> idSet, SysRolePermissionDO sysRolePermission);
+    List<SysRolePermissionDO> selectByRoleIdSet(Set<Long> roleIdSet);
 
 
     /**

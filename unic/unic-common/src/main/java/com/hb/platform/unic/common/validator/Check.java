@@ -7,8 +7,17 @@ package com.hb.platform.unic.common.validator;
  */
 public class Check {
 
-
+    /**
+     * 校验分页参数
+     * 
+     * @param pageNum
+     *            当前页
+     * @param pageSize
+     *            每页条数
+     * @return true为校验通过
+     */
+    public static boolean incorrectPageParameter(Integer pageNum, Integer pageSize) {
+        return pageNum == null || pageNum < 1 || pageSize == null || pageSize < 1;
+    }
 
 }
-
-    

@@ -10,7 +10,12 @@ public interface Const {
     /**
      * 工程名
      */
-    String PROJECT_NAME = "hbmanage-web";
+    String PROJECT_NAME = "hbmanageweb";
+
+    /**
+     * 超级商户ID
+     */
+    long SUPER_TENANTID = 0;
 
 }
 
