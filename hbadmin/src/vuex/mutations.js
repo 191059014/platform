@@ -54,9 +54,8 @@ const mutations = {
   },
   // 重置标签页
   reset_openTabs(state) {
-    state.openTabs = [state.defaultTab];
+    state.openTabs = [];
     state.tabsActiveIndex = '';
-    state.clearTabKeepAlive = '';
   },
   // 是否打开系统设置
   changeOpenSystemSetting(state, isOpen) {
@@ -71,35 +70,6 @@ const mutations = {
   setCurrentThemeBgColor(state, bgColor) {
     localStorage.setItem(currentThemeBgColor_key, bgColor);
     state.currentThemeBgColor = bgColor;
-  },
-  // 设置是否多页签展示
-  changeMultiTabs(state, isMultiTabs) {
-    state.multiTabs = isMultiTabs;
-  },
-  // 添加面包屑
-  addBreadcrumb(state, breadcrumb) {
-    state.breadcrumbList.push(breadcrumb)
-  },
-  // 替换最后一个
-  replaceLastBreadcrumb(state, breadcrumb) {
-    let newBreadcrumbList = [];
-    for (let i = 0; i < state.breadcrumbList.length; i++) {
-      if (i !== state.breadcrumbList.length - 1) {
-        newBreadcrumbList.push(state.breadcrumbList[i]);
-      }
-    }
-    newBreadcrumbList.push(breadcrumb);
-    state.breadcrumbList = newBreadcrumbList;
-  },
-  // 重置面包屑
-  resetBreadcrumb(state) {
-    state.breadcrumbList = [];
-  },
-  // 添加缓存页面
-  addKeepAlivePage(state, componentName) {
-    if (state.keepAliveArr.indexOf(componentName) < 0) {
-      state.keepAliveArr.push(componentName);
-    }
   }
 };
 export default mutations

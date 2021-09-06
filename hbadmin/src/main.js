@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 import * as alert from './common/alert.js';
 import * as consts from './common/consts.js';
 import * as apis from './common/api.js';
