@@ -5,8 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <modules>
-        <module>hbmanage</module>
-        <module>unic</module>
+        <module>hb-base</module>
+        <module>hb-common</module>
+        <module>hb-rbac</module>
+        <module>biz-web</module>
+        <module>biz-core</module>
     </modules>
 
     <groupId>com.hb.platform</groupId>
@@ -30,30 +33,30 @@
         <commons-collections4.version>4.3</commons-collections4.version>
         <commons-beanutils.version>1.9.3</commons-beanutils.version>
         <commons-io.version>2.5</commons-io.version>
-        <unic.base.version>1.0-SNAPSHOT</unic.base.version>
-        <unic.rbac.version>1.0-SNAPSHOT</unic.rbac.version>
-        <unic.common.version>1.0-SNAPSHOT</unic.common.version>
+        <hb.base.version>1.0-SNAPSHOT</hb.base.version>
+        <hb.rbac.version>1.0-SNAPSHOT</hb.rbac.version>
+        <hb.common.version>1.0-SNAPSHOT</hb.common.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-            <!-- unic-base -->
+            <!-- hb-base -->
             <dependency>
                 <groupId>com.hb.platform</groupId>
-                <artifactId>unic-base</artifactId>
-                <version>${unic.base.version}</version>
+                <artifactId>hb-base</artifactId>
+                <version>${hb.base.version}</version>
             </dependency>
-            <!-- unic-rbac -->
+            <!-- hb-rbac -->
             <dependency>
                 <groupId>com.hb.platform</groupId>
-                <artifactId>unic-rbac</artifactId>
-                <version>${unic.rbac.version}</version>
+                <artifactId>hb-rbac</artifactId>
+                <version>${hb.rbac.version}</version>
             </dependency>
-            <!-- unic-common -->
+            <!-- hb-common -->
             <dependency>
                 <groupId>com.hb.platform</groupId>
-                <artifactId>unic-common</artifactId>
-                <version>${unic.common.version}</version>
+                <artifactId>hb-common</artifactId>
+                <version>${hb.common.version}</version>
             </dependency>
             <!-- springboot -->
             <dependency>

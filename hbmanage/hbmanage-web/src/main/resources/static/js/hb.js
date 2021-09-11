@@ -1,5 +1,0 @@
-window.info = function (msg) {
-
-};
-
-
