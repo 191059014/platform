@@ -1,10 +1,10 @@
 package com.hb.platform.hbrbac.service;
 
-import java.util.List;
-import java.util.Set;
-
 import com.hb.platform.hbbase.model.Page;
 import com.hb.platform.hbrbac.dobj.SysRolePermissionDO;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * 角色权限关系表服务层接口
@@ -62,7 +62,6 @@ public interface ISysRolePermissionService {
      */
     List<SysRolePermissionDO> selectByRoleIdSet(Set<Long> roleIdSet);
 
-
     /**
      * 新增
      *
@@ -90,4 +89,21 @@ public interface ISysRolePermissionService {
      */
     int deleteById(Long id);
 
+    /**
+     * 删除角色下的权限
+     * 
+     * @param roleId
+     *            角色id
+     * @return 影响行数
+     */
+    int deleteByRoleId(Long roleId);
+
+    /**
+     * 批量新增
+     *
+     * @param list
+     *            集合
+     * @return 影响行数
+     */
+    int insertBatch(List<SysRolePermissionDO> list);
 }

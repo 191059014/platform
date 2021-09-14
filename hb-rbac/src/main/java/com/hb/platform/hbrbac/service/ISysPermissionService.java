@@ -95,6 +95,8 @@ public interface ISysPermissionService {
      * 分页查询数据
      *
      * @param idSet
+     *            id集合
+     * @param sysPermission
      *            查询条件
      * @param pageNum
      *            当前页数
@@ -102,6 +104,7 @@ public interface ISysPermissionService {
      *            每页查询条数
      * @return 对象列表
      */
-    Page<SysPermissionDO> selectPagesByIdSet(Set<Long> idSet, Integer pageNum, Integer pageSize);
+    Page<SysPermissionDO> selectPagesByIdSet(Set<Long> idSet, SysPermissionDO sysPermission, Integer pageNum,
+        Integer pageSize);
 
 }

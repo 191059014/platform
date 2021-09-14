@@ -1,5 +1,6 @@
 package com.hb.platform.hbrbac.service.impl;
 
+import com.hb.platform.hbbase.annotation.InOutLog;
 import com.hb.platform.hbbase.model.Page;
 import com.hb.platform.hbbase.model.PageCondition;
 import com.hb.platform.hbrbac.dobj.SysRolePermissionDO;
@@ -135,6 +136,18 @@ public class SysRolePermissionServiceImpl implements ISysRolePermissionService {
     @Override
     public int deleteById(Long id) {
         return this.sysRolePermissionMapper.deleteById(id);
+    }
+
+    @InOutLog("删除角色下的所有权限")
+    @Override
+    public int deleteByRoleId(Long roleId) {
+        return sysRolePermissionMapper.deleteByRoleId(roleId);
+    }
+
+    @InOutLog(value = "批量插入角色权限关系", printInLog = false)
+    @Override
+    public int insertBatch(List<SysRolePermissionDO> list) {
+        return sysRolePermissionMapper.insertBatch(list);
     }
 
 }

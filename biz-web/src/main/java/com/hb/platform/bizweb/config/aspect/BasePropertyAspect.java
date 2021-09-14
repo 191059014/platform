@@ -1,6 +1,6 @@
 package com.hb.platform.bizweb.config.aspect;
 
-import com.hb.platform.hbbase.model.BaseDO;
+import com.hb.platform.hbbase.dao.dobj.base.impl.AbstractBaseDO;
 import com.hb.platform.bizweb.container.RbacContext;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -41,10 +41,10 @@ public class BasePropertyAspect {
     private void beforeInsert(JoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
         Object obj = args[0];
-        if (obj instanceof BaseDO) {
-            BaseDO baseDO = (BaseDO)obj;
-            baseDO.setCreator(RbacContext.getCurrentUser().getUserName());
-            baseDO.setUpdator(RbacContext.getCurrentUser().getUserName());
+        if (obj instanceof AbstractBaseDO) {
+            AbstractBaseDO abstractBaseDO = (AbstractBaseDO)obj;
+            abstractBaseDO.setCreateBy(RbacContext.getCurrentUser().getUserName());
+            abstractBaseDO.setUpdateBy(RbacContext.getCurrentUser().getUserName());
         }
     }
 
@@ -58,9 +58,9 @@ public class BasePropertyAspect {
     private void beforeUpdate(JoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
         Object obj = args[0];
-        if (obj instanceof BaseDO) {
-            BaseDO baseDO = (BaseDO)obj;
-            baseDO.setUpdator(RbacContext.getCurrentUser().getUserName());
+        if (obj instanceof AbstractBaseDO) {
+            AbstractBaseDO abstractBaseDO = (AbstractBaseDO)obj;
+            abstractBaseDO.setUpdateBy(RbacContext.getCurrentUser().getUserName());
         }
     }
 

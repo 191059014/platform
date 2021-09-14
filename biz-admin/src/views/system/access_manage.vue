@@ -141,8 +141,6 @@
 
   import * as Api from '../../common/api.js';
   import * as Alert from '../../common/alert.js';
-  import * as Consts from '../../common/consts.js';
-  import * as Utils from '../../common/utils.js';
 
   export default {
     name: 'AccessManage',
@@ -204,13 +202,9 @@
       },
       queryPages() {
         this.tableLoading = true;
-        Api.getPermissionPages(this.queryCondition, this.pageNum, this.pageSize).then(res => {
-          if (Consts.ResponseEnum.SUCCESS.code === res.code) {
-            this.permissionList = res.data.data;
-            this.total = res.data.count;
-          } else {
-            Alert.error(res.msg);
-          }
+        Api.getPermissionPages(this.queryCondition, this.pageNum, this.pageSize, (res) => {
+          this.permissionList = res.data && res.data.data;
+          this.total = res.data && res.data.count;
           this.tableLoading = false;
         })
       },
@@ -240,7 +234,7 @@
 
         this.showUpdateDialog = true;
 
-        this.fillParentMenuList(row.resourceType, row.tenantId);
+        this.fillParentMenuList(row.resourceType);
       },
       hideDialogOfUpdate() {
         this.showUpdateDialog = false;
@@ -280,13 +274,9 @@
           return false;
         }
         Api.addPermission(this.permissionModelAdd).then(res => {
-          if (Consts.ResponseEnum.SUCCESS.code === res.code) {
-            Alert.success(res.msg);
-            this.showAddDialog = false;
-            this.queryPages();
-          } else {
-            Alert.error(res.msg);
-          }
+          Alert.success(res.msg);
+          this.showAddDialog = false;
+          this.queryPages();
         })
       },
       handleEdit() {
@@ -294,7 +284,7 @@
           Alert.warn("用户名称不能为空");
           return false;
         }
-        if (!this.permissionModelUpdate.value) {
+        if (!this.permissionModelUpdate.permissionValue) {
           Alert.warn("权限值不能为空");
           return false;
         }
@@ -306,43 +296,31 @@
           return false;
         }
         let updateParams = {
-          id: this.permissionModelUpdate.permissionId,
+          id: this.permissionModelUpdate.id,
           permissionName: this.permissionModelUpdate.permissionName,
           permissionValue: this.permissionModelUpdate.permissionValue,
           url: this.permissionModelUpdate.url,
           icon: this.permissionModelUpdate.icon
         };
-        Api.updatePermission(updateParams).then(res => {
-          if (Consts.ResponseEnum.SUCCESS.code === res.code) {
-            Alert.success(res.msg);
-            this.showUpdateDialog = false;
-            this.queryPages();
-          } else {
-            Alert.error(res.msg);
-          }
+        Api.updatePermission(updateParams, (res) => {
+          Alert.success(res.msg);
+          this.showUpdateDialog = false;
+          this.queryPages();
         })
       },
       handleDelete(index, row) {
         Alert.confirmWarning('提示', '确定删除吗？', () => {
-          Api.deletePermission(row.id).then(res => {
-            if (Consts.ResponseEnum.SUCCESS.code === res.code) {
-              Alert.success('删除成功');
-              this.queryPages();
-            } else {
-              Alert.error(res.msg);
-            }
+          Api.deletePermission(row.id, (res) => {
+            Alert.success('删除成功');
+            this.queryPages();
           })
         }, () => {
           // do nothing
         });
       },
       getAllSubMerchants() {
-        Api.getAllSubMerchants().then(res => {
-          if (Consts.ResponseEnum.SUCCESS.code === res.code) {
-            this.subMerchantList = res.data;
-          } else {
-            Alert.error("初始化所有下级商户下拉框失败");
-          }
+        Api.getAllSubMerchants((res) => {
+          this.subMerchantList = res.data;
         })
       },
       onParentMenuVisible(expand) {
@@ -355,35 +333,23 @@
             Alert.warn("请先选择资源类型");
             return false;
           }
-          this.fillParentMenuList(this.permissionModelAdd.resourceType, this.permissionModelAdd.tenantId)
+          this.fillParentMenuList(this.permissionModelAdd.resourceType)
         }
       },
-      fillParentMenuList(resourceType, tenantId) {
+      fillParentMenuList(resourceType) {
         if ("folder" === resourceType || "page" === resourceType) {
-          Api.getResourcesUnderMerchantByResourceType('folder', tenantId).then(res => {
-            if (Consts.ResponseEnum.SUCCESS.code === res.code) {
-              this.parentMenuList = res.data;
-            } else {
-              Alert.error("初始化上级目录下拉框失败");
-            }
+          Api.getResourcesByResourceType('folder', (res) => {
+            this.parentMenuList = res.data;
           })
         } else if ("button" === resourceType) {
-          Api.getResourcesUnderMerchantByResourceType('page', tenantId).then(res => {
-            if (Consts.ResponseEnum.SUCCESS.code === res.code) {
-              this.parentMenuList = res.data;
-            } else {
-              Alert.error("初始化所属页面下拉框失败");
-            }
+          Api.getResourcesByResourceType('page', (res) => {
+            this.parentMenuList = res.data;
           })
         }
       },
       queryResourceTypeList() {
-        Api.getEnumCombobox('resourceType').then(res => {
-          if (Consts.ResponseEnum.SUCCESS.code === res.code) {
-            this.resourceTypeList = res.data;
-          } else {
-            Alert.error("初始化资源类型下拉框失败");
-          }
+        Api.getEnumCombobox('resourceType', (res) => {
+          his.resourceTypeList = res.data;
         })
       },
       formatResourceType(row, column, cellValue, index) {

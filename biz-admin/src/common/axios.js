@@ -33,7 +33,7 @@ function requestBefore(config) {
  * 请求错误
  */
 function requestError(error) {
-  Alert.error("requestError");
+  Alert.error("error request");
   return Promise.reject(error);
 }
 
@@ -46,12 +46,12 @@ function responseSuccess(response) {
   if (code === Consts.ResponseEnum.ACCESS_DENY.code) {
     Alert.error(msg);
     router.replace({path: '/accessDeny', query: {redirect: router.currentRoute.fullPath}});
-    return;
+    return false;
   }
   if (code === Consts.ResponseEnum.TOKEN_ERROR.code) {
     Alert.error(msg);
     router.replace({path: '/', query: {redirect: router.currentRoute.fullPath}});
-    return;
+    return false;
   }
   return response;
 }
@@ -63,11 +63,11 @@ function responseError(error) {
   let responseCode = error.response ? error.response.status : '';
   if (responseCode >= 500) {
     Alert.error('服务器开小猜了[' + responseCode + ']');
-    return;
+    return false;
   }
   if (responseCode >= 400) {
     Alert.error('请求失败[' + responseCode + ']');
-    return;
+    return false;
   }
   Alert.error('未知错误[' + responseCode + ']');
   // 处理响应失败

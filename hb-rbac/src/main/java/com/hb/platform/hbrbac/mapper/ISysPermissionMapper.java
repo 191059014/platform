@@ -95,18 +95,23 @@ public interface ISysPermissionMapper {
      * 
      * @param idSet
      *            id集合
+     * @param sysPermission
+     *            查询条件
      * @return 总条数
      */
-    Long selectCountByIdSet(@Param("idSet") Set<Long> idSet);
+    Long selectCountByIdSet(@Param("idSet") Set<Long> idSet, @Param("qc") SysPermissionDO sysPermission);
 
     /**
      * 分页条件查询
      *
      * @param idSet
      *            查询条件
+     * @param sysPermission
+     *            查询条件
      * @param pc
      *            分页条件
      * @return 对象列表
      */
-    List<SysPermissionDO> selectPagesByIdSet(@Param("idSet") Set<Long> idSet, @Param("pc") PageCondition pc);
+    List<SysPermissionDO> selectPagesByIdSet(@Param("idSet") Set<Long> idSet,
+        @Param("qc") SysPermissionDO sysPermission, @Param("pc") PageCondition pc);
 }

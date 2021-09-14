@@ -89,4 +89,21 @@ public interface ISysRolePermissionMapper {
      */
     int deleteById(@Param("id") Long id);
 
+    /**
+     * 删除角色下的权限
+     *
+     * @param roleId
+     *            角色id
+     * @return 影响行数
+     */
+    int deleteByRoleId(@Param("roleId") Long roleId);
+
+    /**
+     * 批量新增
+     *
+     * @param list
+     *            集合
+     * @return 影响行数
+     */
+    int insertBatch(@Param("list") List<SysRolePermissionDO> list);
 }

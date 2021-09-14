@@ -1,9 +1,9 @@
 package com.hb.platform.hbrbac.dobj;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.hb.platform.hbbase.dao.dobj.base.impl.AbstractBaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import com.hb.platform.hbbase.model.BaseDO;
 
 /**
  * 权限信息表数据模型
@@ -13,7 +13,7 @@ import com.hb.platform.hbbase.model.BaseDO;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
-public class SysPermissionDO extends BaseDO {
+public class SysPermissionDO extends AbstractBaseDO {
 
     /**
      * 权限名称
@@ -39,5 +39,10 @@ public class SysPermissionDO extends BaseDO {
      * 链接
      */
     private String url;
+
+    /**
+     * 父级id
+     */
+    private Long parentId;
 
 }

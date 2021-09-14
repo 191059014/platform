@@ -10,18 +10,19 @@
         <result column="sex" property="sex"/>
         <result column="email" property="email"/>
         <result column="id" property="id"/>
-        <result column="creator" property="creator"/>
+        <result column="create_by" property="createBy"/>
         <result column="create_time" property="createTime"/>
-        <result column="updator" property="updator"/>
+        <result column="update_by" property="updateBy"/>
         <result column="update_time" property="updateTime"/>
         <result column="is_valid" property="isValid"/>
-        <result column="parent_id" property="parentId"/>
         <result column="tenant_id" property="tenantId"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="selectById" resultMap="sysUserMap">
-        select * from sys_user where id = #{id}
+        select *
+        from sys_user
+        where id = #{id}
     </select>
 
     <!--查询集合-->
@@ -64,7 +65,9 @@
 
     <!--通过主键物理删除-->
     <update id="deleteById">
-        update sys_user set is_valid = 0 where id = #{id}
+        update sys_user
+        set is_valid = 0
+        where id = #{id}
     </update>
 
     <!--选择性的新增-->
@@ -89,23 +92,20 @@
             <if test="qc.id != null">
                 id,
             </if>
-            <if test="qc.creator != null and qc.creator != ''">
-                creator,
+            <if test="qc.createBy != null and qc.createBy != ''">
+                create_by,
             </if>
             <if test="qc.createTime != null">
                 create_time,
             </if>
-            <if test="qc.updator != null and qc.updator != ''">
-                updator,
+            <if test="qc.updateBy != null and qc.updateBy != ''">
+                update_by,
             </if>
             <if test="qc.updateTime != null">
                 update_time,
             </if>
             <if test="qc.isValid != null">
                 is_valid,
-            </if>
-            <if test="qc.parentId != null">
-                parent_id,
             </if>
             <if test="qc.tenantId != null">
                 tenant_id,
@@ -130,23 +130,20 @@
             <if test="qc.id != null">
                 #{qc.id},
             </if>
-            <if test="qc.creator != null and qc.creator != ''">
-                #{qc.creator},
+            <if test="qc.createBy != null and qc.createBy != ''">
+                #{qc.createBy},
             </if>
             <if test="qc.createTime != null">
                 #{qc.createTime},
             </if>
-            <if test="qc.updator != null and qc.updator != ''">
-                #{qc.updator},
+            <if test="qc.updateBy != null and qc.updateBy != ''">
+                #{qc.updateBy},
             </if>
             <if test="qc.updateTime != null">
                 #{qc.updateTime},
             </if>
             <if test="qc.isValid != null">
                 #{qc.isValid},
-            </if>
-            <if test="qc.parentId != null">
-                #{qc.parentId},
             </if>
             <if test="qc.tenantId != null">
                 #{qc.tenantId},
@@ -176,23 +173,20 @@
             <if test="qc.id != null">
                 and id = #{qc.id}
             </if>
-            <if test="qc.creator != null and qc.creator != ''">
-                and creator = #{qc.creator}
+            <if test="qc.createBy != null and qc.createBy != ''">
+                and create_by = #{qc.createBy}
             </if>
             <if test="qc.createTime != null">
                 and create_time = #{qc.createTime}
             </if>
-            <if test="qc.updator != null and qc.updator != ''">
-                and updator = #{qc.updator}
+            <if test="qc.updateBy != null and qc.updateBy != ''">
+                and update_by = #{qc.updateBy}
             </if>
             <if test="qc.updateTime != null">
                 and update_time = #{qc.updateTime}
             </if>
             <if test="qc.isValid != null">
                 and is_valid = #{qc.isValid}
-            </if>
-            <if test="qc.parentId != null">
-                and parent_id = #{qc.parentId}
             </if>
             <if test="qc.tenantId != null">
                 and tenant_id = #{qc.tenantId}
@@ -221,23 +215,20 @@
             <if test="qc.id != null">
                 id = #{qc.id},
             </if>
-            <if test="qc.creator != null and qc.creator != ''">
-                creator = #{qc.creator},
+            <if test="qc.createBy != null and qc.createBy != ''">
+                create_by = #{qc.createBy},
             </if>
             <if test="qc.createTime != null">
                 create_time = #{qc.createTime},
             </if>
-            <if test="qc.updator != null and qc.updator != ''">
-                updator = #{qc.updator},
+            <if test="qc.updateBy != null and qc.updateBy != ''">
+                update_by = #{qc.updateBy},
             </if>
             <if test="qc.updateTime != null">
                 update_time = #{qc.updateTime},
             </if>
             <if test="qc.isValid != null">
                 is_valid = #{qc.isValid},
-            </if>
-            <if test="qc.parentId != null">
-                parent_id = #{qc.parentId},
             </if>
             <if test="qc.tenantId != null">
                 tenant_id = #{qc.tenantId},

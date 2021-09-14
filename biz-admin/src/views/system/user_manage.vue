@@ -125,7 +125,6 @@
 
   import * as Api from '../../common/api.js';
   import * as Alert from '../../common/alert.js';
-  import * as Consts from '../../common/consts.js';
   import * as Utils from '../../common/utils.js';
 
   export default {
@@ -187,7 +186,7 @@
       },
       queryPages() {
         this.tableLoading = true;
-        Api.getUserPages(this.queryCondition, this.pageNum, this.pageSize).then(res => {
+        Api.getUserPages(this.queryCondition, this.pageNum, this.pageSize, (res) => {
           this.userList = res.data.data;
           this.total = res.data.count;
           this.tableLoading = false;
@@ -257,7 +256,7 @@
           Alert.warn("两次输入的密码不一致");
           return false;
         }
-        Api.addUser(this.userModelAdd).then(res => {
+        Api.addUser(this.userModelAdd, (res) => {
           Alert.success(res.msg);
           this.showAddDialog = false;
           this.queryPages();
@@ -315,7 +314,7 @@
           return false;
         }
         updateParams.id = this.userModelUpdate.id;
-        Api.updateUser(updateParams).then(res => {
+        Api.updateUser(updateParams, (res) => {
           Alert.success(res.msg);
           this.showUpdateDialog = false;
           this.queryPages();
@@ -323,26 +322,28 @@
       },
       handleDelete(index, row) {
         Alert.confirmWarning('提示', '确定删除吗？', () => {
-          Api.deleteUser(row.id).then(res => {
+          Api.deleteUser(row.id, (res) => {
             Alert.success('删除成功');
             this.queryPages();
           })
         });
       },
       getAllSubMerchants() {
-        Api.getAllSubMerchants().then(res => {
+        Api.getAllSubMerchants((res) => {
           this.subMerchantList = res.data;
         })
       },
       handleChangeRole(index, row) {
         this.openDrawer = true;
         this.userIdOfCurrentRow = row.id;
-        Api.getRolesUnderMerchant().then(res => {
+        Api.getRolesUnderMerchant((res) => {
           this.rolesUnderMerchant = res.data;
+          Api.getRolesUnderUser(row.id, (res) => {
+            if (res.data) {
+              this.checkedRoles = res.data;
+            }
+          })
         });
-        Api.getRolesUnderUser(row.id).then(res => {
-          this.checkedRoles = res.data;
-        })
       },
       handleClose(done) {
         done();
@@ -350,7 +351,7 @@
         this.rolesUnderMerchant = [];
       },
       updateUserRole() {
-        Api.updateUserRole(this.userIdOfCurrentRow, this.checkedRoles).then(res => {
+        Api.updateUserRole(this.userIdOfCurrentRow, this.checkedRoles, (res) => {
           Alert.success(res.msg);
           this.openDrawer = false;
           this.checkedRoles = [];

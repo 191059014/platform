@@ -1,10 +1,10 @@
 package com.hb.platform.hbrbac.service;
 
-import java.util.List;
-import java.util.Set;
-
 import com.hb.platform.hbbase.model.Page;
 import com.hb.platform.hbrbac.dobj.SysUserRoleDO;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * 用户角色关系表服务层接口
@@ -62,7 +62,6 @@ public interface ISysUserRoleService {
      */
     List<SysUserRoleDO> selectByRoleIdSet(Set<Long> roleIdSet);
 
-
     /**
      * 新增
      *
@@ -90,4 +89,21 @@ public interface ISysUserRoleService {
      */
     int deleteById(Long id);
 
+    /**
+     * 删除用户下的所有角色
+     * 
+     * @param userId
+     *            用户id
+     * @return 影响行数
+     */
+    int deleteByUserId(Long userId);
+
+    /**
+     * 批量新增用户角色关系
+     * 
+     * @param list
+     *            用户角色关系
+     * @return 影响行数
+     */
+    int insertBatch(List<SysUserRoleDO> list);
 }

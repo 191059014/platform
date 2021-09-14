@@ -9,11 +9,15 @@ import com.hb.platform.hbbase.model.Page;
 import com.hb.platform.hbcommon.validator.Assert;
 import com.hb.platform.hbcommon.validator.Check;
 import com.hb.platform.hbrbac.dobj.SysRoleDO;
+import com.hb.platform.hbrbac.dobj.SysRolePermissionDO;
 import com.hb.platform.hbrbac.dobj.SysUserRoleDO;
+import com.hb.platform.hbrbac.service.ISysRolePermissionService;
 import com.hb.platform.hbrbac.service.ISysRoleService;
 import com.hb.platform.hbrbac.service.ISysUserRoleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -52,6 +57,12 @@ public class SysRoleController {
      */
     @Resource
     private ISysUserRoleService sysUserRoleService;
+
+    /**
+     * 角色权限关系表服务层
+     */
+    @Resource
+    private ISysRolePermissionService sysRolePermissionService;
 
     /**
      * 分页查询角色信息表
@@ -140,17 +151,44 @@ public class SysRoleController {
      */
     @GetMapping("/getRolesUnderUser")
     @InOutLog("获取指定用户拥有的角色")
-    public Result<List<SysRoleDO>> getRolesUnderUser(@RequestParam("userId") Long userId) {
+    public Result<Set<Long>> getRolesUnderUser(@RequestParam("userId") Long userId) {
         Assert.notNull(userId, ResultCode.PARAM_ILLEGAL);
-        List<SysRoleDO> roleList = null;
         SysUserRoleDO userRoleQuery = new SysUserRoleDO();
         userRoleQuery.setUserId(userId);
         List<SysUserRoleDO> userRoleList = sysUserRoleService.selectList(userRoleQuery);
+        Set<Long> roleIdSet = null;
         if (!CollectionUtils.isEmpty(userRoleList)) {
-            Set<Long> roleIdSet = userRoleList.stream().map(SysUserRoleDO::getRoleId).collect(Collectors.toSet());
-            roleList = sysRoleService.selectByIdSet(roleIdSet);
+            roleIdSet = userRoleList.stream().map(SysUserRoleDO::getRoleId).collect(Collectors.toSet());
         }
-        return Result.success(roleList);
+        return Result.success(roleIdSet);
+    }
+
+    /**
+     * 更新角色对应的权限
+     * 
+     * @param permissionIdSet
+     *            权限集合
+     * @param roleId
+     *            角色id
+     * @return 结果
+     */
+    @PostMapping("/updateRolePermission")
+    @InOutLog("更新角色对应的权限")
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public Result updateRolePermission(@RequestBody Set<Long> permissionIdSet, @RequestParam("roleId") Long roleId) {
+        Assert.notNull(roleId, ResultCode.PARAM_ILLEGAL);
+        Assert.notEmpty(permissionIdSet, ResultCode.PARAM_ILLEGAL);
+        // 删除角色下所有的权限
+        sysRolePermissionService.deleteByRoleId(roleId);
+        // 新增权限
+        List<SysRolePermissionDO> list = new ArrayList<>();
+        for (Long permissionId : permissionIdSet) {
+            SysRolePermissionDO sysRolePermission = new SysRolePermissionDO();
+            sysRolePermission.setRoleId(roleId);
+            sysRolePermission.setPermissionId(permissionId);
+            list.add(sysRolePermission);
+        }
+        return Result.success(sysRolePermissionService.insertBatch(list));
     }
 
 }

@@ -1,5 +1,6 @@
 package com.hb.platform.hbrbac.service.impl;
 
+import com.hb.platform.hbbase.annotation.InOutLog;
 import com.hb.platform.hbbase.model.Page;
 import com.hb.platform.hbbase.model.PageCondition;
 import com.hb.platform.hbrbac.dobj.SysUserRoleDO;
@@ -135,6 +136,18 @@ public class SysUserRoleServiceImpl implements ISysUserRoleService {
     @Override
     public int deleteById(Long id) {
         return this.sysUserRoleMapper.deleteById(id);
+    }
+
+    @InOutLog("删除用户下的所有角色")
+    @Override
+    public int deleteByUserId(Long userId) {
+        return sysUserRoleMapper.deleteByUserId(userId);
+    }
+
+    @InOutLog(value = "批量新增用户角色关系", printInLog = false)
+    @Override
+    public int insertBatch(List<SysUserRoleDO> list) {
+        return sysUserRoleMapper.insertBatch(list);
     }
 
 }

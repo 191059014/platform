@@ -135,10 +135,11 @@ public class SysPermissionServiceImpl implements ISysPermissionService {
     }
 
     @Override
-    public Page<SysPermissionDO> selectPagesByIdSet(Set<Long> idSet, Integer pageNum, Integer pageSize) {
-        Long count = this.sysPermissionMapper.selectCountByIdSet(idSet);
+    public Page<SysPermissionDO> selectPagesByIdSet(Set<Long> idSet, SysPermissionDO sysPermission, Integer pageNum,
+        Integer pageSize) {
+        Long count = this.sysPermissionMapper.selectCountByIdSet(idSet, sysPermission);
         List<SysPermissionDO> dataList =
-            this.sysPermissionMapper.selectPagesByIdSet(idSet, PageCondition.create(pageNum, pageSize));
+            this.sysPermissionMapper.selectPagesByIdSet(idSet, sysPermission, PageCondition.create(pageNum, pageSize));
         return Page.create(count, dataList);
     }
 

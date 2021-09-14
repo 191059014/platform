@@ -65,8 +65,6 @@
 
   import * as Api from '../../common/api.js';
   import * as Alert from '../../common/alert.js';
-  import * as Consts from '../../common/consts.js';
-  import * as Utils from '../../common/utils.js';
 
   export default {
     name: 'MerchantManage',
@@ -110,7 +108,7 @@
       },
       queryPages() {
         this.tableLoading = true;
-        Api.getMerchantPages(this.queryCondition, this.pageNum, this.pageSize).then(res => {
+        Api.getMerchantPages(this.queryCondition, this.pageNum, this.pageSize, (res) => {
           this.merchantList = res.data.data;
           this.total = res.data.count;
           this.tableLoading = false;
@@ -140,7 +138,7 @@
           Alert.warn("商户名称不能为空");
           return false;
         }
-        Api.addMerchant(this.merchantModelAdd).then(res => {
+        Api.addMerchant(this.merchantModelAdd, (res) => {
           Alert.success(res.msg);
           this.showAddDialog = false;
           this.queryPages();
@@ -158,7 +156,7 @@
         Api.updateMerchant({
           id: this.merchantModelUpdate.id,
           merchantName: this.merchantModelUpdate.merchantName
-        }).then(res => {
+        }, (res) => {
           Alert.success(res.msg);
           this.showUpdateDialog = false;
           this.queryPages();
@@ -166,7 +164,7 @@
       },
       handleDelete(index, row) {
         Alert.confirmWarning('提示', '确定删除吗？', () => {
-          Api.deleteMerchant(row.id).then(res => {
+          Api.deleteMerchant(row.id, (res) => {
             Alert.success('删除成功');
             this.queryPages();
           })

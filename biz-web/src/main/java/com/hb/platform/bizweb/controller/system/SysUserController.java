@@ -11,6 +11,8 @@ import com.hb.platform.hbcommon.security.SingleTrackEncrypt;
 import com.hb.platform.hbcommon.validator.Assert;
 import com.hb.platform.hbcommon.validator.Check;
 import com.hb.platform.hbrbac.dobj.SysUserDO;
+import com.hb.platform.hbrbac.dobj.SysUserRoleDO;
+import com.hb.platform.hbrbac.service.ISysUserRoleService;
 import com.hb.platform.hbrbac.service.ISysUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +24,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 用户信息表控制层
@@ -42,6 +47,12 @@ public class SysUserController {
      */
     @Resource
     private ISysUserService sysUserService;
+
+    /**
+     * 用户角色信息表服务层
+     */
+    @Resource
+    private ISysUserRoleService sysUserRoleService;
 
     /**
      * 分页查询用户信息表
@@ -107,6 +118,33 @@ public class SysUserController {
     @GetMapping("/deleteById")
     public Result deleteById(@RequestParam("id") Long id) {
         return Result.success(sysUserService.deleteById(id));
+    }
+
+    /**
+     * 更新用户的角色
+     * 
+     * @param roleIdSet
+     *            角色id
+     * @param userId
+     *            用户id
+     * @return 结果
+     */
+    @PostMapping("updateUserRole")
+    @InOutLog("更新用户的角色")
+    public Result updateUserRole(@RequestBody Set<Long> roleIdSet, @RequestParam("userId") Long userId) {
+        Assert.notNull(userId, ResultCode.PARAM_ILLEGAL);
+        Assert.notEmpty(roleIdSet, ResultCode.PARAM_ILLEGAL);
+        // 删除用户的所有角色
+        sysUserRoleService.deleteByUserId(userId);
+        // 批量新增用户角色关系
+        List<SysUserRoleDO> list = new ArrayList<>();
+        for (Long roleId : roleIdSet) {
+            SysUserRoleDO userRole = new SysUserRoleDO();
+            userRole.setUserId(userId);
+            userRole.setRoleId(roleId);
+            list.add(userRole);
+        }
+        return Result.success(sysUserRoleService.insertBatch(list));
     }
 
 }

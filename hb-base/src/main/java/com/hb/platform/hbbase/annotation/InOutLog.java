@@ -21,4 +21,18 @@ public @interface InOutLog {
      */
     String value() default "";
 
+    /**
+     * 打印入参
+     * 
+     * @return true为是
+     */
+    boolean printInLog() default true;
+
+    /**
+     * 打印出参
+     * 
+     * @return true为是
+     */
+    boolean printOutLog() default true;
+
 }

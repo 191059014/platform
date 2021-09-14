@@ -30,55 +30,58 @@ public class LogAspect {
      * 切面
      */
     @Pointcut("@annotation(com.hb.platform.hbbase.annotation.InOutLog)")
-    public void logPointCut() {
-    }
+    public void logPointCut() {}
 
     /**
      * 周围通知
      *
-     * @param point 调用参数
-     * @return 结果
-     * @throws Throwable 异常
+     * @param point
+     *            调用参数
+     * @return Object 方法调用结果
+     * @throws Throwable
+     *             异常
      */
     @Around("logPointCut()")
     public Object around(ProceedingJoinPoint point) throws Throwable {
         StopWatch sw = new StopWatch();
         sw.start();
-        MethodSignature signature = (MethodSignature) point.getSignature();
+        MethodSignature signature = (MethodSignature)point.getSignature();
         InOutLog inOutLog = signature.getMethod().getAnnotation(InOutLog.class);
         String className = point.getTarget().getClass().getSimpleName();
         String methodName = signature.getName();
         Object[] args = point.getArgs();
-        LOGGER.info(getLog(className, methodName, inOutLog.value(), "Input", args));
+        if (inOutLog.printInLog()) {
+            LOGGER.info(getLog(className, methodName, inOutLog.value(), "Input", args));
+        }
         Object result = point.proceed();
-        sw.stop();
-        long useTime = sw.getTotalTimeMillis();
-        LOGGER.info("{}, cost={}ms", getLog(className, methodName, inOutLog.value(), "Output", args), useTime);
+        if (inOutLog.printOutLog()) {
+            sw.stop();
+            long useTime = sw.getTotalTimeMillis();
+            LOGGER.info("{}, cost={}ms", getLog(className, methodName, inOutLog.value(), "Output", result), useTime);
+        }
         return result;
     }
 
     /**
      * 组装日志
      *
-     * @param className  类名
-     * @param methodName 方法名
-     * @param logDesc    日志描述
-     * @param mark       标记
-     * @param param      参数
+     * @param className
+     *            类名
+     * @param methodName
+     *            方法名
+     * @param logDesc
+     *            日志描述
+     * @param mark
+     *            标记
+     * @param param
+     *            参数
      * @return 日志
      */
     private String getLog(String className, String methodName, String logDesc, String mark, Object param) {
         StringBuilder sb = new StringBuilder();
-        sb.append("[")
-                .append(className).append("-")
-                .append(methodName).append("-")
-                .append(logDesc)
-                .append("]")
-                .append(mark).append("=").append(JSON.toJSONString(param));
+        sb.append("[").append(className).append("-").append(methodName).append("-").append(logDesc).append("]")
+            .append(mark).append("=").append(JSON.toJSONString(param));
         return sb.toString();
     }
 
-
 }
-
-    

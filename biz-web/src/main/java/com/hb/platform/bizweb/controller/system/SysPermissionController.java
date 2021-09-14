@@ -6,10 +6,11 @@ import com.hb.platform.bizweb.common.util.HbmanageUtils;
 import com.hb.platform.bizweb.container.RbacContext;
 import com.hb.platform.bizweb.model.dto.ElementuiMenu;
 import com.hb.platform.bizweb.model.dto.ElementuiTree;
+import com.hb.platform.bizweb.model.vo.request.PermissionQueryRequest;
 import com.hb.platform.bizweb.model.vo.response.ElementuiMenuResponse;
 import com.hb.platform.bizweb.model.vo.response.ElementuiTreeResponse;
 import com.hb.platform.hbbase.annotation.InOutLog;
-import com.hb.platform.hbbase.model.BaseDO;
+import com.hb.platform.hbbase.dao.dobj.base.impl.AbstractBaseDO;
 import com.hb.platform.hbbase.model.Page;
 import com.hb.platform.hbcommon.validator.Assert;
 import com.hb.platform.hbcommon.validator.Check;
@@ -89,36 +90,25 @@ public class SysPermissionController {
      * @return 分页结果
      */
     @PostMapping("/queryPages")
-    public Result<Page<SysPermissionDO>> queryPages(@RequestBody SysPermissionDO sysPermission,
+    public Result<Page<SysPermissionDO>> queryPages(@RequestBody PermissionQueryRequest request,
         @RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize) {
-        Assert.ifTrueThrows(Check.incorrectPageParameter(pageNum, pageSize), ResultCode.PAGE_PARAM_ERROR);
-        Page<SysPermissionDO> page = null;
         Long currentTenantId = RbacContext.getCurrentTenantId();
-        if (sysPermission.getTenantId() == null) {
-            // 商户ID为空
-            if (HbmanageUtils.isSuperAdmin(currentTenantId)) {
-                // 当前用户是超级管理员
-                page = sysPermissionService.selectPages(sysPermission, pageNum, pageSize);
-            } else {
-                // 当前用户不是超级管理员
-                Set<Long> permissionIdSet = sysRoleService.getPermissionIdSetUnderRoleByTenantId(currentTenantId);
-                if (!CollectionUtils.isEmpty(permissionIdSet)) {
-                    page = sysPermissionService.selectPagesByIdSet(permissionIdSet, pageNum, pageSize);
-                }
-            }
-        } else {
-            // 商户ID不为空
-            Set<Long> permissionIdSet = sysRoleService.getPermissionIdSetUnderRoleByTenantId(sysPermission.getTenantId());
-            if (!CollectionUtils.isEmpty(permissionIdSet)) {
-                page = sysPermissionService.selectPagesByIdSet(permissionIdSet, pageNum, pageSize);
-            }
+        if (!HbmanageUtils.isSuperAdmin(currentTenantId)) {
+            return Result.fail(ResultCode.ACCESS_DENY);
         }
-
-        if (page == null) {
-            page = Page.create(0L, null);
+        Assert.ifTrueThrows(Check.incorrectPageParameter(pageNum, pageSize), ResultCode.PAGE_PARAM_ERROR);
+        SysPermissionDO query = new SysPermissionDO();
+        query.setPermissionName(request.getPermissionName());
+        query.setResourceType(request.getResourceType());
+        if (request.getTenantId() == null) {
+            return Result.success(sysPermissionService.selectPages(query, pageNum, pageSize));
         }
-
-        return Result.success(page);
+        // 查询商户下所有角色对应的权限
+        Set<Long> permissionIdSet = sysRoleService.getPermissionIdSetUnderRoleByTenantId(request.getTenantId());
+        if (CollectionUtils.isEmpty(permissionIdSet)) {
+            return Result.success();
+        }
+        return Result.success(sysPermissionService.selectPagesByIdSet(permissionIdSet, query, pageNum, pageSize));
     }
 
     /**
@@ -131,7 +121,10 @@ public class SysPermissionController {
     @PostMapping("/save")
     @InOutLog("新增权限")
     public Result save(@RequestBody SysPermissionDO sysPermission) {
-        Assert.notNull(sysPermission.getTenantId(), ResultCode.PARAM_ILLEGAL);
+        Long currentTenantId = RbacContext.getCurrentTenantId();
+        if (!HbmanageUtils.isSuperAdmin(currentTenantId)) {
+            return Result.fail(ResultCode.ACCESS_DENY);
+        }
         Assert.hasText(sysPermission.getPermissionName(), ResultCode.PARAM_ILLEGAL);
         Assert.hasText(sysPermission.getPermissionValue(), ResultCode.PARAM_ILLEGAL);
         Assert.hasText(sysPermission.getResourceType(), ResultCode.PARAM_ILLEGAL);
@@ -148,6 +141,10 @@ public class SysPermissionController {
     @InOutLog("通过主键修改权限")
     @PostMapping("/updateById")
     public Result updateById(@RequestBody SysPermissionDO sysPermission) {
+        Long currentTenantId = RbacContext.getCurrentTenantId();
+        if (!HbmanageUtils.isSuperAdmin(currentTenantId)) {
+            return Result.fail(ResultCode.ACCESS_DENY);
+        }
         Assert.notNull(sysPermission.getId(), ResultCode.PARAM_ILLEGAL);
         return Result.success(sysPermissionService.updateById(sysPermission));
     }
@@ -162,6 +159,10 @@ public class SysPermissionController {
     @InOutLog("通过主键删除权限")
     @GetMapping("/deleteById")
     public Result deleteById(@RequestParam("id") Long id) {
+        Long currentTenantId = RbacContext.getCurrentTenantId();
+        if (!HbmanageUtils.isSuperAdmin(currentTenantId)) {
+            return Result.fail(ResultCode.ACCESS_DENY);
+        }
         Assert.notNull(id, ResultCode.PARAM_ILLEGAL);
         return Result.success(sysPermissionService.deleteById(id));
     }
@@ -199,7 +200,7 @@ public class SysPermissionController {
         Assert.notEmpty(permissionList, ResultCode.NO_DATA);
         Predicate<SysPermissionDO> predicate = p -> !ResourceType.BUTTON.getValue().equals(p.getResourceType());
         permissionList = permissionList.stream().filter(predicate).collect(Collectors.toList());
-        permissionList.sort(Comparator.comparing(BaseDO::getCreateTime));
+        permissionList.sort(Comparator.comparing(AbstractBaseDO::getCreateTime));
         // 将菜单按层级组装
         List<SysPermissionDO> topList =
             permissionList.stream().filter(access -> access.getParentId() == null).collect(Collectors.toList());
@@ -219,8 +220,9 @@ public class SysPermissionController {
     private List<ElementuiMenu> findChildrenMenuCycle(List<SysPermissionDO> allList, List<SysPermissionDO> childList) {
         List<ElementuiMenu> menuList = new ArrayList<>();
         childList.forEach(access -> {
-            ElementuiMenu menu = ElementuiMenu.builder().index(access.getId().toString()).name(access.getPermissionName())
-                .icon(access.getIcon()).url(access.getUrl()).parentIndex(access.getParentId()).build();
+            ElementuiMenu menu =
+                ElementuiMenu.builder().index(access.getId().toString()).name(access.getPermissionName())
+                    .icon(access.getIcon()).url(access.getUrl()).parentIndex(access.getParentId()).build();
             List<SysPermissionDO> cList =
                 allList.stream().filter(acc -> access.getId().equals(acc.getParentId())).collect(Collectors.toList());
             menu.setChildren(findChildrenMenuCycle(allList, cList));
@@ -277,18 +279,23 @@ public class SysPermissionController {
      */
     @InOutLog("获取指定角色的所有权限")
     @GetMapping("/getPermissionsUnderRole")
-    public Result<List<SysPermissionDO>> getPermissionsUnderRole(@RequestParam("roleId") Long roleId) {
+    public Result<Set<Long>> getPermissionsUnderRole(@RequestParam("roleId") Long roleId) {
         Assert.notNull(roleId, ResultCode.PARAM_ILLEGAL);
         SysRolePermissionDO rolePermissionQuery = new SysRolePermissionDO();
         rolePermissionQuery.setRoleId(roleId);
         List<SysRolePermissionDO> rolePermissionList = sysRolePermissionService.selectList(rolePermissionQuery);
-        List<SysPermissionDO> permissionList = null;
-        if (!CollectionUtils.isEmpty(rolePermissionList)) {
-            Set<Long> permissionIdSet =
-                rolePermissionList.stream().map(SysRolePermissionDO::getPermissionId).collect(Collectors.toSet());
-            permissionList = sysPermissionService.selectByIdSet(permissionIdSet, new SysPermissionDO());
+        if (CollectionUtils.isEmpty(rolePermissionList)) {
+            return Result.success();
         }
-        return Result.success(permissionList);
+        Set<Long> permissionIdSet =
+            rolePermissionList.stream().map(SysRolePermissionDO::getPermissionId).collect(Collectors.toSet());
+        // 只返回叶子节点，防止父节点选中，导致子节点全部选中的问题
+        List<SysPermissionDO> permissionList =
+            sysPermissionService.selectByIdSet(permissionIdSet, new SysPermissionDO());
+        Set<Long> parentPermissionIdSet =
+            permissionList.stream().map(SysPermissionDO::getParentId).collect(Collectors.toSet());
+        permissionIdSet.removeAll(parentPermissionIdSet);
+        return Result.success(permissionIdSet);
     }
 
     /**
@@ -299,29 +306,18 @@ public class SysPermissionController {
      * @return 资源
      */
     @InOutLog("通过资源类型获取当前商户下的资源")
-    @GetMapping("/getResourcesUnderMerchantByResourceType")
-    public Result<List<SysPermissionDO>> getResourcesUnderMerchantByResourceType(
-        @RequestParam("resourceType") String resourceType, @RequestParam("tenantId") Long tenantId) {
+    @GetMapping("/getResourcesByResourceType")
+    public Result<List<SysPermissionDO>> getResourcesByResourceType(@RequestParam("resourceType") String resourceType,
+        @RequestParam("tenantId") Long tenantId) {
+        Long currentTenantId = RbacContext.getCurrentTenantId();
+        if (!HbmanageUtils.isSuperAdmin(currentTenantId)) {
+            return Result.fail(ResultCode.ACCESS_DENY);
+        }
         Assert.notNull(tenantId, ResultCode.PARAM_ILLEGAL);
         Assert.hasText(resourceType, ResultCode.PARAM_ILLEGAL);
-        List<SysPermissionDO> resultList = new ArrayList<>();
         SysPermissionDO query = new SysPermissionDO();
         query.setResourceType(resourceType);
-        // 商户下所有角色对应的权限
-        Set<Long> permissionIdSetUnderRole = sysRoleService.getPermissionIdSetUnderRoleByTenantId(tenantId);
-        if (!CollectionUtils.isEmpty(permissionIdSetUnderRole)) {
-            List<SysPermissionDO> permissionList = sysPermissionService.selectByIdSet(permissionIdSetUnderRole, query);
-            if (!CollectionUtils.isEmpty(permissionList)) {
-                resultList.addAll(permissionList);
-            }
-        }
-        // 商户下的权限
-        query.setTenantId(tenantId);
-        List<SysPermissionDO> permissionList = sysPermissionService.selectList(query);
-        if (!CollectionUtils.isEmpty(permissionList)) {
-            resultList.addAll(permissionList);
-        }
-        return Result.success(resultList);
+        return Result.success(sysPermissionService.selectList(query));
     }
 
 }

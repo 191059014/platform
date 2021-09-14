@@ -10,18 +10,19 @@
         <result column="icon" property="icon"/>
         <result column="url" property="url"/>
         <result column="id" property="id"/>
-        <result column="creator" property="creator"/>
+        <result column="create_by" property="createBy"/>
         <result column="create_time" property="createTime"/>
-        <result column="updator" property="updator"/>
+        <result column="update_by" property="updateBy"/>
         <result column="update_time" property="updateTime"/>
         <result column="is_valid" property="isValid"/>
         <result column="parent_id" property="parentId"/>
-        <result column="tenant_id" property="tenantId"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="selectById" resultMap="sysPermissionMap">
-        select * from sys_permission where id = #{id}
+        select *
+        from sys_permission
+        where id = #{id}
     </select>
 
     <!--查询集合-->
@@ -48,29 +49,35 @@
     <!--通过id集合查询-->
     <select id="selectByIdSet" resultMap="sysPermissionMap">
         select * from sys_permission
-        where id in
+        <include refid="whereCondition"/>
+        and id in
         <foreach collection="idSet" item="id" open="(" separator="," close=")">
             #{id}
         </foreach>
-        <include refid="whereCondition"/>
     </select>
 
     <!--通过id集合分页查询-->
     <select id="selectCountByIdSet" resultMap="sysPermissionMap">
         select count(1) from sys_permission
-        where id in
-        <foreach collection="idSet" item="id" open="(" separator="," close=")">
-            #{id}
-        </foreach>
+        <include refid="whereCondition"/>
+        <if test="idSet!=null and idSet.size()>0">
+            and id in
+            <foreach collection="idSet" item="id" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </if>
     </select>
 
     <!--通过id集合分页查询-->
     <select id="selectPagesByIdSet" resultMap="sysPermissionMap">
         select * from sys_permission
-        where id in
-        <foreach collection="idSet" item="id" open="(" separator="," close=")">
-            #{id}
-        </foreach>
+        <include refid="whereCondition"/>
+        <if test="idSet!=null and idSet.size()>0">
+            and id in
+            <foreach collection="idSet" item="id" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </if>
         order by update_time desc
         limit #{pc.startIndex}, #{pc.pageSize}
     </select>
@@ -84,7 +91,9 @@
 
     <!--通过主键物理删除-->
     <update id="deleteById">
-        update sys_permission set is_valid = 0 where id = #{id}
+        update sys_permission
+        set is_valid = 0
+        where id = #{id}
     </update>
 
     <!--选择性的新增-->
@@ -109,14 +118,14 @@
             <if test="qc.id != null">
                 id,
             </if>
-            <if test="qc.creator != null and qc.creator != ''">
-                creator,
+            <if test="qc.createBy != null and qc.createBy != ''">
+                create_by,
             </if>
             <if test="qc.createTime != null">
                 create_time,
             </if>
-            <if test="qc.updator != null and qc.updator != ''">
-                updator,
+            <if test="qc.updateBy != null and qc.updateBy != ''">
+                update_by,
             </if>
             <if test="qc.updateTime != null">
                 update_time,
@@ -126,9 +135,6 @@
             </if>
             <if test="qc.parentId != null">
                 parent_id,
-            </if>
-            <if test="qc.tenantId != null">
-                tenant_id,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -150,14 +156,14 @@
             <if test="qc.id != null">
                 #{qc.id},
             </if>
-            <if test="qc.creator != null and qc.creator != ''">
-                #{qc.creator},
+            <if test="qc.createBy != null and qc.createBy != ''">
+                #{qc.createBy},
             </if>
             <if test="qc.createTime != null">
                 #{qc.createTime},
             </if>
-            <if test="qc.updator != null and qc.updator != ''">
-                #{qc.updator},
+            <if test="qc.updateBy != null and qc.updateBy != ''">
+                #{qc.updateBy},
             </if>
             <if test="qc.updateTime != null">
                 #{qc.updateTime},
@@ -168,9 +174,6 @@
             <if test="qc.parentId != null">
                 #{qc.parentId},
             </if>
-            <if test="qc.tenantId != null">
-                #{qc.tenantId},
-            </if>
         </trim>
     </insert>
 
@@ -179,7 +182,7 @@
         <where>
             is_valid = 1
             <if test="qc.permissionName != null and qc.permissionName != ''">
-                and permission_name = #{qc.permissionName}
+                and permission_name like concat("%",#{qc.permissionName},"%")
             </if>
             <if test="qc.resourceType != null and qc.resourceType != ''">
                 and resource_type = #{qc.resourceType}
@@ -196,14 +199,14 @@
             <if test="qc.id != null">
                 and id = #{qc.id}
             </if>
-            <if test="qc.creator != null and qc.creator != ''">
-                and creator = #{qc.creator}
+            <if test="qc.createBy != null and qc.createBy != ''">
+                and create_by = #{qc.createBy}
             </if>
             <if test="qc.createTime != null">
                 and create_time = #{qc.createTime}
             </if>
-            <if test="qc.updator != null and qc.updator != ''">
-                and updator = #{qc.updator}
+            <if test="qc.updateBy != null and qc.updateBy != ''">
+                and update_by = #{qc.updateBy}
             </if>
             <if test="qc.updateTime != null">
                 and update_time = #{qc.updateTime}
@@ -213,9 +216,6 @@
             </if>
             <if test="qc.parentId != null">
                 and parent_id = #{qc.parentId}
-            </if>
-            <if test="qc.tenantId != null">
-                and tenant_id = #{qc.tenantId}
             </if>
         </where>
     </sql>
@@ -241,14 +241,14 @@
             <if test="qc.id != null">
                 id = #{qc.id},
             </if>
-            <if test="qc.creator != null and qc.creator != ''">
-                creator = #{qc.creator},
+            <if test="qc.createBy != null and qc.createBy != ''">
+                create_by = #{qc.createBy},
             </if>
             <if test="qc.createTime != null">
                 create_time = #{qc.createTime},
             </if>
-            <if test="qc.updator != null and qc.updator != ''">
-                updator = #{qc.updator},
+            <if test="qc.updateBy != null and qc.updateBy != ''">
+                update_by = #{qc.updateBy},
             </if>
             <if test="qc.updateTime != null">
                 update_time = #{qc.updateTime},
@@ -258,9 +258,6 @@
             </if>
             <if test="qc.parentId != null">
                 parent_id = #{qc.parentId},
-            </if>
-            <if test="qc.tenantId != null">
-                tenant_id = #{qc.tenantId},
             </if>
         </set>
     </sql>

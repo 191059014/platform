@@ -1,9 +1,9 @@
 package com.hb.platform.hbrbac.dobj;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.hb.platform.hbbase.dao.dobj.base.impl.AbstractBaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import com.hb.platform.hbbase.model.BaseDO;
 
 /**
  * 商户表数据模型
@@ -13,7 +13,7 @@ import com.hb.platform.hbbase.model.BaseDO;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
-public class SysMerchantDO extends BaseDO {
+public class SysMerchantDO extends AbstractBaseDO {
 
     /**
      * 商户名称

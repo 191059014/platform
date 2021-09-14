@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from '../views/Login.vue'
+import Login from '../views/login.vue'
 import Workbench from '../views/workbench.vue'
 import IframeContent1 from '../views/other/IframeContent1.vue'
 import IframeContent2 from '../views/other/IframeContent2.vue'

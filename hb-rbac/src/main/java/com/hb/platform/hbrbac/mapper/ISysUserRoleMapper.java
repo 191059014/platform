@@ -88,4 +88,21 @@ public interface ISysUserRoleMapper {
      */
     int deleteById(@Param("id") Long id);
 
+    /**
+     * 删除用户下的所有角色
+     *
+     * @param userId
+     *            用户id
+     * @return 影响行数
+     */
+    int deleteByUserId(@Param("userId") Long userId);
+
+    /**
+     * 批量新增用户角色关系
+     *
+     * @param list
+     *            用户角色关系
+     * @return 影响行数
+     */
+    int insertBatch(@Param("list") List<SysUserRoleDO> list);
 }

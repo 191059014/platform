@@ -149,7 +149,7 @@
     },
     methods: {
       findPrivateMenuDatas() {
-        Api.getPrivateMenuDatas().then(res => {
+        Api.getPrivateMenuDatas((res) => {
           this.menuDatas = res.data.menuDatas;
         })
       },

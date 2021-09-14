@@ -1,7 +1,7 @@
 package com.hb.platform.hbbase.dao.dobj;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.hb.platform.hbbase.model.BaseDO;
+import com.hb.platform.hbbase.dao.dobj.base.impl.AbstractBaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
-public class CfgGlobalDO extends BaseDO {
+public class CfgGlobalDO extends AbstractBaseDO {
 
     /**
      * 系统名称

@@ -94,8 +94,6 @@
 
   import * as Api from '../../common/api.js';
   import * as Alert from '../../common/alert.js';
-  import * as Consts from '../../common/consts.js';
-  import * as Utils from '../../common/utils.js';
 
   export default {
     name: 'RoleManage',
@@ -146,13 +144,9 @@
       },
       queryPages() {
         this.tableLoading = true;
-        Api.getRolePages(this.queryCondition, this.pageNum, this.pageSize).then(res => {
-          if (Consts.ResponseEnum.SUCCESS.code === res.code) {
-            this.roleList = res.data.data;
-            this.total = res.data.count;
-          } else {
-            Alert.error(res.msg);
-          }
+        Api.getRolePages(this.queryCondition, this.pageNum, this.pageSize, (res) => {
+          this.roleList = res.data.data;
+          this.total = res.data.count;
           this.tableLoading = false;
         })
       },
@@ -185,7 +179,7 @@
           Alert.warn("角色名称不能为空");
           return false;
         }
-        Api.addRole(this.roleModelAdd).then(res => {
+        Api.addRole(this.roleModelAdd, (res) => {
           Alert.success(res.msg);
           this.showAddDialog = false;
           this.queryPages();
@@ -204,7 +198,7 @@
           id: this.roleModelUpdate.id,
           roleName: this.roleModelUpdate.roleName
         };
-        Api.updateRole(updateParams).then(res => {
+        Api.updateRole(updateParams, (res) => {
           Alert.success(res.msg);
           this.showUpdateDialog = false;
           this.queryPages();
@@ -212,33 +206,25 @@
       },
       handleDelete(index, row) {
         Alert.confirmWarning('提示', '确定删除吗？', () => {
-          Api.deleteRole(row.id).then(res => {
+          Api.deleteRole(row.id, (res) => {
             Alert.success('删除成功');
             this.queryPages();
           })
         });
       },
       getAllSubMerchants() {
-        Api.getAllSubMerchants().then(res => {
+        Api.getAllSubMerchants((res) => {
           this.subMerchantList = res.data;
         })
       },
       handleChangePermission(idnex, row) {
         this.openDrawer = true;
-        this.roleIdOfCurrentRow = row.roleId;
-        Api.getPermissionTreeUnderMerchant().then(res => {
-          if (Consts.ResponseEnum.SUCCESS.code === res.code) {
-            this.permissionTreeData = res.data.treeDataList
-          } else {
-            Alert.error(res.msg);
-          }
+        this.roleIdOfCurrentRow = row.id;
+        Api.getPermissionTreeUnderMerchant((res) => {
+          this.permissionTreeData = res.data.treeDataList;
         });
-        Api.getPermissionsUnderRole(row.id).then(res => {
-          if (Consts.ResponseEnum.SUCCESS.code === res.code) {
-            this.checkedPermissions = res.data;
-          } else {
-            Alert.error("获取角色的权限集合失败");
-          }
+        Api.getPermissionsUnderRole(row.id, (res) => {
+          this.checkedPermissions = res.data;
         })
       },
       handleClose(done) {
@@ -250,16 +236,12 @@
         let checkedNodes = this.$refs.tree.getCheckedNodes(false, true);
         let checkedKeys = [];
         checkedNodes.forEach(node => checkedKeys.push(node.id));
-        Api.updateRolePermission(this.roleIdOfCurrentRow, checkedKeys).then(res => {
-          if (Consts.ResponseEnum.SUCCESS.code === res.code) {
-            Alert.success(res.msg);
-            this.openDrawer = false;
-            this.checkedPermissions = [];
-            this.permissionTreeData = [];
-            this.queryPages();
-          } else {
-            Alert.error(res.msg);
-          }
+        Api.updateRolePermission(this.roleIdOfCurrentRow, checkedKeys, (res) => {
+          Alert.success(res.msg);
+          this.openDrawer = false;
+          this.checkedPermissions = [];
+          this.permissionTreeData = [];
+          this.queryPages();
         })
       }
     },

@@ -19,6 +19,7 @@ public enum ResultCode implements IErrorCode {
     USER_NOT_EXIST("10102", "用户名或密码错误"),
     AUTH_FAIL("10105", "认证失败，请重新登录"),
     TOKEN_EXPIRE("10106", "会话失效，请重新登录"),
+    ACCESS_DENY("10107", "权限不足"),
 
     NO_DATA("20000", "无数据"),
     ;
