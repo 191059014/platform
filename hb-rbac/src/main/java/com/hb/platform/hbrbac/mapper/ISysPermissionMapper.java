@@ -1,7 +1,7 @@
 package com.hb.platform.hbrbac.mapper;
 
 import com.hb.platform.hbbase.model.PageCondition;
-import com.hb.platform.hbrbac.dobj.SysPermissionDO;
+import com.hb.platform.hbrbac.model.dobj.SysPermissionDO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

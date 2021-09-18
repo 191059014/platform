@@ -3,7 +3,7 @@ package com.hb.platform.hbrbac.service.impl;
 import com.hb.platform.hbbase.annotation.InOutLog;
 import com.hb.platform.hbbase.model.Page;
 import com.hb.platform.hbbase.model.PageCondition;
-import com.hb.platform.hbrbac.dobj.SysRolePermissionDO;
+import com.hb.platform.hbrbac.model.dobj.SysRolePermissionDO;
 import com.hb.platform.hbrbac.mapper.ISysRolePermissionMapper;
 import com.hb.platform.hbrbac.service.ISysRolePermissionService;
 import org.slf4j.Logger;

@@ -1,7 +1,7 @@
 package com.hb.platform.hbrbac.mapper;
 
 import com.hb.platform.hbbase.model.PageCondition;
-import com.hb.platform.hbrbac.dobj.SysUserDO;
+import com.hb.platform.hbrbac.model.dobj.SysUserDO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -90,4 +90,12 @@ public interface ISysUserMapper {
      */
     int deleteById(@Param("id") Long id);
 
+    /**
+     * 通过用户名或者手机号查询用户信息
+     *
+     * @param usernameOrMobile
+     *            用户名或者手机号
+     * @return 用户信息
+     */
+    SysUserDO findByUsernameOrMobile(@Param("usernameOrMobile") String usernameOrMobile);
 }

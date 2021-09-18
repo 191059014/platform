@@ -1,8 +1,5 @@
 package com.hb.platform.bizweb.config.filter;
 
-import com.hb.platform.hbbase.util.FilterUtils;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -13,13 +10,5 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class FilterConfiguration {
-
-    /**
-     * 登录认证过滤器
-     */
-    @Bean
-    public FilterRegistrationBean authFilterRegistration() {
-        return FilterUtils.build(new AuthFilter(), "authFilter", 1, "/*");
-    }
 
 }

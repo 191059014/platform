@@ -3,7 +3,7 @@
 <mapper namespace="com.hb.platform.hbrbac.mapper.ISysMerchantMapper">
 
     <!--字段映射-->
-    <resultMap id="sysMerchantMap" type="com.hb.platform.hbrbac.dobj.SysMerchantDO">
+    <resultMap id="sysMerchantMap" type="com.hb.platform.hbrbac.model.dobj.SysMerchantDO">
         <result column="merchant_name" property="merchantName"/>
         <result column="id" property="id"/>
         <result column="create_by" property="createBy"/>

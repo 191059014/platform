@@ -1,6 +1,6 @@
 package com.hb.platform.bizweb.controller.common;
 
-import com.hb.platform.bizweb.common.Result;
+import com.hb.platform.hbbase.common.Result;
 import com.hb.platform.hbbase.model.Dropdown;
 import com.hb.platform.hbrbac.enums.ResourceType;
 import org.springframework.web.bind.annotation.GetMapping;

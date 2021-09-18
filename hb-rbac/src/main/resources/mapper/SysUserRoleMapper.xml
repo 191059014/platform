@@ -3,7 +3,7 @@
 <mapper namespace="com.hb.platform.hbrbac.mapper.ISysUserRoleMapper">
 
     <!--字段映射-->
-    <resultMap id="sysUserRoleMap" type="com.hb.platform.hbrbac.dobj.SysUserRoleDO">
+    <resultMap id="sysUserRoleMap" type="com.hb.platform.hbrbac.model.dobj.SysUserRoleDO">
         <result column="user_id" property="userId"/>
         <result column="role_id" property="roleId"/>
         <result column="id" property="id"/>

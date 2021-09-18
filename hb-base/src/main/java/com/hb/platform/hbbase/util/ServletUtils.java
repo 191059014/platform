@@ -1,11 +1,11 @@
 package com.hb.platform.hbbase.util;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.util.AntPathMatcher;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,19 +38,13 @@ public class ServletUtils {
      *
      * @param response
      *            HttpServletResponse对象
-     * @param json
-     *            json格式信息
+     * @param obj
+     *            任意对象
      */
-    public static void writeResponse(HttpServletResponse response, String json) throws IOException {
-        // 重置response
-        response.reset();
+    public static void writeJson(HttpServletResponse response, Object obj) throws IOException {
         // 设置编码格式
-        response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json;charset=UTF-8");
-        try (PrintWriter pw = response.getWriter()) {
-            pw.write(json);
-            pw.flush();
-        }
+        response.getWriter().write(new ObjectMapper().writeValueAsString(obj));
     }
 
     /**

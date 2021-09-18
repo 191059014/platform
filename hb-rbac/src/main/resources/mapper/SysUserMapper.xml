@@ -3,7 +3,7 @@
 <mapper namespace="com.hb.platform.hbrbac.mapper.ISysUserMapper">
 
     <!--字段映射-->
-    <resultMap id="sysUserMap" type="com.hb.platform.hbrbac.dobj.SysUserDO">
+    <resultMap id="sysUserMap" type="com.hb.platform.hbrbac.model.dobj.SysUserDO">
         <result column="user_name" property="userName"/>
         <result column="password" property="password"/>
         <result column="mobile" property="mobile"/>
@@ -54,6 +54,11 @@
             #{id}
         </foreach>
         <include refid="whereCondition"/>
+    </select>
+
+    <select id="findByUsernameOrMobile" resultMap="sysUserMap">
+        select * from sys_user
+        where user_name = #{usernameOrMobile} or mobile = #{usernameOrMobile}
     </select>
 
     <!--通过主键修改-->

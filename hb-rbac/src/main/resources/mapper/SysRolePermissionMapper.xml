@@ -3,7 +3,7 @@
 <mapper namespace="com.hb.platform.hbrbac.mapper.ISysRolePermissionMapper">
 
     <!--字段映射-->
-    <resultMap id="sysRolePermissionMap" type="com.hb.platform.hbrbac.dobj.SysRolePermissionDO">
+    <resultMap id="sysRolePermissionMap" type="com.hb.platform.hbrbac.model.dobj.SysRolePermissionDO">
         <result column="role_id" property="roleId"/>
         <result column="permission_id" property="permissionId"/>
         <result column="id" property="id"/>

@@ -1,7 +1,7 @@
 package com.hb.platform.hbrbac.mapper;
 
 import com.hb.platform.hbbase.model.PageCondition;
-import com.hb.platform.hbrbac.dobj.SysUserRoleDO;
+import com.hb.platform.hbrbac.model.dobj.SysUserRoleDO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

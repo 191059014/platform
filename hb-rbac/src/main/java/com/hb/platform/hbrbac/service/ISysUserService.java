@@ -1,10 +1,10 @@
 package com.hb.platform.hbrbac.service;
 
+import com.hb.platform.hbbase.model.Page;
+import com.hb.platform.hbrbac.model.dobj.SysUserDO;
+
 import java.util.List;
 import java.util.Set;
-
-import com.hb.platform.hbbase.model.Page;
-import com.hb.platform.hbrbac.dobj.SysUserDO;
 
 /**
  * 用户信息表服务层接口
@@ -64,7 +64,6 @@ public interface ISysUserService {
      */
     List<SysUserDO> selectByIdSet(Set<Long> idSet, SysUserDO sysUser);
 
-
     /**
      * 新增
      *
@@ -92,4 +91,21 @@ public interface ISysUserService {
      */
     int deleteById(Long id);
 
+    /**
+     * 通过用户名或者手机号查询用户信息
+     *
+     * @param usernameOrMobile
+     *            用户名或者手机号
+     * @return 用户信息
+     */
+    SysUserDO findByUsernameOrMobile(String usernameOrMobile);
+
+    /**
+     * 通过用户id查询用户下的权限
+     * 
+     * @param id
+     *            用户id
+     * @return 权限列表
+     */
+    Set<String> findPermissions(Long id);
 }

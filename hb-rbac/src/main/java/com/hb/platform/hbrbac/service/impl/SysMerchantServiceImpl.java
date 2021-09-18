@@ -2,7 +2,7 @@ package com.hb.platform.hbrbac.service.impl;
 
 import com.hb.platform.hbbase.model.Page;
 import com.hb.platform.hbbase.model.PageCondition;
-import com.hb.platform.hbrbac.dobj.SysMerchantDO;
+import com.hb.platform.hbrbac.model.dobj.SysMerchantDO;
 import com.hb.platform.hbrbac.mapper.ISysMerchantMapper;
 import com.hb.platform.hbrbac.service.ISysMerchantService;
 import org.slf4j.Logger;

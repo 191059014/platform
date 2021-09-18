@@ -2,9 +2,9 @@ package com.hb.platform.hbrbac.service.impl;
 
 import com.hb.platform.hbbase.model.Page;
 import com.hb.platform.hbbase.model.PageCondition;
-import com.hb.platform.hbrbac.dobj.SysPermissionDO;
-import com.hb.platform.hbrbac.dobj.SysRoleDO;
-import com.hb.platform.hbrbac.dobj.SysRolePermissionDO;
+import com.hb.platform.hbrbac.model.dobj.SysPermissionDO;
+import com.hb.platform.hbrbac.model.dobj.SysRoleDO;
+import com.hb.platform.hbrbac.model.dobj.SysRolePermissionDO;
 import com.hb.platform.hbrbac.mapper.ISysPermissionMapper;
 import com.hb.platform.hbrbac.mapper.ISysRoleMapper;
 import com.hb.platform.hbrbac.mapper.ISysRolePermissionMapper;
