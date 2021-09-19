@@ -1,69 +1,42 @@
 package com.hb.platform.hbrbac;
 
 import com.hb.platform.hbrbac.model.dobj.SysUserDO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
- * 用户上下文
+ * spring security上下文
  *
- * @version v0.1, 2021/9/4 11:22, create by huangbiao.
+ * @version v0.1, 2021/9/19 17:46, create by huangbiao.
  */
 public class RbacContext {
 
     /**
-     * 日志
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(RbacContext.class);
-
-    /**
-     * 当前用户信息
-     */
-    private static final ThreadLocal<SysUserDO> TL = new ThreadLocal<>();
-
-    /**
-     * 将当前用户信息放入上下文
+     * 获取当前用户id
      * 
-     * @param user
-     *            用户信息
+     * @return 用户id
      */
-    public static void set(SysUserDO user) {
-        TL.set(user);
-    }
-
-    /**
-     * 删除将当前用户信息
-     *
-     */
-    public static void remove() {
-        TL.remove();
-    }
-
-    /**
-     * 获取当前用户
-     *
-     * @return 用户信息
-     */
-    public static SysUserDO getCurrentUser() {
-        return TL.get();
-    }
-
-    /**
-     * 获取当前用户ID
-     *
-     * @return 用户ID
-     */
-    public static Long getCurrentUserId() {
+    public static long getCurrentUserId() {
         return getCurrentUser().getId();
     }
 
     /**
-     * 获取当前用户商户ID
-     * 
-     * @return 商户ID
+     * 获取当前用户租户ID
+     *
+     * @return 租户ID
      */
-    public static Long getCurrentTenantId() {
+    public static long getCurrentTenantId() {
         return getCurrentUser().getTenantId();
+    }
+
+    /**
+     * 获取上下文中用户信息
+     * 
+     * @return 用户信息
+     */
+    public static SysUserDO getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return (SysUserDO)authentication.getPrincipal();
     }
 
 }

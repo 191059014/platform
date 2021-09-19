@@ -349,7 +349,7 @@
       },
       queryResourceTypeList() {
         Api.getEnumCombobox('resourceType', (res) => {
-          his.resourceTypeList = res.data;
+          this.resourceTypeList = res.data;
         })
       },
       formatResourceType(row, column, cellValue, index) {

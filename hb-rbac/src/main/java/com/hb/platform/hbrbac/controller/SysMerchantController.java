@@ -10,8 +10,8 @@ import com.hb.platform.hbrbac.RbacContext;
 import com.hb.platform.hbrbac.model.dobj.SysMerchantDO;
 import com.hb.platform.hbrbac.service.ISysMerchantService;
 import com.hb.platform.hbrbac.util.RbacUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,12 +29,8 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/sysMerchant")
+@Slf4j
 public class SysMerchantController {
-
-    /**
-     * 日志
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(SysMerchantController.class);
 
     /**
      * 商户表服务层
@@ -53,6 +49,7 @@ public class SysMerchantController {
      *            每页条数
      * @return 分页结果
      */
+    @PreAuthorize("hasAuthority('merchant_manage')")
     @PostMapping("/queryPages")
     @InOutLog("分页查询商户列表")
     public Result<Page<SysMerchantDO>> queryPages(@RequestBody SysMerchantDO sysMerchant,
@@ -68,6 +65,7 @@ public class SysMerchantController {
      *            新增对象信息
      * @return 影响的行数
      */
+    @PreAuthorize("hasAuthority('merchant_manage_add')")
     @PostMapping("/save")
     @InOutLog("新增商户")
     public Result save(@RequestBody SysMerchantDO sysMerchant) {
@@ -82,6 +80,7 @@ public class SysMerchantController {
      *            要修改的信息
      * @return 影响的行数
      */
+    @PreAuthorize("hasAuthority('merchant_manage_update')")
     @PostMapping("/updateById")
     @InOutLog("修改商户")
     public Result updateById(@RequestBody SysMerchantDO sysMerchant) {
@@ -96,6 +95,7 @@ public class SysMerchantController {
      *            主键
      * @return 影响的行数
      */
+    @PreAuthorize("hasAuthority('merchant_manage_delete')")
     @GetMapping("/deleteById")
     @InOutLog("删除商户")
     public Result deleteById(@RequestParam("id") Long id) {
@@ -108,6 +108,7 @@ public class SysMerchantController {
      *
      * @return 结果
      */
+    @PreAuthorize("hasAuthority('merchant_manage')")
     @GetMapping("/getAllSubMerchants")
     @InOutLog("获取所有下级商户")
     public Result<List<SysMerchantDO>> getAllSubMerchants() {

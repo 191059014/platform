@@ -10,7 +10,7 @@ import AccessDeny from '../views/errorPage/AccessDeny.vue'
 import MerchantManage from '../views/system/merchant_manage.vue'
 import UserManage from '../views/system/user_manage.vue'
 import RoleManage from '../views/system/role_manage.vue'
-import AccessManage from '../views/system/access_manage.vue'
+import AccessManage from '../views/system/permission_manage.vue'
 import AccountSetting from '../components/AccountSetting.vue'
 import GlobalConfig from '../views/configmanage/GlobalConfig.vue'
 

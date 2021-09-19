@@ -23,9 +23,14 @@ public class TestController {
     }
 
     @GetMapping("/test3")
-    @PreAuthorize("hasAnyAuthority('test3')")
+    @PreAuthorize("hasAnyAuthority('sys_permission')")
     public String test3() {
         return "访问test3成功";
+    }
+
+    @GetMapping("/test4")
+    public String test4() {
+        return "访问test4成功";
     }
 
 }

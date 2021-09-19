@@ -3,6 +3,7 @@ package com.hb.platform.hbbase.container;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +23,14 @@ public class Tools implements InitializingBean {
     private static Environment environmentAgent;
 
     /**
-     * redis
+     * object redis
+     */
+    @Autowired
+    private RedisTemplate<String, Object> objectRedisTemplate;
+    private static RedisTemplate<String, Object> objectRedisTemplateAgent;
+
+    /**
+     * string redis
      */
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
@@ -32,6 +40,7 @@ public class Tools implements InitializingBean {
     public void afterPropertiesSet() {
         stringRedisTemplateAgent = stringRedisTemplate;
         environmentAgent = environment;
+        objectRedisTemplateAgent = objectRedisTemplate;
     }
 
     /**
@@ -44,12 +53,21 @@ public class Tools implements InitializingBean {
     }
 
     /**
-     * 获取全局配置服务
+     * redis
      *
      * @return 结果
      */
     public static StringRedisTemplate redis() {
         return stringRedisTemplateAgent;
+    }
+
+    /**
+     * redis
+     *
+     * @return 结果
+     */
+    public static RedisTemplate<String, Object> objectRedis() {
+        return objectRedisTemplateAgent;
     }
 
 }

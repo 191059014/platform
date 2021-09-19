@@ -15,10 +15,22 @@ export const getServerIpAndHost = function (path) {
 /**
  * 判断返回成功的响应码
  * @param code 响应码
- * @returns true为成功
+ * @returns 结果
  */
 export const isResponseSuccess = function (code) {
   return Consts.ResponseEnum.SUCCESS.code === code;
+};
+
+/**
+ * 判断是否应该跳转到登录页面
+ * @param code 响应码
+ * @returns 结果
+ */
+export const shouldRedirectLogin = function (code) {
+  return Consts.ResponseEnum.TOKEN_NULL.code === code
+    || Consts.ResponseEnum.TOKEN_EXPIRED.code === code
+    || Consts.ResponseEnum.TOKEN_ILLEGAL.code === code
+    || Consts.ResponseEnum.IP_CHANGE.code === code;
 };
 
 /**

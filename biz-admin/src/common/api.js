@@ -24,8 +24,8 @@ const commonHandleResponse = function (res, successCallback, failCallback) {
  * 公共
  */
 // 获取枚举下拉框
-export const getEnumCombobox = (type) => {
-  return Ajax.get(`common/dropdown/` + type).then(res => res.data);
+export const getEnumCombobox = (type, scb) => {
+  return Ajax.get(`common/dropdown/` + type).then(res => commonHandleResponse(res, scb));
 };
 
 /**
@@ -33,7 +33,7 @@ export const getEnumCombobox = (type) => {
  */
 // 登陆
 export const login = (params, scb) => {
-  return Ajax.get(`login/doLogin?username=` + params.username + '&password=' + params.password).then(res => commonHandleResponse(res, scb));
+  return Ajax.post(`doLogin?username=` + params.username + '&password=' + params.password);
 };
 /**
  * 商户管理
@@ -85,17 +85,13 @@ export const updatePassword = (params, scb) => {
 export const deleteUser = (id, scb) => {
   return Ajax.get(`sysUser/deleteById?id=` + id).then(res => commonHandleResponse(res, scb));
 };
-// 获取用户的角色集合
-export const getRolesUnderUser = (userId, scb) => {
-  return Ajax.get(`sysRole/getRolesUnderUser?userId=` + userId).then(res => commonHandleResponse(res, scb));
-};
-// 获取用户对应商户下所有角色集合
-export const getRolesUnderMerchant = (scb) => {
-  return Ajax.get(`sysRole/getRolesUnderMerchant`).then(res => commonHandleResponse(res, scb));
-};
 // 更新用户的角色
 export const updateUserRole = (userId, params, scb) => {
   return Ajax.post(`sysUser/updateUserRole?userId=` + userId, params).then(res => commonHandleResponse(res, scb));
+};
+// 获取私人的所有菜单信息
+export const getPrivateMenuDatas = (scb) => {
+  return Ajax.get(`sysUser/getPrivateMenuDatas`).then(res => commonHandleResponse(res, scb));
 };
 /**
  * 角色管理
@@ -118,7 +114,7 @@ export const deleteRole = (id, scb) => {
 };
 // 获取角色的权限集合
 export const getPermissionsUnderRole = (roleId, scb) => {
-  return Ajax.get(`sysPermission/getPermissionsUnderRole?roleId=` + roleId).then(res => commonHandleResponse(res, scb));
+  return Ajax.get(`sysRole/getPermissionsUnderRole?roleId=` + roleId).then(res => commonHandleResponse(res, scb));
 };
 // 更新角色的权限
 export const updateRolePermission = (roleId, params, scb) => {
@@ -126,15 +122,19 @@ export const updateRolePermission = (roleId, params, scb) => {
 };
 // 获取角色对应商户下所有权限集合
 export const getPermissionTreeUnderMerchant = (scb) => {
-  return Ajax.get(`sysPermission/getPermissionTreeUnderMerchant`).then(res => commonHandleResponse(res, scb));
+  return Ajax.get(`sysRole/getPermissionTreeUnderMerchant`).then(res => commonHandleResponse(res, scb));
+};
+// 获取用户的角色集合
+export const getRolesUnderUser = (userId, scb) => {
+  return Ajax.get(`sysRole/getRolesUnderUser?userId=` + userId).then(res => commonHandleResponse(res, scb));
+};
+// 获取用户对应商户下所有角色集合
+export const getRolesUnderMerchant = (scb) => {
+  return Ajax.get(`sysRole/getRolesUnderMerchant`).then(res => commonHandleResponse(res, scb));
 };
 /**
  * 权限管理
  */
-// 获取私人的所有菜单信息
-export const getPrivateMenuDatas = (scb) => {
-  return Ajax.get(`sysPermission/getPrivateMenuDatas`).then(res => commonHandleResponse(res, scb));
-};
 // 分页查询权限列表
 export const getPermissionPages = (params, pageNum, pageSize, scb) => {
   return Ajax.post(`sysPermission/queryPages?pageNum=` + pageNum + '&pageSize=' + pageSize, params).then(res => commonHandleResponse(res, scb));
@@ -152,8 +152,8 @@ export const deletePermission = (id, scb) => {
   return Ajax.get(`sysPermission?id=` + id).then(res => commonHandleResponse(res, scb));
 };
 // 通过资源类型获取当前商户下的资源
-export const getResourcesByResourceType = (resourceType, tenantId, scb) => {
-  return Ajax.get(`sysPermission/getResourcesByResourceType?resourceType=` + resourceType + '&tenantId=' + tenantId).then(res => commonHandleResponse(res, scb));
+export const getResourcesByResourceType = (resourceType, scb) => {
+  return Ajax.get(`sysPermission/getResourcesByResourceType?resourceType=` + resourceType).then(res => commonHandleResponse(res, scb));
 };
 
 

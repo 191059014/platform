@@ -26,6 +26,7 @@ public enum RbacResultCode implements IErrorCode {
     TOKEN_NULL("1015", "token为空"),
     TOKEN_ILLEGAL("1016", "token非法"),
     TOKEN_EXPIRED("1017", "token过期"),
+    IP_CHANGE("1018", "您和上次登录IP不一致，为保证安全，请重新登录"),
     ;
 
     /**

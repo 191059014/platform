@@ -1,8 +1,7 @@
 package com.hb.platform.hbbase.filter;
 
 import com.hb.platform.hbcommon.util.UuidUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 
 import javax.servlet.Filter;
@@ -19,17 +18,13 @@ import java.io.IOException;
  * @author Mr.huang
  * @since 2020/4/21 9:07
  */
+@Slf4j
 public class TraceIdMdcHttpFilter implements Filter {
 
     /**
      * traceId
      */
     private static final String TRACE_ID = "traceId";
-
-    /**
-     * 日志
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(TraceIdMdcHttpFilter.class);
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
@@ -41,7 +36,7 @@ public class TraceIdMdcHttpFilter implements Filter {
                 traceId = UuidUtils.uuidShort();
             }
             MDC.put(TRACE_ID, traceId);
-            LOGGER.debug("traceId filter, traceId={}", traceId);
+            log.debug("traceId filter, traceId={}", traceId);
             filterChain.doFilter(servletRequest, servletResponse);
         } finally {
             MDC.remove(TRACE_ID);

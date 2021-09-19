@@ -8,9 +8,9 @@ import com.hb.platform.hbrbac.config.handler.MyLoginSuccessHandler;
 import com.hb.platform.hbrbac.config.handler.MyLogoutHandler;
 import com.hb.platform.hbrbac.config.handler.MyLogoutSuccessHandler;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -42,17 +42,28 @@ public class MyWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     private UserDetailsService myUserDetailsService;
 
     /**
+     * token认证过滤器
+     */
+    @Resource
+    private TokenAuthenticationFilter tokenAuthenticationFilter;
+
+    /**
      * 配置
      */
-    @Autowired
+    @Resource
     private MySercurityConfig mySercurityConfig;
 
     /**
-     * 授权、密码加密
+     * 自定义认证管理
      */
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(myUserDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        // 防止当用户不存在时，框架抛出来的是BadCredentialsException
+        provider.setHideUserNotFoundExceptions(false);
+        provider.setUserDetailsService(myUserDetailsService);
+        provider.setPasswordEncoder(new BCryptPasswordEncoder());
+        return provider;
     }
 
     @Override
@@ -71,7 +82,7 @@ public class MyWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
             // 指定表单登陆方式
             .formLogin()
             // 指定登录处理url
-            .loginProcessingUrl("/doLogin")
+            .loginProcessingUrl(mySercurityConfig.getLoginUrl())
             // 定义登录时的用户名字段
             .usernameParameter("username")
             // 定义登录时的密码字段
@@ -104,7 +115,7 @@ public class MyWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
             .authenticationEntryPoint(new MyAuthenticationEntryPoint());
 
         // 前后端分离，使用token机制，先进行token认证
-        http.addFilterBefore(new TokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
     }
 

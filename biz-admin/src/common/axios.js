@@ -2,6 +2,7 @@ import axios from 'axios'
 import * as Alert from './alert'
 import router from '../router/index'
 import * as Consts from './consts.js'
+import * as Utils from './utils.js'
 
 /**
  * axios相关设置
@@ -40,36 +41,26 @@ function requestError(error) {
 /**
  * 响应成功
  */
-function responseSuccess(response) {
-  let code = response.data.code;
-  let msg = response.data.msg;
-  if (code === Consts.ResponseEnum.ACCESS_DENY.code) {
-    Alert.error(msg);
+function responseSuccess(res) {
+  let code = res.data.code;
+  let msg = res.data.msg;
+  if (code === Consts.ResponseEnum.ACCESS_DENIED.code) {
     router.replace({path: '/accessDeny', query: {redirect: router.currentRoute.fullPath}});
-    return false;
-  }
-  if (code === Consts.ResponseEnum.TOKEN_ERROR.code) {
-    Alert.error(msg);
+  } else if (Utils.shouldRedirectLogin(code)) {
     router.replace({path: '/', query: {redirect: router.currentRoute.fullPath}});
-    return false;
   }
-  return response;
+  return res;
 }
 
 /**
  * 响应失败
  */
 function responseError(error) {
-  let responseCode = error.response ? error.response.status : '';
-  if (responseCode >= 500) {
-    Alert.error('服务器开小猜了[' + responseCode + ']');
+  let status = error.response ? error.response.status : '';
+  if (status !== 200) {
+    Alert.error('服务器开小猜了[' + status + ']');
     return false;
   }
-  if (responseCode >= 400) {
-    Alert.error('请求失败[' + responseCode + ']');
-    return false;
-  }
-  Alert.error('未知错误[' + responseCode + ']');
   // 处理响应失败
   return Promise.reject(error);
 }

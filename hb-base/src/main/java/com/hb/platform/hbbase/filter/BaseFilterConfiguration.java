@@ -19,7 +19,15 @@ public class BaseFilterConfiguration {
      */
     @Bean
     public FilterRegistrationBean traceIdMdcHttpFilter() {
-        return FilterUtils.build(new TraceIdMdcHttpFilter(), "traceIdMdcHttpFilter", -100, "/*");
+        return FilterUtils.build(new TraceIdMdcHttpFilter(), "traceIdMdcHttpFilter", -1000, "/*");
+    }
+
+    /**
+     * 请求频率限制过滤器
+     */
+    @Bean
+    public FilterRegistrationBean requestFrequencyLimitFilter() {
+        return FilterUtils.build(new RequestFrequencyLimitFilter(), "requestFrequencyLimitFilter", -900, "/*");
     }
 
 }

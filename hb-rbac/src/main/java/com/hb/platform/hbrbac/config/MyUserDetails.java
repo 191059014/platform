@@ -1,5 +1,6 @@
 package com.hb.platform.hbrbac.config;
 
+import com.hb.platform.hbrbac.model.dobj.SysUserDO;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,23 +18,17 @@ import java.util.Set;
 public class MyUserDetails implements UserDetails {
 
     /**
-     * 用户名
+     * 用户信息
      */
-    private String username;
-
-    /**
-     * 密码
-     */
-    private String password;
+    private SysUserDO user;
 
     /**
      * 权限集合
      */
     private Set<String> authorities;
 
-    public MyUserDetails(String username, String password, Set<String> authorities) {
-        this.username = username;
-        this.password = password;
+    public MyUserDetails(SysUserDO user, Set<String> authorities) {
+        this.user = user;
         this.authorities = authorities;
     }
 
@@ -46,12 +41,12 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return this.password;
+        return this.user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return this.username;
+        return this.user.getUserName();
     }
 
     @Override
@@ -73,4 +68,13 @@ public class MyUserDetails implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public SysUserDO getUser() {
+        return user;
+    }
+
+    public void setUser(SysUserDO user) {
+        this.user = user;
+    }
+
 }

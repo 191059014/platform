@@ -47,11 +47,15 @@
     },
     methods: {
       doLogin() {
-        Api.login(this.User, (res) => {
-          Alert.success("登陆成功");
-          sessionStorage.setItem(Consts.TOKEN, res.data.token);
-          sessionStorage.setItem(Consts.LOGIN_USERNAME, res.data.username);
-          this.$router.push({path: "/workbench"});
+        Api.login(this.User).then(res => {
+          if (Consts.ResponseEnum.LOGIN_SUCCESS.code === res.data.code) {
+            Alert.success("登陆成功");
+            sessionStorage.setItem(Consts.TOKEN, res.headers.authorization);
+            sessionStorage.setItem(Consts.LOGIN_USERNAME, res.data.data);
+            this.$router.push({path: "/workbench"});
+          } else {
+            Alert.error(res.data.msg);
+          }
         });
       }
     }

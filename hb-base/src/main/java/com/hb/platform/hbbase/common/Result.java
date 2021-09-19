@@ -109,6 +109,21 @@ public class Result<T> {
     /**
      * 生成响应对象
      *
+     * @param errorCode
+     *            返回码
+     * @param data
+     *            业务数据
+     * @param <T>
+     *            数据类型
+     * @return 完整返回对象
+     */
+    public static <T> Result<T> of(IErrorCode errorCode, T data) {
+        return of(errorCode.getCode(), errorCode.getMsg(), data);
+    }
+
+    /**
+     * 生成响应对象
+     *
      * @param code
      *            返回码
      * @param msg

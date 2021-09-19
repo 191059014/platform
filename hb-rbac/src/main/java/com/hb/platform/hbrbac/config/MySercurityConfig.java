@@ -17,6 +17,11 @@ import java.util.Set;
 public class MySercurityConfig {
 
     /**
+     * 登录的url
+     */
+    private String loginUrl;
+
+    /**
      * 忽略请求
      */
     private Set<String> ignoreUrls;

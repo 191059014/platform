@@ -14,7 +14,7 @@ import javax.annotation.Resource;
 import java.util.Set;
 
 /**
- * 用户授权
+ * 登录认证
  *
  * @version v0.1, 2021/9/18 22:10, create by huangbiao.
  */
@@ -29,14 +29,14 @@ public class MyUserDetailServiceImpl implements UserDetailsService {
     private ISysUserService sysUserService;
 
     @Override
-    @InOutLog("用户授权")
+    @InOutLog("登录认证")
     public UserDetails loadUserByUsername(String usernameOrMobile) throws UsernameNotFoundException {
         SysUserDO sysUser = sysUserService.findByUsernameOrMobile(usernameOrMobile);
         if (sysUser == null) {
             throw new UsernameNotFoundException(RbacResultCode.ACCOUNT_NOT_EXIST.getMsg());
         }
         Set<String> permissions = sysUserService.findPermissions(sysUser.getId());
-        return new MyUserDetails(sysUser.getUserName(), sysUser.getPassword(), permissions);
+        return new MyUserDetails(sysUser, permissions);
     }
 
 }
