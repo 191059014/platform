@@ -18,4 +18,4 @@ INSERT INTO sys_permission (id, permission_name, resource_type, permission_value
 INSERT INTO sys_permission (id, permission_name, resource_type, permission_value, parent_id, icon, url) VALUES(17, '删除', 'button', 'permission_manage_delete', 14, '', '');
 
 # 添加超级管理员用户
-insert into sys_user (user_name, `password`, tenant_id) values ('admin', 'e10adc3949ba59abbe56e057f20f883e', 0);
+insert into sys_user (id, user_name, `password`) values (-1, 'admin', 'e10adc3949ba59abbe56e057f20f883e');

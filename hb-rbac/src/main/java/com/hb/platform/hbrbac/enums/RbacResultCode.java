@@ -16,7 +16,7 @@ public enum RbacResultCode implements IErrorCode {
     LOGOUT_SUCCESS("1005", "注销成功"),
     LOGOUT_FAIL("1006", "注销失败"),
     ACCESS_DENIED("1007", "权限不足"),
-    NOT_LOGIN("1008", "当前处于未登录状态"),
+    NOT_LOGIN("1008", "当前处于未登录状态，禁止访问"),
     ACCOUNT_EXPIRED("1009", "账号过期"),
     PASSWORD_ERROR("1010", "密码错误"),
     PASSWORD_EXPIRED("1011", "密码过期"),

@@ -84,28 +84,24 @@ public interface ISysRoleService {
     /**
      * 通过主键删除数据
      *
-     * @param id
+     * @param sysRole
      *            主键
      * @return 影响行数
      */
-    int deleteById(Long id);
+    int deleteById(SysRoleDO sysRole);
 
     /**
      * 获取某个商户下的权限id集合
      *
-     * @param tenantId
-     *            商户ID 主键
      * @return 结果
      */
-    Set<Long> getPermissionIdSetUnderRoleByTenantId(Long tenantId);
+    Set<Long> getPermissionIdSetUnderTenantRole();
 
     /**
      * 获取某个商户下的权限id集合
      *
-     * @param tenantId
-     *            商户ID 主键
      * @return 结果
      */
-    List<SysPermissionDO> getPermissionListUnderRoleByTenantId(Long tenantId);
+    List<SysPermissionDO> getPermissionListUnderTenantRole();
 
 }

@@ -93,7 +93,7 @@
     <update id="deleteById">
         update sys_permission
         set is_valid = 0
-        where id = #{id}
+        where id = #{qc.id}
     </update>
 
     <!--选择性的新增-->

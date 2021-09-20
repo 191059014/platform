@@ -150,7 +150,9 @@
     methods: {
       findPrivateMenuDatas() {
         Api.getPrivateMenuDatas((res) => {
-          this.menuDatas = res.data.menuDatas;
+          if (res.data) {
+            this.menuDatas = res.data.menuDatas;
+          }
         })
       },
       clickMenu(menu) {
@@ -241,8 +243,15 @@
       },
       handleCommand(command) {
         if (command === 'logout') {
-          sessionStorage.setItem(Consts.TOKEN, null);
-          this.$router.push({path: "/"});
+          Api.logout().then(res => {
+            if (Consts.ResponseEnum.LOGOUT_SUCCESS.code === res.data.code) {
+              Alert.success("注销成功，即将跳转到登录页面");
+              sessionStorage.removeItem(Consts.TOKEN);
+              this.$router.push({path: "/"});
+            } else {
+              Alert(res.data.msg);
+            }
+          });
         } else if (command === 'setting') {
           this.openDrawer = true;
         } else if (command === 'accountSetting') {

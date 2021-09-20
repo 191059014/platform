@@ -51,7 +51,7 @@
     <!--通过id集合查询-->
     <select id="selectByRoleIdSet" resultMap="sysRolePermissionMap">
         select * from sys_role_permission
-        where role_id in
+        where is_valid = 1 and role_id in
         <foreach collection="roleIdSet" item="roleId" open="(" separator="," close=")">
             #{roleId}
         </foreach>

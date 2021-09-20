@@ -6,10 +6,8 @@ import com.hb.platform.hbbase.common.ResultCode;
 import com.hb.platform.hbbase.model.Page;
 import com.hb.platform.hbcommon.validator.Assert;
 import com.hb.platform.hbcommon.validator.Check;
-import com.hb.platform.hbrbac.RbacContext;
 import com.hb.platform.hbrbac.model.dobj.SysMerchantDO;
 import com.hb.platform.hbrbac.service.ISysMerchantService;
-import com.hb.platform.hbrbac.util.RbacUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -100,7 +98,9 @@ public class SysMerchantController {
     @InOutLog("删除商户")
     public Result deleteById(@RequestParam("id") Long id) {
         Assert.notNull(id, ResultCode.PARAM_ILLEGAL);
-        return Result.success(sysMerchantService.deleteById(id));
+        SysMerchantDO sysMerchant = new SysMerchantDO();
+        sysMerchant.setId(id);
+        return Result.success(sysMerchantService.deleteById(sysMerchant));
     }
 
     /**
@@ -112,13 +112,7 @@ public class SysMerchantController {
     @GetMapping("/getAllSubMerchants")
     @InOutLog("获取所有下级商户")
     public Result<List<SysMerchantDO>> getAllSubMerchants() {
-        Long currentTenantId = RbacContext.getCurrentTenantId();
-        SysMerchantDO query = new SysMerchantDO();
-        if (!RbacUtils.isSuperAdmin(currentTenantId)) {
-            // 非超级管理员，只能查询用户所在的商户
-            query.setId(currentTenantId);
-        }
-        return Result.success(sysMerchantService.selectList(query));
+        return Result.success(sysMerchantService.selectList(new SysMerchantDO()));
     }
 
 }

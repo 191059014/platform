@@ -9,13 +9,11 @@ import * as Alert from './alert';
  * @param failCallback 失败的回调函数
  */
 const commonHandleResponse = function (res, successCallback, failCallback) {
-  if (isResponseSuccess(res.data.code)) {
-    successCallback && successCallback(res.data);
-  } else {
-    if (failCallback) {
-      failCallback(res.data);
+  if (res.data) {
+    if (isResponseSuccess(res.data.code)) {
+      successCallback && successCallback(res.data);
     } else {
-      Alert.error(res.data.msg);
+      failCallback && failCallback(res.data) || Alert.error(res.data.msg);
     }
   }
 };
@@ -32,8 +30,12 @@ export const getEnumCombobox = (type, scb) => {
  * 系统管理
  */
 // 登陆
-export const login = (params, scb) => {
+export const login = (params) => {
   return Ajax.post(`doLogin?username=` + params.username + '&password=' + params.password);
+};
+// 注销
+export const logout = () => {
+  return Ajax.get(`doLogout`);
 };
 /**
  * 商户管理

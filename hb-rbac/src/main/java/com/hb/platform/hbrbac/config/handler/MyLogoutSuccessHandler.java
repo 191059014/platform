@@ -23,9 +23,7 @@ public class MyLogoutSuccessHandler implements LogoutSuccessHandler {
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
         throws IOException {
-
-        log.info("登陆成功={}", authentication);
-
+        log.info("注销成功");
         ServletUtils.writeJson(response, Result.fail(RbacResultCode.LOGOUT_SUCCESS));
     }
 }

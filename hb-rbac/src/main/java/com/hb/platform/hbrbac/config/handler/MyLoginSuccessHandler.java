@@ -42,7 +42,7 @@ public class MyLoginSuccessHandler implements AuthenticationSuccessHandler {
         /*
          * 先用aes加密，再用base64加密
          */
-        String aesEncode = AES.encode(user.getId() + "_" + user.getUserName(), RbacConsts.PROJECT_NAME);
+        String aesEncode = AES.encode(user.getId().toString(), RbacConsts.PROJECT_NAME);
         String base64Encode = Base64.encode(aesEncode);
         response.setHeader("Authorization", base64Encode);
         /*
@@ -53,7 +53,7 @@ public class MyLoginSuccessHandler implements AuthenticationSuccessHandler {
         Set<String> permissionSet =
             authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
         UserCache userCache = new UserCache(ipAddress, user, permissionSet);
-        String currentUserCacheKey = RbacUtils.getCurrentUserCacheKey(user.getId(), user.getUserName());
+        String currentUserCacheKey = RbacUtils.getCurrentUserCacheKey(user.getId());
         Tools.objectRedis().opsForValue().set(currentUserCacheKey, userCache, RbacConsts.MINUTE_30,
             TimeUnit.MILLISECONDS);
         log.info("将用户放入缓存成功, key={}", currentUserCacheKey);

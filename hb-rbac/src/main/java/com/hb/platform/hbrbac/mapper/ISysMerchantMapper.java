@@ -84,10 +84,10 @@ public interface ISysMerchantMapper {
     /**
      * 通过主键删除数据
      *
-     * @param id
+     * @param sysMerchant
      *            主键
      * @return 影响行数
      */
-    int deleteById(@Param("id") Long id);
+    int deleteById(@Param("qc") SysMerchantDO sysMerchant);
 
 }

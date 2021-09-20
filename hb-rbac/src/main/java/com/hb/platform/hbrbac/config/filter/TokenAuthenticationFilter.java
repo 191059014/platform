@@ -11,6 +11,8 @@ import com.hb.platform.hbrbac.enums.RbacResultCode;
 import com.hb.platform.hbrbac.model.dto.UserCache;
 import com.hb.platform.hbrbac.util.RbacUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -45,6 +47,9 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     @Resource
     private MySercurityConfig mySercurityConfig;
 
+    @Autowired
+    private ApplicationContext applicationContext;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
         throws ServletException, IOException {
@@ -59,7 +64,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
          * 校验token
          */
         String authorization = request.getHeader("Authorization");
-        log.info("Authorization from request: {}", authorization);
+        log.info("authorization from request: {}", authorization);
         if (StringUtils.isEmpty(authorization)) {
             ServletUtils.writeJson(response, Result.fail(RbacResultCode.TOKEN_NULL));
             return;
@@ -74,15 +79,10 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         String base64Encode = authorization.replace(RbacConsts.BEARER, "");
         String base64Decode = Base64.decode(base64Encode);
         String aesDecode = AES.decode(base64Decode, RbacConsts.PROJECT_NAME);
-        String[] arr = aesDecode.split("_");
-        if (arr.length != 2) {
-            ServletUtils.writeJson(response, Result.fail(RbacResultCode.TOKEN_ILLEGAL));
-            return;
-        }
         /*
          * 从缓存中获取当前用户信息
          */
-        String currentUserCacheKey = RbacUtils.getCurrentUserCacheKey(arr[0], arr[1]);
+        String currentUserCacheKey = RbacUtils.getCurrentUserCacheKey(aesDecode);
         log.info("current user cache key: {}", currentUserCacheKey);
         Object userCacheObject = Tools.objectRedis().opsForValue().get(currentUserCacheKey);
         if (userCacheObject == null) {

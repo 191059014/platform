@@ -23,7 +23,7 @@ public class MyAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e)
         throws IOException {
-        log.info("当前处于未登录状态={}", LogUtils.getStackTrace(e));
+        log.info("当前处于未登录状态，禁止访问={}", LogUtils.getStackTrace(e));
         ServletUtils.writeJson(response, Result.fail(RbacResultCode.NOT_LOGIN));
     }
 

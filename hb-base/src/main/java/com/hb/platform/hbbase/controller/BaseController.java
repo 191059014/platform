@@ -1,14 +1,14 @@
-package com.hb.platform.bizweb.controller;
+package com.hb.platform.hbbase.controller;
 
 import com.hb.platform.hbbase.common.Result;
 import com.hb.platform.hbbase.common.ResultCode;
 import com.hb.platform.hbcommon.standard.BusinessException;
 import com.hb.platform.hbcommon.util.LogUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,13 +23,13 @@ public class BaseController {
     /**
      * 请求
      */
-    @Autowired
+    @Resource
     protected HttpServletRequest request;
 
     /**
      * 响应
      */
-    @Autowired
+    @Resource
     protected HttpServletResponse response;
 
     /**
@@ -44,7 +44,7 @@ public class BaseController {
     }
 
     /**
-     * 系统异常Exception
+     * 系统异常
      */
     @ExceptionHandler(Exception.class)
     @ResponseBody

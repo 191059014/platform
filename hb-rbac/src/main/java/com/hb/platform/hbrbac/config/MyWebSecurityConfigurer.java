@@ -19,7 +19,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 
 import javax.annotation.Resource;
 
@@ -98,7 +98,7 @@ public class MyWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
             // 开启注销设置
             .logout()
             // 指定注销处理url
-            .logoutUrl("doLogout")
+            .logoutUrl(mySercurityConfig.getLogoutUrl())
             // 注销处理器
             .addLogoutHandler(new MyLogoutHandler())
             // 注销成功处理器
@@ -115,7 +115,9 @@ public class MyWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
             .authenticationEntryPoint(new MyAuthenticationEntryPoint());
 
         // 前后端分离，使用token机制，先进行token认证
-        http.addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        // 将顺序放在注销过滤器前，保证注销的url也经过此过滤器
+        // 过滤器链的顺序见org.springframework.security.config.annotation.web.builders.FilterComparator
+        http.addFilterBefore(tokenAuthenticationFilter, LogoutFilter.class);
 
     }
 

@@ -5,7 +5,6 @@ import com.hb.platform.hbbase.common.ResultCode;
 import com.hb.platform.hbbase.container.Tools;
 import com.hb.platform.hbbase.util.ServletUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -28,13 +27,12 @@ public class RequestFrequencyLimitFilter extends OncePerRequestFilter {
         throws ServletException, IOException {
         String ipAddress = ServletUtils.getIpAddress(request);
         String key = "requestFrequencyLimit:" + ipAddress;
-        String frequency = Tools.redis().opsForValue().get(key);
-        log.debug("request frequency limit filter, ip={}, current times={}", ipAddress, frequency);
-        if (StringUtils.isEmpty(frequency)) {
-            Tools.redis().opsForValue().set(key, "0", 3, TimeUnit.SECONDS);
+        Integer frequency = Tools.intRedis().opsForValue().get(key);
+        log.debug("ip={}, rate={}", ipAddress, frequency);
+        if (frequency == null) {
+            Tools.intRedis().opsForValue().set(key, 1, 3, TimeUnit.SECONDS);
         } else {
-            int times = Integer.parseInt(frequency);
-            if (times > 10) {
+            if (frequency > 10) {
                 ServletUtils.writeJson(response, Result.fail(ResultCode.REQUEST_TOO_FREQUENTLY));
                 return;
             } else {

@@ -2,12 +2,12 @@ package com.hb.platform.hbrbac.service.impl;
 
 import com.hb.platform.hbbase.model.Page;
 import com.hb.platform.hbbase.model.PageCondition;
-import com.hb.platform.hbrbac.model.dobj.SysPermissionDO;
-import com.hb.platform.hbrbac.model.dobj.SysRoleDO;
-import com.hb.platform.hbrbac.model.dobj.SysRolePermissionDO;
 import com.hb.platform.hbrbac.mapper.ISysPermissionMapper;
 import com.hb.platform.hbrbac.mapper.ISysRoleMapper;
 import com.hb.platform.hbrbac.mapper.ISysRolePermissionMapper;
+import com.hb.platform.hbrbac.model.dobj.SysPermissionDO;
+import com.hb.platform.hbrbac.model.dobj.SysRoleDO;
+import com.hb.platform.hbrbac.model.dobj.SysRolePermissionDO;
 import com.hb.platform.hbrbac.service.ISysRoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -139,21 +139,19 @@ public class SysRoleServiceImpl implements ISysRoleService {
     /**
      * 通过主键删除数据
      *
-     * @param id
+     * @param sysRole
      *            主键
      * @return 影响行数
      */
     @Override
-    public int deleteById(Long id) {
-        return this.sysRoleMapper.deleteById(id);
+    public int deleteById(SysRoleDO sysRole) {
+        return this.sysRoleMapper.deleteById(sysRole);
     }
 
     @Override
-    public Set<Long> getPermissionIdSetUnderRoleByTenantId(Long tenantId) {
+    public Set<Long> getPermissionIdSetUnderTenantRole() {
         Set<Long> permissionIdSet = null;
-        SysRoleDO roleQuery = new SysRoleDO();
-        roleQuery.setTenantId(tenantId);
-        List<SysRoleDO> roleList = sysRoleMapper.selectList(roleQuery);
+        List<SysRoleDO> roleList = sysRoleMapper.selectList(new SysRoleDO());
         if (!CollectionUtils.isEmpty(roleList)) {
             Set<Long> roleIdSet = roleList.stream().map(SysRoleDO::getId).collect(Collectors.toSet());
             List<SysRolePermissionDO> rolePermissionList = sysRolePermissionMapper.selectByRoleIdSet(roleIdSet);
@@ -166,9 +164,9 @@ public class SysRoleServiceImpl implements ISysRoleService {
     }
 
     @Override
-    public List<SysPermissionDO> getPermissionListUnderRoleByTenantId(Long tenantId) {
+    public List<SysPermissionDO> getPermissionListUnderTenantRole() {
         List<SysPermissionDO> list = null;
-        Set<Long> permissionIdSet = getPermissionIdSetUnderRoleByTenantId(tenantId);
+        Set<Long> permissionIdSet = getPermissionIdSetUnderTenantRole();
         if (!CollectionUtils.isEmpty(permissionIdSet)) {
             list = sysPermissionMapper.selectByIdSet(permissionIdSet, new SysPermissionDO());
         }

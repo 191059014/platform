@@ -85,11 +85,11 @@ public interface ISysPermissionService {
     /**
      * 通过主键删除数据
      *
-     * @param id
+     * @param sysPermission
      *            主键
      * @return 影响行数
      */
-    int deleteById(Long id);
+    int deleteById(SysPermissionDO sysPermission);
 
     /**
      * 分页查询数据

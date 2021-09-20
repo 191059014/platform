@@ -17,7 +17,6 @@ import com.hb.platform.hbrbac.model.dto.ElementuiMenu;
 import com.hb.platform.hbrbac.model.vo.response.ElementuiMenuResponse;
 import com.hb.platform.hbrbac.service.ISysPermissionService;
 import com.hb.platform.hbrbac.service.ISysRolePermissionService;
-import com.hb.platform.hbrbac.service.ISysRoleService;
 import com.hb.platform.hbrbac.service.ISysUserRoleService;
 import com.hb.platform.hbrbac.service.ISysUserService;
 import com.hb.platform.hbrbac.util.RbacUtils;
@@ -64,12 +63,6 @@ public class SysUserController {
     private ISysUserRoleService sysUserRoleService;
 
     /**
-     * 角色信息表服务层
-     */
-    @Resource
-    private ISysRoleService sysRoleService;
-
-    /**
      * 权限信息表服务层
      */
     @Resource
@@ -97,13 +90,6 @@ public class SysUserController {
     public Result<Page<SysUserDO>> queryPages(@RequestBody SysUserDO sysUser, @RequestParam("pageNum") Integer pageNum,
         @RequestParam("pageSize") Integer pageSize) {
         Assert.ifTrueThrows(Check.incorrectPageParameter(pageNum, pageSize), ResultCode.PAGE_PARAM_ERROR);
-        Long currentTenantId = RbacContext.getCurrentTenantId();
-        if (!RbacUtils.isSuperAdmin(currentTenantId)) {
-            // 非超级管理员，只能查询当前用户对应商户下的用户
-            if (sysUser.getTenantId() == null) {
-                sysUser.setTenantId(currentTenantId);
-            }
-        }
         return Result.success(sysUserService.selectPages(sysUser, pageNum, pageSize));
     }
 
@@ -152,7 +138,10 @@ public class SysUserController {
     @PreAuthorize("hasAuthority('user_manage_delete')")
     @GetMapping("/deleteById")
     public Result deleteById(@RequestParam("id") Long id) {
-        return Result.success(sysUserService.deleteById(id));
+        Assert.notNull(id, ResultCode.PARAM_ILLEGAL);
+        SysUserDO sysUser = new SysUserDO();
+        sysUser.setId(id);
+        return Result.success(sysUserService.deleteById(sysUser));
     }
 
     /**
@@ -191,9 +180,8 @@ public class SysUserController {
     @GetMapping("/getPrivateMenuDatas")
     @InOutLog("获取用户下的菜单")
     public Result<ElementuiMenuResponse> getPrivateMenuDatas() {
-        Long currentTenantId = RbacContext.getCurrentTenantId();
         List<SysPermissionDO> permissionList = null;
-        if (RbacUtils.isSuperAdmin(currentTenantId)) {
+        if (RbacUtils.isSuperAdmin(RbacContext.getCurrentUserId())) {
             // 超级管理员
             permissionList = sysPermissionService.selectList(new SysPermissionDO());
         } else {
@@ -213,7 +201,9 @@ public class SysUserController {
                 }
             }
         }
-        Assert.notEmpty(permissionList, ResultCode.NO_DATA);
+        if (CollectionUtils.isEmpty(permissionList)) {
+            return Result.success();
+        }
         Predicate<SysPermissionDO> predicate = p -> !ResourceType.BUTTON.getValue().equals(p.getResourceType());
         permissionList = permissionList.stream().filter(predicate).collect(Collectors.toList());
         permissionList.sort(Comparator.comparing(AbstractBaseDO::getCreateTime));

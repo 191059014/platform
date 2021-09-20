@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.Set;
 
 /**
@@ -15,7 +16,12 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserCache {
+public class UserCache implements Serializable {
+
+    /**
+     * 最后一次登录的ip
+     */
+    private static final long serialVersionUID = 7327911488607898148L;
 
     /**
      * 最后一次登录的ip

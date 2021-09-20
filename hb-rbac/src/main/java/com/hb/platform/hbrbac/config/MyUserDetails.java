@@ -4,9 +4,11 @@ import com.hb.platform.hbrbac.model.dobj.SysUserDO;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -35,7 +37,11 @@ public class MyUserDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> list = new ArrayList<>();
-        authorities.forEach(permission -> list.add(new SimpleGrantedAuthority(permission)));
+        if (CollectionUtils.isEmpty(authorities)) {
+            authorities = new HashSet<>();
+        } else {
+            authorities.forEach(permission -> list.add(new SimpleGrantedAuthority(permission)));
+        }
         return list;
     }
 

@@ -130,13 +130,13 @@ public class SysMerchantServiceImpl implements ISysMerchantService {
     /**
      * 通过主键删除数据
      *
-     * @param id
+     * @param sysMerchant
      *            主键
      * @return 影响行数
      */
     @Override
-    public int deleteById(Long id) {
-        return this.sysMerchantMapper.deleteById(id);
+    public int deleteById(SysMerchantDO sysMerchant) {
+        return this.sysMerchantMapper.deleteById(sysMerchant);
     }
 
 }

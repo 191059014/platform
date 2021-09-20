@@ -12,6 +12,7 @@ import com.hb.platform.hbrbac.service.ISysRolePermissionService;
 import com.hb.platform.hbrbac.service.ISysRoleService;
 import com.hb.platform.hbrbac.service.ISysUserRoleService;
 import com.hb.platform.hbrbac.service.ISysUserService;
+import com.hb.platform.hbrbac.util.RbacUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -161,13 +162,13 @@ public class SysUserServiceImpl implements ISysUserService {
     /**
      * 通过主键删除数据
      *
-     * @param id
+     * @param sysUser
      *            主键
      * @return 影响行数
      */
     @Override
-    public int deleteById(Long id) {
-        return this.sysUserMapper.deleteById(id);
+    public int deleteById(SysUserDO sysUser) {
+        return this.sysUserMapper.deleteById(sysUser);
     }
 
     @Override
@@ -177,7 +178,7 @@ public class SysUserServiceImpl implements ISysUserService {
 
     @Override
     public Set<String> findPermissions(Long id) {
-        if (id == 1L) {
+        if (RbacUtils.isSuperAdmin(id)) {
             // 超级管理员
             List<SysPermissionDO> permissionList = sysPermissionService.selectList(new SysPermissionDO());
             return permissionList.stream().map(SysPermissionDO::getPermissionValue).collect(Collectors.toSet());

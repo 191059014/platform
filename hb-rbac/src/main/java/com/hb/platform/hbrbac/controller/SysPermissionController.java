@@ -6,13 +6,10 @@ import com.hb.platform.hbbase.common.ResultCode;
 import com.hb.platform.hbbase.model.Page;
 import com.hb.platform.hbcommon.validator.Assert;
 import com.hb.platform.hbcommon.validator.Check;
-import com.hb.platform.hbrbac.RbacContext;
-import com.hb.platform.hbrbac.enums.RbacResultCode;
 import com.hb.platform.hbrbac.model.dobj.SysPermissionDO;
 import com.hb.platform.hbrbac.model.vo.request.PermissionQueryRequest;
 import com.hb.platform.hbrbac.service.ISysPermissionService;
 import com.hb.platform.hbrbac.service.ISysRoleService;
-import com.hb.platform.hbrbac.util.RbacUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
@@ -72,7 +69,7 @@ public class SysPermissionController {
             return Result.success(sysPermissionService.selectPages(query, pageNum, pageSize));
         }
         // 查询商户下所有角色对应的权限
-        Set<Long> permissionIdSet = sysRoleService.getPermissionIdSetUnderRoleByTenantId(request.getTenantId());
+        Set<Long> permissionIdSet = sysRoleService.getPermissionIdSetUnderTenantRole();
         if (CollectionUtils.isEmpty(permissionIdSet)) {
             return Result.success();
         }
@@ -90,10 +87,6 @@ public class SysPermissionController {
     @PostMapping("/save")
     @InOutLog("新增权限")
     public Result save(@RequestBody SysPermissionDO sysPermission) {
-        Long currentTenantId = RbacContext.getCurrentTenantId();
-        if (!RbacUtils.isSuperAdmin(currentTenantId)) {
-            return Result.fail(RbacResultCode.ACCESS_DENIED);
-        }
         Assert.hasText(sysPermission.getPermissionName(), ResultCode.PARAM_ILLEGAL);
         Assert.hasText(sysPermission.getPermissionValue(), ResultCode.PARAM_ILLEGAL);
         Assert.hasText(sysPermission.getResourceType(), ResultCode.PARAM_ILLEGAL);
@@ -111,10 +104,6 @@ public class SysPermissionController {
     @InOutLog("通过主键修改权限")
     @PostMapping("/updateById")
     public Result updateById(@RequestBody SysPermissionDO sysPermission) {
-        Long currentTenantId = RbacContext.getCurrentTenantId();
-        if (!RbacUtils.isSuperAdmin(currentTenantId)) {
-            return Result.fail(RbacResultCode.ACCESS_DENIED);
-        }
         Assert.notNull(sysPermission.getId(), ResultCode.PARAM_ILLEGAL);
         return Result.success(sysPermissionService.updateById(sysPermission));
     }
@@ -130,12 +119,10 @@ public class SysPermissionController {
     @InOutLog("通过主键删除权限")
     @GetMapping("/deleteById")
     public Result deleteById(@RequestParam("id") Long id) {
-        Long currentTenantId = RbacContext.getCurrentTenantId();
-        if (!RbacUtils.isSuperAdmin(currentTenantId)) {
-            return Result.fail(RbacResultCode.ACCESS_DENIED);
-        }
         Assert.notNull(id, ResultCode.PARAM_ILLEGAL);
-        return Result.success(sysPermissionService.deleteById(id));
+        SysPermissionDO sysPermission = new SysPermissionDO();
+        sysPermission.setId(id);
+        return Result.success(sysPermissionService.deleteById(sysPermission));
     }
 
     /**

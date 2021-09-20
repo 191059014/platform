@@ -22,6 +22,11 @@ public class MySercurityConfig {
     private String loginUrl;
 
     /**
+     * 注销的url
+     */
+    private String logoutUrl;
+
+    /**
      * 忽略请求
      */
     private Set<String> ignoreUrls;

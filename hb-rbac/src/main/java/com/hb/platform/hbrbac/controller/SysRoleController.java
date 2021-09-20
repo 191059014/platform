@@ -6,7 +6,6 @@ import com.hb.platform.hbbase.common.ResultCode;
 import com.hb.platform.hbbase.model.Page;
 import com.hb.platform.hbcommon.validator.Assert;
 import com.hb.platform.hbcommon.validator.Check;
-import com.hb.platform.hbrbac.RbacContext;
 import com.hb.platform.hbrbac.model.dobj.SysPermissionDO;
 import com.hb.platform.hbrbac.model.dobj.SysRoleDO;
 import com.hb.platform.hbrbac.model.dobj.SysRolePermissionDO;
@@ -17,7 +16,6 @@ import com.hb.platform.hbrbac.service.ISysPermissionService;
 import com.hb.platform.hbrbac.service.ISysRolePermissionService;
 import com.hb.platform.hbrbac.service.ISysRoleService;
 import com.hb.platform.hbrbac.service.ISysUserRoleService;
-import com.hb.platform.hbrbac.util.RbacUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Propagation;
@@ -86,13 +84,6 @@ public class SysRoleController {
     public Result<Page<SysRoleDO>> queryPages(@RequestBody SysRoleDO sysRole, @RequestParam("pageNum") Integer pageNum,
         @RequestParam("pageSize") Integer pageSize) {
         Assert.ifTrueThrows(Check.incorrectPageParameter(pageNum, pageSize), ResultCode.PAGE_PARAM_ERROR);
-        Long currentTenantId = RbacContext.getCurrentTenantId();
-        if (!RbacUtils.isSuperAdmin(currentTenantId)) {
-            // 非超级管理员，只能查询当前用户对应商户下的角色
-            if (sysRole.getTenantId() == null) {
-                sysRole.setTenantId(currentTenantId);
-            }
-        }
         return Result.success(sysRoleService.selectPages(sysRole, pageNum, pageSize));
     }
 
@@ -135,7 +126,9 @@ public class SysRoleController {
     @GetMapping("/deleteById")
     public Result deleteById(@RequestParam("id") Long id) {
         Assert.notNull(id, ResultCode.PARAM_ILLEGAL);
-        return Result.success(sysRoleService.deleteById(id));
+        SysRoleDO sysRole = new SysRoleDO();
+        sysRole.setId(id);
+        return Result.success(sysRoleService.deleteById(sysRole));
     }
 
     /**
@@ -147,12 +140,7 @@ public class SysRoleController {
     @GetMapping("/getRolesUnderMerchant")
     @InOutLog("获取当前用户对应商户下的所有角色")
     public Result<List<SysRoleDO>> getRolesUnderMerchant() {
-        Long currentTenantId = RbacContext.getCurrentTenantId();
-        SysRoleDO query = new SysRoleDO();
-        if (!RbacUtils.isSuperAdmin(currentTenantId)) {
-            query.setTenantId(currentTenantId);
-        }
-        return Result.success(sysRoleService.selectList(query));
+        return Result.success(sysRoleService.selectList(new SysRoleDO()));
     }
 
     /**
@@ -240,14 +228,8 @@ public class SysRoleController {
     @GetMapping("/getPermissionTreeUnderMerchant")
     @InOutLog("获取当前用户对应商户下的所有角色的所有权限")
     public Result<ElementuiTreeResponse> getPermissionTreeUnderMerchant() {
-        Long currentTenantId = RbacContext.getCurrentTenantId();
-        List<SysPermissionDO> permissionList = null;
-        if (RbacUtils.isSuperAdmin(currentTenantId)) {
-            permissionList = sysPermissionService.selectList(new SysPermissionDO());
-        } else {
-            // 查询当前商户下的所有角色对应的权限
-            permissionList = sysRoleService.getPermissionListUnderRoleByTenantId(currentTenantId);
-        }
+        // 查询当前商户下的所有角色对应的权限
+        List<SysPermissionDO> permissionList = sysRoleService.getPermissionListUnderTenantRole();
         Assert.notEmpty(permissionList, ResultCode.NO_DATA);
         List<SysPermissionDO> topList =
             permissionList.stream().filter(access -> access.getParentId() == null).collect(Collectors.toList());

@@ -84,11 +84,11 @@ public interface ISysUserMapper {
     /**
      * 通过主键删除数据
      *
-     * @param id
+     * @param sysUser
      *            主键
      * @return 影响行数
      */
-    int deleteById(@Param("id") Long id);
+    int deleteById(@Param("qc") SysUserDO sysUser);
 
     /**
      * 通过用户名或者手机号查询用户信息

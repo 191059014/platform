@@ -12,12 +12,12 @@ public class RbacUtils {
     /**
      * 判断是否是超级管理员
      * 
-     * @param tenantId
-     *            商户ID
+     * @param userId
+     *            用户ID
      * @return 结果
      */
-    public static boolean isSuperAdmin(long tenantId) {
-        return 0L == tenantId;
+    public static boolean isSuperAdmin(long userId) {
+        return -1L == userId;
     }
 
     /**
@@ -25,13 +25,11 @@ public class RbacUtils {
      * 
      * @param userId
      *            用户id
-     * @param username
-     *            用户名
      * @return 缓存key
      */
-    public static String getCurrentUserCacheKey(Object userId, String username) {
-        return new StringBuilder().append(RbacConsts.PROJECT_NAME).append(":").append("currentUser").append(":")
-            .append(userId).append("_").append(username).toString();
+    public static String getCurrentUserCacheKey(Object userId) {
+        return new StringBuilder().append(RbacConsts.PROJECT_NAME).append(":").append("loginUser").append(":")
+            .append(userId).toString();
     }
 
 }

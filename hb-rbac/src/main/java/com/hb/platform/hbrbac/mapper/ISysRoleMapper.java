@@ -82,10 +82,10 @@ public interface ISysRoleMapper {
     /**
      * 通过主键删除数据
      *
-     * @param id
+     * @param sysRole
      *            主键
      * @return 影响行数
      */
-    int deleteById(@Param("id") Long id);
+    int deleteById(@Param("qc") SysRoleDO sysRole);
 
 }

@@ -125,13 +125,13 @@ public class SysPermissionServiceImpl implements ISysPermissionService {
     /**
      * 通过主键删除数据
      *
-     * @param id
+     * @param sysPermission
      *            主键
      * @return 影响行数
      */
     @Override
-    public int deleteById(Long id) {
-        return this.sysPermissionMapper.deleteById(id);
+    public int deleteById(SysPermissionDO sysPermission) {
+        return this.sysPermissionMapper.deleteById(sysPermission);
     }
 
     @Override

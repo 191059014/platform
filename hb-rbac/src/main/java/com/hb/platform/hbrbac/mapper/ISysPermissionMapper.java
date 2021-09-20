@@ -84,11 +84,11 @@ public interface ISysPermissionMapper {
     /**
      * 通过主键删除数据
      *
-     * @param id
+     * @param sysPermission
      *            主键
      * @return 影响行数
      */
-    int deleteById(@Param("id") Long id);
+    int deleteById(@Param("qc") SysPermissionDO sysPermission);
 
     /**
      * 通过id集合查询总条数
