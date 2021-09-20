@@ -33,9 +33,9 @@
       <el-table-column prop="icon" label="图标" min-width="100" sortable></el-table-column>
       <el-table-column prop="url" label="链接" min-width="100" sortable></el-table-column>
       <el-table-column prop="createTime" label="创建时间" min-width="100" sortable></el-table-column>
-      <el-table-column prop="creator" label="创建人" min-width="100" sortable></el-table-column>
+      <el-table-column prop="createBy" label="创建人" min-width="100" sortable></el-table-column>
       <el-table-column prop="updateTime" label="更新时间" min-width="100" sortable></el-table-column>
-      <el-table-column prop="updator" label="更新人" min-width="100" sortable></el-table-column>
+      <el-table-column prop="updateBy" label="更新人" min-width="100" sortable></el-table-column>
       <el-table-column label="操作" min-width="120">
         <template slot-scope="scope">
           <el-button size="mini" @click="showDialogOfUpdate(scope.$index, scope.row)">编辑</el-button>
@@ -53,19 +53,13 @@
     </el-row>
     <el-dialog title="新增权限" :visible.sync="showAddDialog">
       <el-form :model="permissionModelAdd" label-position="right" label-width="80px">
-        <el-form-item label="指定商户" required>
-          <el-select v-model="permissionModelAdd.tenantId" placeholder="请指定商户">
-            <el-option v-for="item in subMerchantList" :key="item.id" :label="item.merchantName" :value="item.id">
-            </el-option>
-          </el-select>
-        </el-form-item>
         <el-form-item label="资源类型" required>
-          <el-radio-group v-model="permissionModelAdd.resourceType">
+          <el-radio-group v-model="permissionModelAdd.resourceType" @change="resourceTypeChange">
             <el-radio v-for="item in resourceTypeList" :label="item.value" :key="item.value">{{item.name}}</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="上级菜单" v-show="permissionModelAdd.resourceType">
-          <el-select v-model="permissionModelAdd.parentId" placeholder="请选择上级目录" @visible-change="onParentMenuVisible">
+          <el-select v-model="permissionModelAdd.parentId" placeholder="请选择上级目录">
             <el-option label="无" value=""></el-option>
             <el-option
               v-for="item in parentMenuList" :key="item.id" :label="item.permissionName" :value="item.id">
@@ -94,20 +88,13 @@
 
     <el-dialog title="修改权限" :visible.sync="showUpdateDialog">
       <el-form :model="permissionModelUpdate" label-position="right" label-width="80px">
-        <el-form-item label="属于商户" required>
-          <el-select v-model="permissionModelUpdate.tenantId" placeholder="请指定商户" disabled>
-            <el-option
-              v-for="item in subMerchantList" :key="item.id" :label="item.merchantName" :value="item.id">
-            </el-option>
-          </el-select>
-        </el-form-item>
         <el-form-item label="资源类型" required>
-          <el-radio-group v-model="permissionModelUpdate.resourceType" disabled>
+          <el-radio-group v-model="permissionModelUpdate.resourceType" @change="resourceTypeChange">
             <el-radio v-for="item in resourceTypeList" :label="item.value" :key="item.value">{{item.name}}</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="上级菜单" v-show="permissionModelUpdate.resourceType">
-          <el-select v-model="permissionModelUpdate.parentId" placeholder="无" disabled>
+          <el-select v-model="permissionModelUpdate.parentId" placeholder="无">
             <el-option label="无" value=""></el-option>
             <el-option
               v-for="item in parentMenuList" :key="item.id" :label="item.permissionName" :value="item.id">
@@ -164,7 +151,6 @@
           permissionValue: '',
           icon: '',
           url: '',
-          tenantId: ''
         },
         showUpdateDialog: false,
         permissionModelUpdate: {
@@ -175,7 +161,6 @@
           permissionValue: '',
           icon: '',
           url: '',
-          tenantId: ''
         },
         permissionModelUpdatePrimary: {
           permissionName: '',
@@ -234,24 +219,20 @@
 
         this.showUpdateDialog = true;
 
-        this.fillParentMenuList(row.resourceType);
+        this.resourceTypeChange(row.resourceType);
       },
       hideDialogOfUpdate() {
         this.showUpdateDialog = false;
         this.permissionModelUpdate = {};
       },
       handleAdd() {
-        if (!this.permissionModelAdd.tenantId) {
-          Alert.warn("请指定商户");
-          return false;
-        }
         if (!this.permissionModelAdd.resourceType) {
           Alert.warn("资源类型不能为空");
           return false;
         }
         if (this.permissionModelAdd.resourceType === 'page') {
           if (!this.permissionModelAdd.parentId) {
-            Alert.warn("上级目录不能为空");
+            Alert.warn("上级菜单不能为空");
             return false;
           }
           if (!this.permissionModelAdd.url) {
@@ -261,7 +242,7 @@
         }
         if (this.permissionModelAdd.resourceType === 'button') {
           if (!this.permissionModelAdd.parentId) {
-            Alert.warn("所属页面不能为空");
+            Alert.warn("上级菜单不能为空");
             return false;
           }
         }
@@ -274,12 +255,32 @@
           return false;
         }
         Api.addPermission(this.permissionModelAdd).then(res => {
-          Alert.success(res.msg);
+          Alert.success(res.data.msg);
           this.showAddDialog = false;
           this.queryPages();
         })
       },
       handleEdit() {
+        if (!this.permissionModelUpdate.resourceType) {
+          Alert.warn("资源类型不能为空");
+          return false;
+        }
+        if (this.permissionModelUpdate.resourceType === 'page') {
+          if (!this.permissionModelAdd.parentId) {
+            Alert.warn("上级菜单不能为空");
+            return false;
+          }
+          if (!this.permissionModelUpdate.url) {
+            Alert.warn("链接不能为空");
+            return false;
+          }
+        }
+        if (this.permissionModelUpdate.resourceType === 'button') {
+          if (!this.permissionModelUpdate.parentId) {
+            Alert.warn("上级菜单不能为空");
+            return false;
+          }
+        }
         if (!this.permissionModelUpdate.permissionName) {
           Alert.warn("用户名称不能为空");
           return false;
@@ -288,7 +289,9 @@
           Alert.warn("权限值不能为空");
           return false;
         }
-        if (this.permissionModelUpdatePrimary.permissionName === this.permissionModelUpdate.permissionName
+        if (this.permissionModelUpdatePrimary.resourceType === this.permissionModelUpdate.resourceType
+          && this.permissionModelUpdatePrimary.parentId === this.permissionModelUpdate.parentId
+          && this.permissionModelUpdatePrimary.permissionName === this.permissionModelUpdate.permissionName
           && this.permissionModelUpdatePrimary.permissionValue === this.permissionModelUpdate.permissionValue
           && this.permissionModelUpdatePrimary.icon === this.permissionModelUpdate.icon
           && this.permissionModelUpdatePrimary.url === this.permissionModelUpdate.url) {
@@ -297,13 +300,15 @@
         }
         let updateParams = {
           id: this.permissionModelUpdate.id,
+          resourceType: this.permissionModelUpdate.resourceType,
+          parentId: this.permissionModelUpdate.parentId,
           permissionName: this.permissionModelUpdate.permissionName,
           permissionValue: this.permissionModelUpdate.permissionValue,
           url: this.permissionModelUpdate.url,
           icon: this.permissionModelUpdate.icon
         };
         Api.updatePermission(updateParams, (res) => {
-          Alert.success(res.msg);
+          Alert.success(res.data.msg);
           this.showUpdateDialog = false;
           this.queryPages();
         })
@@ -323,20 +328,7 @@
           this.subMerchantList = res.data;
         })
       },
-      onParentMenuVisible(expand) {
-        if (expand) {
-          if (!this.permissionModelAdd.tenantId) {
-            Alert.warn("请先选择商户");
-            return false;
-          }
-          if (!this.permissionModelAdd.resourceType) {
-            Alert.warn("请先选择资源类型");
-            return false;
-          }
-          this.fillParentMenuList(this.permissionModelAdd.resourceType)
-        }
-      },
-      fillParentMenuList(resourceType) {
+      resourceTypeChange(resourceType) {
         if ("folder" === resourceType || "page" === resourceType) {
           Api.getResourcesByResourceType('folder', (res) => {
             this.parentMenuList = res.data;

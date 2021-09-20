@@ -69,7 +69,7 @@ public class SysPermissionController {
             return Result.success(sysPermissionService.selectPages(query, pageNum, pageSize));
         }
         // 查询商户下所有角色对应的权限
-        Set<Long> permissionIdSet = sysRoleService.getPermissionIdSetUnderTenantRole();
+        Set<Long> permissionIdSet = sysRoleService.getPermissionIdSetUnderTenantRole(request.getTenantId());
         if (CollectionUtils.isEmpty(permissionIdSet)) {
             return Result.success();
         }

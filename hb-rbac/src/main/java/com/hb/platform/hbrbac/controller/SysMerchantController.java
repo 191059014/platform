@@ -6,8 +6,10 @@ import com.hb.platform.hbbase.common.ResultCode;
 import com.hb.platform.hbbase.model.Page;
 import com.hb.platform.hbcommon.validator.Assert;
 import com.hb.platform.hbcommon.validator.Check;
+import com.hb.platform.hbrbac.RbacContext;
 import com.hb.platform.hbrbac.model.dobj.SysMerchantDO;
 import com.hb.platform.hbrbac.service.ISysMerchantService;
+import com.hb.platform.hbrbac.util.RbacUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -108,11 +110,21 @@ public class SysMerchantController {
      *
      * @return 结果
      */
-    @PreAuthorize("hasAuthority('merchant_manage')")
+    @PreAuthorize("hasAnyAuthority('user_manage', 'user_manage', 'merchant_manage')")
     @GetMapping("/getAllSubMerchants")
     @InOutLog("获取所有下级商户")
     public Result<List<SysMerchantDO>> getAllSubMerchants() {
-        return Result.success(sysMerchantService.selectList(new SysMerchantDO()));
+        List<SysMerchantDO> merchantList = null;
+        if (RbacUtils.isSuperAdmin(RbacContext.getCurrentUserId())) {
+            // 超级管理员，查询所有商户
+            merchantList = sysMerchantService.selectList(new SysMerchantDO());
+        } else {
+            // 非超级管理员，查询当前用户对应的商户
+            SysMerchantDO query = new SysMerchantDO();
+            query.setId(RbacContext.getCurrentTenantId());
+            merchantList = sysMerchantService.selectList(query);
+        }
+        return Result.success(merchantList);
     }
 
 }

@@ -123,8 +123,8 @@ export const updateRolePermission = (roleId, params, scb) => {
   return Ajax.post(`sysRole/updateRolePermission?roleId=` + roleId, params).then(res => commonHandleResponse(res, scb));
 };
 // 获取角色对应商户下所有权限集合
-export const getPermissionTreeUnderMerchant = (scb) => {
-  return Ajax.get(`sysRole/getPermissionTreeUnderMerchant`).then(res => commonHandleResponse(res, scb));
+export const getPermissionTreeUnderMerchant = (tenantId, scb) => {
+  return Ajax.get(`sysRole/getPermissionTreeUnderMerchant?tenantId=` + tenantId).then(res => commonHandleResponse(res, scb));
 };
 // 获取用户的角色集合
 export const getRolesUnderUser = (userId, scb) => {

@@ -1,30 +1,34 @@
 <template>
-  <div class="login_wapper">
-    <el-form
-      :model="User"
-      ref="User"
-      label-position="left"
-      label-width="0px"
-      class="login-container"
-    >
-      <h3 class="title">系统登录</h3>
-      <el-form-item prop="usernameOrMobile">
-        <el-input type="text" v-model="User.username" auto-complete="off" placeholder="用户名或手机号"></el-input>
-      </el-form-item>
-      <el-form-item prop="password">
-        <el-input type="password" v-model="User.password" auto-complete="off" placeholder="密码"
-                  show-password></el-input>
-      </el-form-item>
-      <el-form-item style="width:100%;padding-top:20px;">
-        <el-button
-          type="primary"
-          style="width:100%;"
-          @click="doLogin"
-          :loading="logining"
-        >登录
-        </el-button>
-      </el-form-item>
-    </el-form>
+  <div class="login_body">
+    <div class="login-container">
+      <el-form
+        :model="User"
+        ref="User"
+        label-position="left"
+        label-width="0px"
+      >
+        <h3 class="title">系统登录</h3>
+        <el-form-item prop="usernameOrMobile">
+          <el-input type="text" v-model="User.username" auto-complete="off" placeholder="用户名或手机号"></el-input>
+        </el-form-item>
+        <el-form-item prop="password">
+          <el-input type="password" v-model="User.password" auto-complete="off" placeholder="密码"
+                    show-password></el-input>
+        </el-form-item>
+        <el-form-item style="width:100%;padding-top:20px;">
+          <el-button
+            type="primary"
+            style="width:100%;"
+            @click="doLogin"
+            element-loading-text="登录中"
+            element-loading-spinner="el-icon-loading"
+            element-loading-background="rgba(0, 0, 0, 0.6)"
+            v-loading.fullscreen.lock="doLoginLoading"
+          >登录
+          </el-button>
+        </el-form-item>
+      </el-form>
+    </div>
   </div>
 </template>
 
@@ -37,7 +41,7 @@
   export default {
     data() {
       return {
-        logining: false,
+        doLoginLoading: false,
         User: {
           username: "admin",
           password: "123456"
@@ -47,6 +51,7 @@
     },
     methods: {
       doLogin() {
+        this.doLoginLoading = true;
         Api.login(this.User).then(res => {
           if (Consts.ResponseEnum.LOGIN_SUCCESS.code === res.data.code) {
             Alert.success("登陆成功");
@@ -56,6 +61,7 @@
           } else {
             Alert.error(res.data.msg);
           }
+          this.doLoginLoading = false;
         });
       }
     }
@@ -65,17 +71,25 @@
 
 <style scoped>
 
-  body {
-    background: url("../../static/image/login_bg.jpg") no-repeat 0 0 !important;
+  .login_body {
+    background-image: url("../../static/image/login_bg.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    height: 100%;
   }
 
   .login-container {
-    /*box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0 rgba(0, 0, 0, 0.02);*/
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .el-form {
     -webkit-border-radius: 5px;
     border-radius: 5px;
     -moz-border-radius: 5px;
     background-clip: padding-box;
-    margin: 180px auto;
     width: 350px;
     padding: 35px 35px 25px 35px;
     background: #fff;

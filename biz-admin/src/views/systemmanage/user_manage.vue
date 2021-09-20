@@ -25,9 +25,9 @@
       <el-table-column prop="userName" label="用户名" min-width="100" sortable></el-table-column>
       <el-table-column prop="mobile" label="手机号" min-width="100" sortable></el-table-column>
       <el-table-column prop="createTime" label="创建时间" min-width="100" sortable></el-table-column>
-      <el-table-column prop="creator" label="创建人" min-width="100" sortable></el-table-column>
+      <el-table-column prop="createBy" label="创建人" min-width="100" sortable></el-table-column>
       <el-table-column prop="updateTime" label="更新时间" min-width="100" sortable></el-table-column>
-      <el-table-column prop="updator" label="更新人" min-width="100" sortable></el-table-column>
+      <el-table-column prop="updateBy" label="更新人" min-width="100" sortable></el-table-column>
       <el-table-column label="操作" min-width="120">
         <template slot-scope="scope">
           <el-button size="mini" @click="showDialogOfUpdate(scope.$index, scope.row)">编辑</el-button>
@@ -363,6 +363,10 @@
     mounted() {
       this.queryPages();
       this.getAllSubMerchants();
+      console.info("user");
+    },
+    beforeDestroy(){
+      console.info("user destory");
     }
   }
 </script>

@@ -15,9 +15,9 @@
       <el-table-column type="index" label="序号" min-width="100"></el-table-column>
       <el-table-column prop="merchantName" label="商户名" min-width="100" sortable></el-table-column>
       <el-table-column prop="createTime" label="创建时间" min-width="100" sortable></el-table-column>
-      <el-table-column prop="creator" label="创建人" min-width="100" sortable></el-table-column>
+      <el-table-column prop="createBy" label="创建人" min-width="100" sortable></el-table-column>
       <el-table-column prop="updateTime" label="更新时间" min-width="100" sortable></el-table-column>
-      <el-table-column prop="updator" label="更新人" min-width="100" sortable></el-table-column>
+      <el-table-column prop="updateBy" label="更新人" min-width="100" sortable></el-table-column>
       <el-table-column label="操作" min-width="100">
         <template slot-scope="scope">
           <el-button size="mini" @click="showDialogOfUpdate(scope.$index, scope.row)">编辑</el-button>

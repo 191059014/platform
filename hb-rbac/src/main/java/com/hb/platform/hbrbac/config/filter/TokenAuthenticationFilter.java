@@ -11,8 +11,6 @@ import com.hb.platform.hbrbac.enums.RbacResultCode;
 import com.hb.platform.hbrbac.model.dto.UserCache;
 import com.hb.platform.hbrbac.util.RbacUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -46,9 +44,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
      */
     @Resource
     private MySercurityConfig mySercurityConfig;
-
-    @Autowired
-    private ApplicationContext applicationContext;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)

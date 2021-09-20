@@ -1,3 +1,10 @@
+delete from sys_user where 1=1;
+delete from sys_role where 1=1;
+delete from sys_permission where 1=1;
+delete from sys_user_role where 1=1;
+delete from sys_role_permission where 1=1;
+delete from sys_merchant where 1=1;
+
 # 初始化系统管理菜单
 INSERT INTO sys_permission (id, permission_name, resource_type, permission_value, parent_id, icon, url) VALUES(1, '系统管理', 'folder', 'system_manage', NULL, 'el-icon-setting', '');
 INSERT INTO sys_permission (id, permission_name, resource_type, permission_value, parent_id, icon, url) VALUES(2, '商户管理', 'page', 'merchant_manage', 1, 'el-icon-coin', '/merchantManage');
@@ -18,4 +25,4 @@ INSERT INTO sys_permission (id, permission_name, resource_type, permission_value
 INSERT INTO sys_permission (id, permission_name, resource_type, permission_value, parent_id, icon, url) VALUES(17, '删除', 'button', 'permission_manage_delete', 14, '', '');
 
 # 添加超级管理员用户
-insert into sys_user (id, user_name, `password`) values (-1, 'admin', 'e10adc3949ba59abbe56e057f20f883e');
+insert into sys_user (id, user_name, `password`, tenant_id) values (-1, 'admin', '$2a$10$ZBUTqDDGBstucLaA2IoVPe4ggYy3nFHOihhVdnT48eixT25LnZwca', -1);

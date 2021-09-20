@@ -24,7 +24,7 @@
 
 <script>
   export default {
-    name: "DefaultContent",
+    name: "HomePage",
     data() {
       return {
         timelineList: [

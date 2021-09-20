@@ -149,9 +149,11 @@ public class SysRoleServiceImpl implements ISysRoleService {
     }
 
     @Override
-    public Set<Long> getPermissionIdSetUnderTenantRole() {
+    public Set<Long> getPermissionIdSetUnderTenantRole(Long tenantId) {
         Set<Long> permissionIdSet = null;
-        List<SysRoleDO> roleList = sysRoleMapper.selectList(new SysRoleDO());
+        SysRoleDO roleQuery = new SysRoleDO();
+        roleQuery.setTenantId(tenantId);
+        List<SysRoleDO> roleList = sysRoleMapper.selectList(roleQuery);
         if (!CollectionUtils.isEmpty(roleList)) {
             Set<Long> roleIdSet = roleList.stream().map(SysRoleDO::getId).collect(Collectors.toSet());
             List<SysRolePermissionDO> rolePermissionList = sysRolePermissionMapper.selectByRoleIdSet(roleIdSet);
@@ -164,9 +166,9 @@ public class SysRoleServiceImpl implements ISysRoleService {
     }
 
     @Override
-    public List<SysPermissionDO> getPermissionListUnderTenantRole() {
+    public List<SysPermissionDO> getPermissionListUnderTenantRole(Long tenantId) {
         List<SysPermissionDO> list = null;
-        Set<Long> permissionIdSet = getPermissionIdSetUnderTenantRole();
+        Set<Long> permissionIdSet = getPermissionIdSetUnderTenantRole(tenantId);
         if (!CollectionUtils.isEmpty(permissionIdSet)) {
             list = sysPermissionMapper.selectByIdSet(permissionIdSet, new SysPermissionDO());
         }

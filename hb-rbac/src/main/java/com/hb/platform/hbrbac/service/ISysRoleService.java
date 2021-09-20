@@ -93,15 +93,19 @@ public interface ISysRoleService {
     /**
      * 获取某个商户下的权限id集合
      *
+     * @param tenantId
+     *            商户ID
      * @return 结果
      */
-    Set<Long> getPermissionIdSetUnderTenantRole();
+    Set<Long> getPermissionIdSetUnderTenantRole(Long tenantId);
 
     /**
      * 获取某个商户下的权限id集合
      *
+     * @param tenantId
+     *            商户ID
      * @return 结果
      */
-    List<SysPermissionDO> getPermissionListUnderTenantRole();
+    List<SysPermissionDO> getPermissionListUnderTenantRole(Long tenantId);
 
 }

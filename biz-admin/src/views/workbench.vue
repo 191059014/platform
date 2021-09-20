@@ -88,14 +88,15 @@
                          :name="item.name"
                          :closable="item.closable">
               <keep-alive>
-                <router-view></router-view>
+                <!-- 这里使用v-if，使得每一个ElTabPane组件都只包含openTabs中的一个，避免多次重复请求 -->
+                <router-view v-if="activeTabIndex===item.name"></router-view>
               </keep-alive>
             </el-tab-pane>
           </el-tabs>
         </el-main>
         <!-- 底部 -->
         <el-footer>
-          Copyright @ 2020 Mr.huang 出品
+          Copyright @ 2021 Mr.huang 出品
         </el-footer>
       </el-container>
     </el-container>
@@ -129,7 +130,7 @@
         menuDatas: [],
         isMenuCollapse: false,
         currentLoginUsername: sessionStorage.getItem(Consts.LOGIN_USERNAME),
-        activeTabIndex: '',
+        activeTabIndex: '-1',
         currentThemeStyleId: '0',
         themeColorList: [
           {id: '0', backgroundColor: '#409EFF'},
@@ -143,7 +144,7 @@
           {id: '8', backgroundColor: '#545c64'},
           {id: '9', backgroundColor: '#000000'}
         ],
-        openTabs: [],
+        openTabs: [{route: '/homepage', title: '首页', name: '-1', closable: false}],
         openDrawer: false
       }
     },

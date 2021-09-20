@@ -1,3 +1,10 @@
+drop table if exists sys_user;
+drop table if exists sys_role;
+drop table if exists sys_permission;
+drop table if exists sys_user_role;
+drop table if exists sys_role_permission;
+drop table if exists sys_merchant;
+
 CREATE TABLE `sys_user` (
   `user_name` varchar(32) NOT NULL COMMENT '用户名',
   `password` varchar(64) NOT NULL COMMENT '密码',

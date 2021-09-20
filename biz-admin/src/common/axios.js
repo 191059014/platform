@@ -45,9 +45,9 @@ function responseSuccess(res) {
   let code = res.data.code;
   let msg = res.data.msg;
   if (code === Consts.ResponseEnum.ACCESS_DENIED.code) {
-    router.replace({path: '/accessDeny', query: {redirect: router.currentRoute.fullPath}});
+    router.replace({path: '/accessDenied'});
   } else if (Utils.shouldRedirectLogin(code)) {
-    router.replace({path: '/', query: {redirect: router.currentRoute.fullPath}});
+    router.replace({path: '/'});
   }
   return res;
 }

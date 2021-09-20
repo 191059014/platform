@@ -6,6 +6,7 @@ import com.hb.platform.hbbase.common.ResultCode;
 import com.hb.platform.hbbase.model.Page;
 import com.hb.platform.hbcommon.validator.Assert;
 import com.hb.platform.hbcommon.validator.Check;
+import com.hb.platform.hbrbac.RbacContext;
 import com.hb.platform.hbrbac.model.dobj.SysPermissionDO;
 import com.hb.platform.hbrbac.model.dobj.SysRoleDO;
 import com.hb.platform.hbrbac.model.dobj.SysRolePermissionDO;
@@ -16,6 +17,7 @@ import com.hb.platform.hbrbac.service.ISysPermissionService;
 import com.hb.platform.hbrbac.service.ISysRolePermissionService;
 import com.hb.platform.hbrbac.service.ISysRoleService;
 import com.hb.platform.hbrbac.service.ISysUserRoleService;
+import com.hb.platform.hbrbac.util.RbacUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Propagation;
@@ -227,10 +229,18 @@ public class SysRoleController {
     @PreAuthorize("hasAuthority('role_manage')")
     @GetMapping("/getPermissionTreeUnderMerchant")
     @InOutLog("获取当前用户对应商户下的所有角色的所有权限")
-    public Result<ElementuiTreeResponse> getPermissionTreeUnderMerchant() {
-        // 查询当前商户下的所有角色对应的权限
-        List<SysPermissionDO> permissionList = sysRoleService.getPermissionListUnderTenantRole();
-        Assert.notEmpty(permissionList, ResultCode.NO_DATA);
+    public Result<ElementuiTreeResponse> getPermissionTreeUnderMerchant(@RequestParam("tenantId") Long tenantId) {
+        List<SysPermissionDO> permissionList = null;
+        if (RbacUtils.isSuperAdmin(RbacContext.getCurrentUserId())) {
+            // 如果当前用户是超级管理员，则返回所有的权限，防止给刚新增的角色赋权的时候，没有权限可选
+            permissionList = sysPermissionService.selectList(new SysPermissionDO());
+        } else {
+            // 查询当前商户下的所有角色对应的权限
+            permissionList = sysRoleService.getPermissionListUnderTenantRole(tenantId);
+        }
+        if (CollectionUtils.isEmpty(permissionList)) {
+            return Result.success();
+        }
         List<SysPermissionDO> topList =
             permissionList.stream().filter(access -> access.getParentId() == null).collect(Collectors.toList());
         List<ElementuiTree> treeDataList = findTreeCycle(permissionList, topList);

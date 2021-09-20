@@ -2,15 +2,13 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '../views/login.vue'
 import Workbench from '../views/workbench.vue'
-import IframeContent1 from '../views/other/IframeContent1.vue'
-import IframeContent2 from '../views/other/IframeContent2.vue'
-import IframeContent3 from '../views/other/IframeContent3.vue'
-import DefaultContent from '../views/other/DefaultContent.vue'
-import AccessDeny from '../views/errorPage/AccessDeny.vue'
-import MerchantManage from '../views/system/merchant_manage.vue'
-import UserManage from '../views/system/user_manage.vue'
-import RoleManage from '../views/system/role_manage.vue'
-import AccessManage from '../views/system/permission_manage.vue'
+import Website from '../views/embedwebsite/website.vue'
+import HomePage from '../views/homepage.vue'
+import AccessDenied from '../views/errorPage/access_denied.vue'
+import MerchantManage from '../views/systemmanage/merchant_manage.vue'
+import UserManage from '../views/systemmanage/user_manage.vue'
+import RoleManage from '../views/systemmanage/role_manage.vue'
+import AccessManage from '../views/systemmanage/permission_manage.vue'
 import AccountSetting from '../components/AccountSetting.vue'
 import GlobalConfig from '../views/configmanage/GlobalConfig.vue'
 
@@ -32,29 +30,24 @@ export default new Router({
       component: Login
     },
     {
+      path: '/accessDenied',
+      name: '权限不足',
+      component: AccessDenied
+    },
+    {
       path: '/workbench',
       name: '工作台',
       component: Workbench,
       children: [
         {
-          path: '/iframe1',
-          name: '自定义页面1',
-          component: IframeContent1
+          path: '/homepage',
+          name: '首页',
+          component: HomePage
         },
         {
-          path: '/iframe2',
-          name: '自定义页面2',
-          component: IframeContent2
-        },
-        {
-          path: '/iframe3',
-          name: '自定义页面3',
-          component: IframeContent3
-        },
-        {
-          path: '/defaultContent',
-          name: '默认主页',
-          component: DefaultContent
+          path: '/website',
+          name: '内嵌外部网站',
+          component: Website
         },
         {
           path: '/merchantManage',
@@ -87,11 +80,6 @@ export default new Router({
           component: GlobalConfig
         },
       ]
-    },
-    {
-      path: '/accessDeny',
-      name: '无权访问',
-      component: AccessDeny
     }
   ]
 })
