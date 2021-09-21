@@ -175,8 +175,8 @@
       queryPages() {
         this.tableLoading = true;
         Api.getUserPages(this.queryCondition, this.pageNum, this.pageSize, (res) => {
-          this.userList = res.data.data;
-          this.total = res.data.count;
+          this.userList = res.data.rows;
+          this.total = res.data.total;
           this.tableLoading = false;
         })
       },

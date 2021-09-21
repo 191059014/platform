@@ -17,28 +17,28 @@ public class Page<T> {
     /**
      * 总条数
      */
-    private Long count;
+    private Long total;
 
     /**
      * 数据集
      */
-    private List<T> data;
+    private List<T> rows;
 
     /**
      * 创建Page对象
      *
-     * @param count
+     * @param total
      *            总条数
-     * @param data
+     * @param rows
      *            数据集
      * @param <T>
      *            泛型
      * @return 分页结果
      */
-    public static <T> Page<T> create(Long count, List<T> data) {
+    public static <T> Page<T> create(Long total, List<T> rows) {
         Page<T> page = new Page<>();
-        page.setCount(count);
-        page.setData(data);
+        page.setTotal(total);
+        page.setRows(rows);
         return page;
     }
 

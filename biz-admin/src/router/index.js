@@ -10,7 +10,7 @@ import RoleManage from '../views/systemmanage/role_manage.vue'
 import AccessManage from '../views/systemmanage/permission_manage.vue'
 import AccountSetting from '../views/systemmanage/accountsetting.vue'
 import CacheManage from '../views/toolkit/cachemanage.vue'
-import GlobalConfig from '../views/configmanage/GlobalConfig.vue'
+import GlobalConfig from '../views/toolkit/globalconfig.vue'
 
 /**
  * 解决点击菜单时报重复路由的错，虽然不影响功能，但是console里会打印红色错误
@@ -70,14 +70,14 @@ export default new Router({
           component: AccountSetting
         },
         {
-          path: '/globalConfig',
-          name: '全局配置',
-          component: GlobalConfig
-        },
-        {
           path: '/cacheManage',
           name: '缓存管理',
           component: CacheManage
+        },
+        {
+          path: '/globalConfig',
+          name: '全局配置',
+          component: GlobalConfig
         },
       ]
     }

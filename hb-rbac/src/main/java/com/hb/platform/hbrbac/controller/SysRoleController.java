@@ -12,7 +12,6 @@ import com.hb.platform.hbrbac.model.dobj.SysRoleDO;
 import com.hb.platform.hbrbac.model.dobj.SysRolePermissionDO;
 import com.hb.platform.hbrbac.model.dobj.SysUserRoleDO;
 import com.hb.platform.hbrbac.model.dto.ElementuiTree;
-import com.hb.platform.hbrbac.model.vo.response.ElementuiTreeResponse;
 import com.hb.platform.hbrbac.service.ISysPermissionService;
 import com.hb.platform.hbrbac.service.ISysRolePermissionService;
 import com.hb.platform.hbrbac.service.ISysRoleService;
@@ -229,7 +228,7 @@ public class SysRoleController {
     @PreAuthorize("hasAuthority('role_manage')")
     @GetMapping("/getPermissionTreeUnderMerchant")
     @InOutLog("获取当前用户对应商户下的所有角色的所有权限")
-    public Result<ElementuiTreeResponse> getPermissionTreeUnderMerchant(@RequestParam("tenantId") Long tenantId) {
+    public Result<List<ElementuiTree>> getPermissionTreeUnderMerchant(@RequestParam("tenantId") Long tenantId) {
         List<SysPermissionDO> permissionList = null;
         if (RbacUtils.isSuperAdmin(RbacContext.getCurrentUserId())) {
             // 如果当前用户是超级管理员，则返回所有的权限，防止给刚新增的角色赋权的时候，没有权限可选
@@ -244,7 +243,7 @@ public class SysRoleController {
         List<SysPermissionDO> topList =
             permissionList.stream().filter(access -> access.getParentId() == null).collect(Collectors.toList());
         List<ElementuiTree> treeDataList = findTreeCycle(permissionList, topList);
-        return Result.success(new ElementuiTreeResponse(treeDataList));
+        return Result.success(treeDataList);
     }
 
     /**

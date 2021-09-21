@@ -153,9 +153,7 @@
     methods: {
       findPrivateMenuDatas() {
         Api.getPrivateMenuDatas((res) => {
-          if (res.data) {
-            this.menuDatas = res.data.menuDatas;
-          }
+          this.menuDatas = res.data;
         })
       },
       clickMenu(menu) {

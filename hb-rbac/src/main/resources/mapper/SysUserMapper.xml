@@ -161,10 +161,10 @@
         <where>
             is_valid = 1
             <if test="qc.userName != null and qc.userName != ''">
-                and user_name = #{qc.userName}
+                and user_name like concat('%', #{qc.userName}, '%')
             </if>
             <if test="qc.password != null and qc.password != ''">
-                and password = #{qc.password}
+                and `password` = #{qc.password}
             </if>
             <if test="qc.mobile != null and qc.mobile != ''">
                 and mobile = #{qc.mobile}

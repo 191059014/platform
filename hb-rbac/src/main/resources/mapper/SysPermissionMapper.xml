@@ -182,13 +182,13 @@
         <where>
             is_valid = 1
             <if test="qc.permissionName != null and qc.permissionName != ''">
-                and permission_name like concat("%",#{qc.permissionName},"%")
+                and permission_name like concat('%', #{qc.permissionName}, '%')
             </if>
             <if test="qc.resourceType != null and qc.resourceType != ''">
                 and resource_type = #{qc.resourceType}
             </if>
             <if test="qc.permissionValue != null and qc.permissionValue != ''">
-                and permission_value = #{qc.permissionValue}
+                and permission_value like concat('%', #{qc.permissionValue}, '%')
             </if>
             <if test="qc.icon != null and qc.icon != ''">
                 and icon = #{qc.icon}

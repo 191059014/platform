@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hb.platform.hbbase.dao.mapper.ICfgGlobalMapper">
+<mapper namespace="com.hb.platform.hbbase.dao.mapper.IGlobalConfigMapper">
 
     <!--字段映射-->
-    <resultMap id="cfgGlobalMap" type="com.hb.platform.hbbase.dao.dobj.CfgGlobalDO">
+    <resultMap id="globalConfigMap" type="com.hb.platform.hbbase.dao.dobj.GlobalConfigDO">
         <result column="system_name" property="systemName"/>
         <result column="group_name" property="groupName"/>
         <result column="config_key" property="configKey"/>
         <result column="config_value" property="configValue"/>
         <result column="remark" property="remark"/>
         <result column="id" property="id"/>
-        <result column="creator" property="creator"/>
+        <result column="create_by" property="createBy"/>
         <result column="create_time" property="createTime"/>
-        <result column="updator" property="updator"/>
+        <result column="update_by" property="updateBy"/>
         <result column="update_time" property="updateTime"/>
         <result column="is_valid" property="isValid"/>
     </resultMap>
 
     <!--查询单个-->
-    <select id="selectById" resultMap="cfgGlobalMap">
-        select * from cfg_global where id = #{id}
+    <select id="selectById" resultMap="globalConfigMap">
+        select * from cfg_global where is_valid = 0 and id = #{id}
     </select>
 
     <!--查询集合-->
-    <select id="selectList" resultMap="cfgGlobalMap">
+    <select id="selectList" resultMap="globalConfigMap">
         select * from cfg_global
         <include refid="whereCondition"/>
         order by update_time desc
@@ -31,12 +31,12 @@
 
     <!--查询总条数-->
     <select id="selectCount" resultType="java.lang.Long">
-        select count(*) from cfg_global
+        select count(1) from cfg_global
         <include refid="whereCondition"/>
     </select>
 
     <!--分页条件查询-->
-    <select id="selectPages" resultMap="cfgGlobalMap">
+    <select id="selectPages" resultMap="globalConfigMap">
         select * from cfg_global
         <include refid="whereCondition"/>
         order by update_time desc
@@ -44,13 +44,14 @@
     </select>
 
     <!--通过id集合查询-->
-    <select id="selectByIdSet" resultMap="cfgGlobalMap">
+    <select id="selectByIdSet" resultMap="globalConfigMap">
         select * from cfg_global
-        where id in
+        where is_valid = 1 and id in
         <foreach collection="idSet" item="id" open="(" separator="," close=")">
             #{id}
         </foreach>
         <include refid="whereCondition"/>
+        order by update_time desc
     </select>
 
     <!--通过主键修改-->
@@ -62,7 +63,7 @@
 
     <!--通过主键物理删除-->
     <update id="deleteById">
-        update cfg_global set is_valid = 0 where id = #{id}
+        update cfg_global set is_valid = 0 where id = #{qc.id}
     </update>
 
     <!--选择性的新增-->
@@ -87,14 +88,14 @@
             <if test="qc.id != null">
                 id,
             </if>
-            <if test="qc.creator != null and qc.creator != ''">
-                creator,
+            <if test="qc.createBy != null and qc.createBy != ''">
+                create_by,
             </if>
             <if test="qc.createTime != null">
                 create_time,
             </if>
-            <if test="qc.updator != null and qc.updator != ''">
-                updator,
+            <if test="qc.updateBy != null and qc.updateBy != ''">
+                update_by,
             </if>
             <if test="qc.updateTime != null">
                 update_time,
@@ -122,14 +123,14 @@
             <if test="qc.id != null">
                 #{qc.id},
             </if>
-            <if test="qc.creator != null and qc.creator != ''">
-                #{qc.creator},
+            <if test="qc.createBy != null and qc.createBy != ''">
+                #{qc.createBy},
             </if>
             <if test="qc.createTime != null">
                 #{qc.createTime},
             </if>
-            <if test="qc.updator != null and qc.updator != ''">
-                #{qc.updator},
+            <if test="qc.updateBy != null and qc.updateBy != ''">
+                #{qc.updateBy},
             </if>
             <if test="qc.updateTime != null">
                 #{qc.updateTime},
@@ -145,31 +146,31 @@
         <where>
             is_valid = 1
             <if test="qc.systemName != null and qc.systemName != ''">
-                and system_name = #{qc.systemName}
+                and system_name like concat('%', #{qc.systemName}, '%')
             </if>
             <if test="qc.groupName != null and qc.groupName != ''">
-                and group_name = #{qc.groupName}
+                and group_name like concat('%', #{qc.groupName}, '%')
             </if>
             <if test="qc.configKey != null and qc.configKey != ''">
-                and config_key = #{qc.configKey}
+                and config_key like concat('%', #{qc.configKey}, '%')
             </if>
             <if test="qc.configValue != null and qc.configValue != ''">
                 and config_value = #{qc.configValue}
             </if>
             <if test="qc.remark != null and qc.remark != ''">
-                and remark = #{qc.remark}
+                and remark like concat('%', #{qc.remark}, '%')
             </if>
             <if test="qc.id != null">
                 and id = #{qc.id}
             </if>
-            <if test="qc.creator != null and qc.creator != ''">
-                and creator = #{qc.creator}
+            <if test="qc.createBy != null and qc.createBy != ''">
+                and create_by = #{qc.createBy}
             </if>
             <if test="qc.createTime != null">
                 and create_time = #{qc.createTime}
             </if>
-            <if test="qc.updator != null and qc.updator != ''">
-                and updator = #{qc.updator}
+            <if test="qc.updateBy != null and qc.updateBy != ''">
+                and update_by = #{qc.updateBy}
             </if>
             <if test="qc.updateTime != null">
                 and update_time = #{qc.updateTime}
@@ -201,14 +202,14 @@
             <if test="qc.id != null">
                 id = #{qc.id},
             </if>
-            <if test="qc.creator != null and qc.creator != ''">
-                creator = #{qc.creator},
+            <if test="qc.createBy != null and qc.createBy != ''">
+                create_by = #{qc.createBy},
             </if>
             <if test="qc.createTime != null">
                 create_time = #{qc.createTime},
             </if>
-            <if test="qc.updator != null and qc.updator != ''">
-                updator = #{qc.updator},
+            <if test="qc.updateBy != null and qc.updateBy != ''">
+                update_by = #{qc.updateBy},
             </if>
             <if test="qc.updateTime != null">
                 update_time = #{qc.updateTime},

@@ -127,7 +127,7 @@
         <where>
             is_valid = 1
             <if test="qc.roleName != null and qc.roleName != ''">
-                and role_name = #{qc.roleName}
+                and role_name like concat('%', #{qc.roleName}, '%')
             </if>
             <if test="qc.id != null">
                 and id = #{qc.id}

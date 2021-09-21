@@ -145,8 +145,8 @@
       queryPages() {
         this.tableLoading = true;
         Api.getRolePages(this.queryCondition, this.pageNum, this.pageSize, (res) => {
-          this.roleList = res.data.data;
-          this.total = res.data.count;
+          this.roleList = res.data.rows;
+          this.total = res.data.total;
           this.tableLoading = false;
         })
       },
@@ -222,7 +222,7 @@
         this.roleIdOfCurrentRow = row.id;
         Api.getPermissionTreeUnderMerchant(row.tenantId, (res) => {
           if (res.data) {
-            this.permissionTreeData = res.data.treeDataList;
+            this.permissionTreeData = res.data;
           }
         });
         Api.getPermissionsUnderRole(row.id, (res) => {

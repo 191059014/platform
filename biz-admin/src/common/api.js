@@ -168,5 +168,23 @@ export const getCache = (key, scb) => {
 export const deleteCache = (key, scb) => {
   return Ajax.get(`cache/delete/` + key).then(res => commonHandleResponse(res, scb));
 };
+// 分页查询全局配置表
+export const getGlobalConfigPages = (globalConfig, pageNum, pageSize, scb) => {
+  return Ajax.post(`/globalConfig/queryPages?pageNum=` + pageNum + "&pageSize=" + pageSize, globalConfig).then(res => commonHandleResponse(res, scb));
+};
+// 新增全局配置表
+export const saveGlobalConfig = (globalConfig, scb) => {
+  return Ajax.post(`/globalConfig/save`, globalConfig).then(res => commonHandleResponse(res, scb));
+};
+// 新增全局配置表
+export const updateGlobalConfigById = (globalConfig, scb) => {
+  return Ajax.post(`/globalConfig/updateById`, globalConfig).then(res => commonHandleResponse(res, scb));
+};
+// 通过主键删除全局配置表
+export const deleteGlobalConfigById = (id, scb) => {
+  return Ajax.get(`/globalConfig/deleteById?id=` + id).then(res => commonHandleResponse(res, scb));
+};
+
+
 
 

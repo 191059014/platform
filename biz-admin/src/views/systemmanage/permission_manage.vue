@@ -188,8 +188,8 @@
       queryPages() {
         this.tableLoading = true;
         Api.getPermissionPages(this.queryCondition, this.pageNum, this.pageSize, (res) => {
-          this.permissionList = res.data && res.data.data;
-          this.total = res.data && res.data.count;
+          this.permissionList = res.data.rows;
+          this.total = res.data.total;
           this.tableLoading = false;
         })
       },

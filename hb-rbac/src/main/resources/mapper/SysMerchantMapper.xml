@@ -121,7 +121,7 @@
         <where>
             is_valid = 1
             <if test="qc.merchantName != null and qc.merchantName != ''">
-                and merchant_name = #{qc.merchantName}
+                and merchant_name like concat('%', #{qc.merchantName}, '%')
             </if>
             <if test="qc.id != null">
                 and id = #{qc.id}

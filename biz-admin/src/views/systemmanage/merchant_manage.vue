@@ -109,8 +109,8 @@
       queryPages() {
         this.tableLoading = true;
         Api.getMerchantPages(this.queryCondition, this.pageNum, this.pageSize, (res) => {
-          this.merchantList = res.data.data;
-          this.total = res.data.count;
+          this.merchantList = res.data.rows;
+          this.total = res.data.total;
           this.tableLoading = false;
         })
       },

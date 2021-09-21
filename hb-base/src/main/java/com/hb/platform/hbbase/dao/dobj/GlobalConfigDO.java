@@ -1,19 +1,19 @@
 package com.hb.platform.hbbase.dao.dobj;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.hb.platform.hbbase.dao.dobj.base.impl.AbstractBaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import com.hb.platform.hbbase.dao.dobj.base.impl.AbstractBaseDO;
 
 /**
  * 全局配置表数据模型
  *
- * @version v0.1, 2021-08-23 22:44:04, create by Mr.Huang.
+ * @version v0.1, 2021-09-21 15:08:19, create by Mr.Huang.
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
-public class CfgGlobalDO extends AbstractBaseDO {
+public class GlobalConfigDO extends AbstractBaseDO {
 
     /**
      * 系统名称

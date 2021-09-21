@@ -16,7 +16,6 @@ import com.hb.platform.hbrbac.model.dobj.SysUserDO;
 import com.hb.platform.hbrbac.model.dobj.SysUserRoleDO;
 import com.hb.platform.hbrbac.model.dto.ElementuiMenu;
 import com.hb.platform.hbrbac.model.vo.request.UpdatePasswordRequest;
-import com.hb.platform.hbrbac.model.vo.response.ElementuiMenuResponse;
 import com.hb.platform.hbrbac.service.ISysPermissionService;
 import com.hb.platform.hbrbac.service.ISysRolePermissionService;
 import com.hb.platform.hbrbac.service.ISysUserRoleService;
@@ -182,7 +181,7 @@ public class SysUserController {
      */
     @GetMapping("/getPrivateMenuDatas")
     @InOutLog("获取用户下的菜单")
-    public Result<ElementuiMenuResponse> getPrivateMenuDatas() {
+    public Result<List<ElementuiMenu>> getPrivateMenuDatas() {
         List<SysPermissionDO> permissionList = null;
         if (RbacUtils.isSuperAdmin(RbacContext.getCurrentUserId())) {
             // 超级管理员
@@ -214,7 +213,7 @@ public class SysUserController {
         List<SysPermissionDO> topList =
             permissionList.stream().filter(access -> access.getParentId() == null).collect(Collectors.toList());
         List<ElementuiMenu> menuList = findChildrenMenuCycle(permissionList, topList);
-        return Result.success(new ElementuiMenuResponse(menuList));
+        return Result.success(menuList);
     }
 
     /**
