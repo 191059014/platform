@@ -1,6 +1,6 @@
 package com.hb.platform.hbrbac.model.dto;
 
-import com.hb.platform.hbrbac.model.dobj.SysUserDO;
+import com.hb.platform.hbrbac.dao.dobj.SysUserDO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

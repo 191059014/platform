@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.hb.platform.hbbase.model.Page;
-import com.hb.platform.hbrbac.model.dobj.SysMerchantDO;
+import com.hb.platform.hbrbac.dao.dobj.SysMerchantDO;
 
 /**
  * 商户表服务层接口

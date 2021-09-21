@@ -1,7 +1,7 @@
 package com.hb.platform.hbrbac.service;
 
 import com.hb.platform.hbbase.model.Page;
-import com.hb.platform.hbrbac.model.dobj.SysRolePermissionDO;
+import com.hb.platform.hbrbac.dao.dobj.SysRolePermissionDO;
 
 import java.util.List;
 import java.util.Set;

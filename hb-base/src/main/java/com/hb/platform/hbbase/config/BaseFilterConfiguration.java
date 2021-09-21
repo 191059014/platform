@@ -1,13 +1,13 @@
 package com.hb.platform.hbbase.config;
 
-import com.hb.platform.hbbase.filter.BlackListFilter;
-import com.hb.platform.hbbase.filter.RequestFrequencyLimitFilter;
-import com.hb.platform.hbbase.filter.TraceIdMdcHttpFilter;
-import com.hb.platform.hbbase.util.FilterUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.hb.platform.hbbase.common.util.FilterUtils;
+import com.hb.platform.hbbase.config.filter.BlackListFilter;
+import com.hb.platform.hbbase.config.filter.RequestFrequencyLimitFilter;
+import com.hb.platform.hbbase.config.filter.TraceIdMdcHttpFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 
 /**
  * 拦截器
@@ -19,25 +19,11 @@ import org.springframework.context.annotation.Configuration;
 public class BaseFilterConfiguration {
 
     /**
-     * 基础配置
-     */
-    @Autowired
-    private BaseConfig baseConfig;
-
-    /**
-     * 黑名单
-     */
-    @Bean
-    public FilterRegistrationBean blackListFilter() {
-        return FilterUtils.build(new BlackListFilter(), "blackListFilter", -1100, "/*");
-    }
-
-    /**
      * traceId的mdc方式
      */
     @Bean
     public FilterRegistrationBean traceIdMdcHttpFilter() {
-        return FilterUtils.build(new TraceIdMdcHttpFilter(), "traceIdMdcHttpFilter", -1000, "/*");
+        return FilterUtils.build(new TraceIdMdcHttpFilter(), "traceIdMdcHttpFilter", Ordered.HIGHEST_PRECEDENCE, "/*");
     }
 
     /**
@@ -45,7 +31,15 @@ public class BaseFilterConfiguration {
      */
     @Bean
     public FilterRegistrationBean requestFrequencyLimitFilter() {
-        return FilterUtils.build(new RequestFrequencyLimitFilter(), "requestFrequencyLimitFilter", -900, "/*");
+        return FilterUtils.build(new RequestFrequencyLimitFilter(), "requestFrequencyLimitFilter", -2000, "/*");
+    }
+
+    /**
+     * 黑名单
+     */
+    @Bean
+    public FilterRegistrationBean blackListFilter() {
+        return FilterUtils.build(new BlackListFilter(), "blackListFilter", -1900, "/*");
     }
 
 }

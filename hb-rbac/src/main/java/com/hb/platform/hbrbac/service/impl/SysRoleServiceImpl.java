@@ -2,12 +2,12 @@ package com.hb.platform.hbrbac.service.impl;
 
 import com.hb.platform.hbbase.model.Page;
 import com.hb.platform.hbbase.model.PageCondition;
-import com.hb.platform.hbrbac.mapper.ISysPermissionMapper;
-import com.hb.platform.hbrbac.mapper.ISysRoleMapper;
-import com.hb.platform.hbrbac.mapper.ISysRolePermissionMapper;
-import com.hb.platform.hbrbac.model.dobj.SysPermissionDO;
-import com.hb.platform.hbrbac.model.dobj.SysRoleDO;
-import com.hb.platform.hbrbac.model.dobj.SysRolePermissionDO;
+import com.hb.platform.hbrbac.dao.mapper.ISysPermissionMapper;
+import com.hb.platform.hbrbac.dao.mapper.ISysRoleMapper;
+import com.hb.platform.hbrbac.dao.mapper.ISysRolePermissionMapper;
+import com.hb.platform.hbrbac.dao.dobj.SysPermissionDO;
+import com.hb.platform.hbrbac.dao.dobj.SysRoleDO;
+import com.hb.platform.hbrbac.dao.dobj.SysRolePermissionDO;
 import com.hb.platform.hbrbac.service.ISysRoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

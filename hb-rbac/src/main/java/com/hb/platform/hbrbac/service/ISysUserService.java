@@ -1,7 +1,7 @@
 package com.hb.platform.hbrbac.service;
 
 import com.hb.platform.hbbase.model.Page;
-import com.hb.platform.hbrbac.model.dobj.SysUserDO;
+import com.hb.platform.hbrbac.dao.dobj.SysUserDO;
 
 import java.util.List;
 import java.util.Set;

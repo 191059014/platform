@@ -5,25 +5,25 @@
 <configuration>
 
     <springProperty scope="context" name="logging.path" source="logging.file.path"/>
-    <springProperty scope="context" name="logging.level" source="logging.level.com.hb.platform.hbmanage"/>
+    <springProperty scope="context" name="logging.level" source="logging.level.com.hb.platform.bizweb"/>
+    <springProperty scope="context" name="project.name" source="spring.application.name"/>
 
     <!-- 控制台日志 -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <!--<Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %level %C.%M[%F:%L] - %msg%n</Pattern>-->
-            <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %level %C.%M[%F:%L] [traceId=%X{traceId:-default}] - %msg%n</Pattern>
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %level %C.%M[%L] [traceId=%X{traceId:-default}] - %msg%n</Pattern>
         </encoder>
     </appender>
 
     <!-- 普通日志 -->
     <appender name="COMMON-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <append>true</append>
-        <file>${logging.path}/configcenter-common.log</file>
+        <file>${logging.path}/${project.name}-common.log</file>
         <!-- to generate a log file everyday with a longest lasting of 30 days -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- logfile name with daily rolling -->
             <FileNamePattern>
-                ${logging.path}/configcenter-common.log.%d{yyyy-MM-dd}
+                ${logging.path}/${project.name}-common.log.%d{yyyy-MM-dd}
             </FileNamePattern>
             <!-- log perserve days -->
             <MaxHistory>30</MaxHistory>
@@ -31,7 +31,7 @@
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <!--output format：%d is for date，%thread is for thread name，%-5level：loglevel
                 with 5 character %msg：log message，%n line breaker -->
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %level %C.%M[%F:%L] [traceId=%X{traceId:-default}] - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %level %C.%M[%L] [traceId=%X{traceId:-default}] - %msg%n</pattern>
             <!-- encoding -->
             <charset>UTF-8</charset>
         </encoder>
@@ -47,10 +47,10 @@
             <onMismatch>DENY</onMismatch>
         </filter>
         <!-- log name -->
-        <file>${logging.path}/configcenter-error.log</file>
+        <file>${logging.path}/${project.name}-error.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- logfile name with daily rolling -->
-            <FileNamePattern>${logging.path}/configcenter-error.log.%d{yyyy-MM-dd}
+            <FileNamePattern>${logging.path}/${project.name}-error.log.%d{yyyy-MM-dd}
             </FileNamePattern>
             <!-- log perserve days -->
             <MaxHistory>30</MaxHistory>
@@ -58,7 +58,7 @@
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <!--output format：%d is for date，%thread is for thread name，%-5level：loglevel
                 with 5 character %msg：log message，%n line breaker -->
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %level %C.%M[%F:%L] [traceId=%X{traceId:-default}] - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %level %C.%M[%L] [traceId=%X{traceId:-default}] - %msg%n</pattern>
             <charset>UTF-8</charset>
         </encoder>
     </appender>

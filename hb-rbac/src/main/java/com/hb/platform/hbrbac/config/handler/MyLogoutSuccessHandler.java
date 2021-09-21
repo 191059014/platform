@@ -1,8 +1,8 @@
 package com.hb.platform.hbrbac.config.handler;
 
 import com.hb.platform.hbbase.common.Result;
-import com.hb.platform.hbbase.util.ServletUtils;
-import com.hb.platform.hbrbac.enums.RbacResultCode;
+import com.hb.platform.hbbase.common.util.ServletUtils;
+import com.hb.platform.hbrbac.common.enums.RbacResultCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hb.platform.hbrbac.mapper.ISysUserMapper">
+<mapper namespace="com.hb.platform.hbrbac.dao.mapper.ISysUserMapper">
 
     <!--字段映射-->
-    <resultMap id="sysUserMap" type="com.hb.platform.hbrbac.model.dobj.SysUserDO">
+    <resultMap id="sysUserMap" type="com.hb.platform.hbrbac.dao.dobj.SysUserDO">
         <result column="user_name" property="userName"/>
         <result column="password" property="password"/>
         <result column="mobile" property="mobile"/>

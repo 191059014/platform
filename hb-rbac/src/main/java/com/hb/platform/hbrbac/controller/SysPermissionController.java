@@ -1,12 +1,12 @@
 package com.hb.platform.hbrbac.controller;
 
-import com.hb.platform.hbbase.annotation.InOutLog;
+import com.hb.platform.hbbase.common.annotation.InOutLog;
 import com.hb.platform.hbbase.common.Result;
 import com.hb.platform.hbbase.common.ResultCode;
 import com.hb.platform.hbbase.model.Page;
 import com.hb.platform.hbcommon.validator.Assert;
 import com.hb.platform.hbcommon.validator.Check;
-import com.hb.platform.hbrbac.model.dobj.SysPermissionDO;
+import com.hb.platform.hbrbac.dao.dobj.SysPermissionDO;
 import com.hb.platform.hbrbac.model.vo.request.PermissionQueryRequest;
 import com.hb.platform.hbrbac.service.ISysPermissionService;
 import com.hb.platform.hbrbac.service.ISysRoleService;

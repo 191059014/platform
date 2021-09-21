@@ -1,6 +1,6 @@
 package com.hb.platform.hbbase.controller;
 
-import com.hb.platform.hbbase.annotation.InOutLog;
+import com.hb.platform.hbbase.common.annotation.InOutLog;
 import com.hb.platform.hbbase.common.Result;
 import com.hb.platform.hbbase.common.ResultCode;
 import com.hb.platform.hbbase.dao.dobj.GlobalConfigDO;

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hb.platform.hbrbac.mapper.ISysRolePermissionMapper">
+<mapper namespace="com.hb.platform.hbrbac.dao.mapper.ISysRolePermissionMapper">
 
     <!--字段映射-->
-    <resultMap id="sysRolePermissionMap" type="com.hb.platform.hbrbac.model.dobj.SysRolePermissionDO">
+    <resultMap id="sysRolePermissionMap" type="com.hb.platform.hbrbac.dao.dobj.SysRolePermissionDO">
         <result column="role_id" property="roleId"/>
         <result column="permission_id" property="permissionId"/>
         <result column="id" property="id"/>

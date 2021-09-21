@@ -12,7 +12,7 @@
 
     <!-- mapper -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.hb.platform.hbrbac.mapper"/>
+        <property name="basePackage" value="com.hb.platform.hbrbac.dao.mapper"/>
     </bean>
 
 </beans>

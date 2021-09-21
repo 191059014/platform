@@ -1,10 +1,10 @@
 package com.hb.platform.hbrbac.config.handler;
 
 import com.hb.platform.hbbase.common.Result;
-import com.hb.platform.hbbase.util.ServletUtils;
+import com.hb.platform.hbbase.common.util.ServletUtils;
 import com.hb.platform.hbcommon.standard.IErrorCode;
 import com.hb.platform.hbcommon.util.LogUtils;
-import com.hb.platform.hbrbac.enums.RbacResultCode;
+import com.hb.platform.hbrbac.common.enums.RbacResultCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.BadCredentialsException;

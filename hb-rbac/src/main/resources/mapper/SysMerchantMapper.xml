@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hb.platform.hbrbac.mapper.ISysMerchantMapper">
+<mapper namespace="com.hb.platform.hbrbac.dao.mapper.ISysMerchantMapper">
 
     <!--字段映射-->
-    <resultMap id="sysMerchantMap" type="com.hb.platform.hbrbac.model.dobj.SysMerchantDO">
+    <resultMap id="sysMerchantMap" type="com.hb.platform.hbrbac.dao.dobj.SysMerchantDO">
         <result column="merchant_name" property="merchantName"/>
         <result column="id" property="id"/>
         <result column="create_by" property="createBy"/>

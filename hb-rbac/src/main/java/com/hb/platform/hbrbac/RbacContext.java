@@ -1,8 +1,8 @@
 package com.hb.platform.hbrbac;
 
 import com.hb.platform.hbbase.container.Tools;
-import com.hb.platform.hbrbac.model.dobj.SysUserDO;
-import com.hb.platform.hbrbac.util.RbacUtils;
+import com.hb.platform.hbrbac.dao.dobj.SysUserDO;
+import com.hb.platform.hbrbac.common.util.RbacUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 

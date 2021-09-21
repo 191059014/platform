@@ -1,15 +1,15 @@
 package com.hb.platform.hbrbac.controller;
 
-import com.hb.platform.hbbase.annotation.InOutLog;
+import com.hb.platform.hbbase.common.annotation.InOutLog;
 import com.hb.platform.hbbase.common.Result;
 import com.hb.platform.hbbase.common.ResultCode;
 import com.hb.platform.hbbase.model.Page;
 import com.hb.platform.hbcommon.validator.Assert;
 import com.hb.platform.hbcommon.validator.Check;
 import com.hb.platform.hbrbac.RbacContext;
-import com.hb.platform.hbrbac.model.dobj.SysMerchantDO;
+import com.hb.platform.hbrbac.dao.dobj.SysMerchantDO;
 import com.hb.platform.hbrbac.service.ISysMerchantService;
-import com.hb.platform.hbrbac.util.RbacUtils;
+import com.hb.platform.hbrbac.common.util.RbacUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;

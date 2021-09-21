@@ -67,17 +67,18 @@
           </el-select>
         </el-form-item>
         <el-form-item label="权限名称" required>
-          <el-input v-model="permissionModelAdd.permissionName" autocomplete="off"></el-input>
+          <el-input v-model="permissionModelAdd.permissionName" autocomplete="off" placeholder="中文"></el-input>
         </el-form-item>
         <el-form-item label="权限值" required>
-          <el-input v-model="permissionModelAdd.permissionValue" autocomplete="off"></el-input>
+          <el-input v-model="permissionModelAdd.permissionValue" autocomplete="off" placeholder="按层级用下划线拼接"></el-input>
         </el-form-item>
         <el-form-item label="图标"
                       v-show="permissionModelAdd.resourceType==='page' ||permissionModelAdd.resourceType==='folder'">
           <el-input v-model="permissionModelAdd.icon" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="链接" required v-show="permissionModelAdd.resourceType==='page'">
-          <el-input v-model="permissionModelAdd.url" autocomplete="off"></el-input>
+          <el-input v-model="permissionModelAdd.url" autocomplete="off"
+                    placeholder="内部菜单格式：/xxx；外部网站格式：website?src=xxx"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -102,17 +103,18 @@
           </el-select>
         </el-form-item>
         <el-form-item label="权限名称" required>
-          <el-input v-model="permissionModelUpdate.permissionName" autocomplete="off"></el-input>
+          <el-input v-model="permissionModelUpdate.permissionName" autocomplete="off" placeholder="中文"></el-input>
         </el-form-item>
         <el-form-item label="权限值" required>
-          <el-input v-model="permissionModelUpdate.permissionValue" autocomplete="off"></el-input>
+          <el-input v-model="permissionModelUpdate.permissionValue" autocomplete="off" placeholder="按层级用下划线拼接"></el-input>
         </el-form-item>
         <el-form-item label="图标"
                       v-show="permissionModelUpdate.resourceType==='page' || permissionModelUpdate.resourceType==='folder'">
           <el-input v-model="permissionModelUpdate.icon" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="链接" required v-show="permissionModelUpdate.resourceType==='page'">
-          <el-input v-model="permissionModelUpdate.url" autocomplete="off"></el-input>
+          <el-input v-model="permissionModelUpdate.url" autocomplete="off"
+                    placeholder="内部菜单格式：/xxx；外部网站格式：website?src=xxx"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

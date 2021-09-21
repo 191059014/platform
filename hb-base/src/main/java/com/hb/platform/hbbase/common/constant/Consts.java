@@ -15,12 +15,22 @@ public interface Consts {
     /**
      * 10分钟，单位秒
      */
-    long MINUTE_10 = 10 * 60;
+    long MINUTE_10_S = 10 * 60;
 
     /**
      * 30分钟，单位秒
      */
-    long MINUTE_30 = 30 * 60;
+    long MINUTE_30_S = 30 * 60;
+
+    /**
+     * 10分钟，单位毫秒
+     */
+    long MINUTE_10_MS = 10 * 60 * 1000;
+
+    /**
+     * 30分钟，单位毫秒
+     */
+    long MINUTE_30_MS = 30 * 60 * 1000;
 
     /**
      * UTF-8编码

@@ -8,7 +8,7 @@ import com.hb.platform.hbbase.dao.mapper.IGlobalConfigMapper;
 import com.hb.platform.hbbase.model.Page;
 import com.hb.platform.hbbase.model.PageCondition;
 import com.hb.platform.hbbase.service.IGlobalConfigService;
-import com.hb.platform.hbbase.util.BaseUtils;
+import com.hb.platform.hbbase.common.util.BaseUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -156,6 +156,7 @@ public class GlobalConfigServiceImpl implements IGlobalConfigService {
         }
         String cacheKey = BaseUtils.getGlobalConfigCacheKey(systemName, groupName, null);
         String cache = Tools.redis().opsForValue().get(cacheKey);
+        log.info("get config from redis, key={}, value={}", cacheKey, cache);
         if (StringUtils.isNotBlank(cache)) {
             return JSON.parseArray(cache, GlobalConfigDO.class);
         }
@@ -163,8 +164,9 @@ public class GlobalConfigServiceImpl implements IGlobalConfigService {
         query.setSystemName(systemName);
         query.setGroupName(groupName);
         List<GlobalConfigDO> configFromDb = selectList(query);
+        log.info("get config from db, key={}, value={}", cacheKey, configFromDb == null ? 0 : configFromDb.size());
         if (configFromDb != null) {
-            Tools.redis().opsForValue().set(cacheKey, JSON.toJSONString(configFromDb), Consts.MINUTE_30,
+            Tools.redis().opsForValue().set(cacheKey, JSON.toJSONString(configFromDb), Consts.MINUTE_10_S,
                 TimeUnit.SECONDS);
         }
         return configFromDb;
@@ -188,6 +190,7 @@ public class GlobalConfigServiceImpl implements IGlobalConfigService {
         }
         String cacheKey = BaseUtils.getGlobalConfigCacheKey(systemName, groupName, configKey);
         String cache = Tools.redis().opsForValue().get(cacheKey);
+        log.info("Get config from redis, key: {}, value: {}", cacheKey, cache);
         if (StringUtils.isNotBlank(cache)) {
             return JSON.parseObject(cache, GlobalConfigDO.class);
         }
@@ -196,8 +199,9 @@ public class GlobalConfigServiceImpl implements IGlobalConfigService {
         query.setGroupName(groupName);
         query.setConfigKey(configKey);
         GlobalConfigDO configFromDb = selectOne(query);
+        log.info("Get config from db, key: {}, value: {}", cacheKey, configFromDb);
         if (configFromDb != null) {
-            Tools.redis().opsForValue().set(cacheKey, JSON.toJSONString(configFromDb), Consts.MINUTE_30,
+            Tools.redis().opsForValue().set(cacheKey, JSON.toJSONString(configFromDb), Consts.MINUTE_10_S,
                 TimeUnit.SECONDS);
         }
         return configFromDb;

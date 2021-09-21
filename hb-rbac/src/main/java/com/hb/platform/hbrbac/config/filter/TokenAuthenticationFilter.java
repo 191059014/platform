@@ -1,17 +1,17 @@
 package com.hb.platform.hbrbac.config.filter;
 
 import com.alibaba.fastjson.JSON;
-import com.hb.platform.hbbase.common.constant.Consts;
 import com.hb.platform.hbbase.common.Result;
+import com.hb.platform.hbbase.common.constant.Consts;
+import com.hb.platform.hbbase.common.util.ServletUtils;
 import com.hb.platform.hbbase.container.Tools;
-import com.hb.platform.hbbase.util.ServletUtils;
 import com.hb.platform.hbcommon.security.AES;
 import com.hb.platform.hbcommon.security.Base64;
-import com.hb.platform.hbrbac.common.RbacConsts;
-import com.hb.platform.hbrbac.config.MySercurityConfig;
-import com.hb.platform.hbrbac.enums.RbacResultCode;
+import com.hb.platform.hbrbac.common.constant.RbacConsts;
+import com.hb.platform.hbrbac.common.enums.RbacResultCode;
+import com.hb.platform.hbrbac.common.util.RbacUtils;
+import com.hb.platform.hbrbac.config.security.MySercurityConfig;
 import com.hb.platform.hbrbac.model.dto.UserCache;
-import com.hb.platform.hbrbac.util.RbacUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -61,7 +61,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
          * 校验token
          */
         String authorization = request.getHeader("Authorization");
-        log.info("authorization from request: {}", authorization);
+        log.info("Authorization from request: {}", authorization);
         if (StringUtils.isEmpty(authorization)) {
             ServletUtils.writeJson(response, Result.fail(RbacResultCode.TOKEN_NULL));
             return;
@@ -76,11 +76,13 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         String base64Encode = authorization.replace(RbacConsts.BEARER, "");
         String base64Decode = Base64.decode(base64Encode);
         String aesDecode = AES.decode(base64Decode, RbacConsts.PROJECT_NAME);
+        String[] arr = aesDecode.split("_");
+        String userId = arr[0];
         /*
          * 从缓存中获取当前用户信息
          */
-        String currentUserCacheKey = RbacUtils.getCurrentUserCacheKey(aesDecode);
-        log.info("current user cache key: {}", currentUserCacheKey);
+        String currentUserCacheKey = RbacUtils.getCurrentUserCacheKey(userId);
+        log.info("Current user cache key: {}", currentUserCacheKey);
         String userCacheJson = Tools.redis().opsForValue().get(currentUserCacheKey);
         if (StringUtils.isEmpty(userCacheJson)) {
             ServletUtils.writeJson(response, Result.fail(RbacResultCode.TOKEN_EXPIRED));
@@ -99,8 +101,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
          * token续航
          */
         Long remainExpire = Tools.redis().getExpire(currentUserCacheKey, TimeUnit.SECONDS);
-        if (remainExpire < Consts.MINUTE_10) {
-            Tools.redis().expire(currentUserCacheKey, Consts.MINUTE_30, TimeUnit.SECONDS);
+        if (remainExpire < Consts.MINUTE_10_S) {
+            Tools.redis().expire(currentUserCacheKey, Consts.MINUTE_30_S, TimeUnit.SECONDS);
         }
         /*
          * 将用户信息放入spring security上下文，如果不设置，则视为匿名访问
