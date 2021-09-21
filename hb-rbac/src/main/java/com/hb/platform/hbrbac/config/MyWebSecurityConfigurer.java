@@ -42,12 +42,6 @@ public class MyWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     private UserDetailsService myUserDetailsService;
 
     /**
-     * token认证过滤器
-     */
-    @Resource
-    private TokenAuthenticationFilter tokenAuthenticationFilter;
-
-    /**
      * 配置
      */
     @Resource
@@ -117,7 +111,8 @@ public class MyWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
         // 前后端分离，使用token机制，先进行token认证
         // 将顺序放在注销过滤器前，保证注销的url也经过此过滤器
         // 过滤器链的顺序见org.springframework.security.config.annotation.web.builders.FilterComparator
-        http.addFilterBefore(tokenAuthenticationFilter, LogoutFilter.class);
+        // 这里直接new对象，如果用注入的话，下面配置的忽略请求会失效，依然会经过此过滤器
+        http.addFilterBefore(new TokenAuthenticationFilter(mySercurityConfig), LogoutFilter.class);
 
     }
 

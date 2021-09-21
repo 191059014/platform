@@ -254,11 +254,11 @@
           Alert.warn("权限值不能为空");
           return false;
         }
-        Api.addPermission(this.permissionModelAdd).then(res => {
+        Api.addPermission(this.permissionModelAdd, (res => {
           Alert.success(res.data.msg);
           this.showAddDialog = false;
           this.queryPages();
-        })
+        }));
       },
       handleEdit() {
         if (!this.permissionModelUpdate.resourceType) {

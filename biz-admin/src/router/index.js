@@ -3,13 +3,13 @@ import Router from 'vue-router'
 import Login from '../views/login.vue'
 import Workbench from '../views/workbench.vue'
 import Website from '../views/embedwebsite/website.vue'
-import HomePage from '../views/homepage.vue'
-import AccessDenied from '../views/errorPage/access_denied.vue'
+import AccessDenied from '../views/errorpage/access_denied.vue'
 import MerchantManage from '../views/systemmanage/merchant_manage.vue'
 import UserManage from '../views/systemmanage/user_manage.vue'
 import RoleManage from '../views/systemmanage/role_manage.vue'
 import AccessManage from '../views/systemmanage/permission_manage.vue'
-import AccountSetting from '../components/AccountSetting.vue'
+import AccountSetting from '../views/systemmanage/accountsetting.vue'
+import CacheManage from '../views/toolkit/cachemanage.vue'
 import GlobalConfig from '../views/configmanage/GlobalConfig.vue'
 
 /**
@@ -39,11 +39,6 @@ export default new Router({
       name: '工作台',
       component: Workbench,
       children: [
-        {
-          path: '/homepage',
-          name: '首页',
-          component: HomePage
-        },
         {
           path: '/website',
           name: '内嵌外部网站',
@@ -78,6 +73,11 @@ export default new Router({
           path: '/globalConfig',
           name: '全局配置',
           component: GlobalConfig
+        },
+        {
+          path: '/cacheManage',
+          name: '缓存管理',
+          component: CacheManage
         },
       ]
     }

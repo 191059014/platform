@@ -82,6 +82,7 @@
         </el-header>
         <!-- 中间 -->
         <el-main id="content_wrapper">
+          <HomePage v-if="!openTabs.length"></HomePage>
           <el-tabs v-model="activeTabIndex" v-if="openTabs.length" @tab-click='tabClick' @tab-remove='tabRemove'>
             <el-tab-pane :key="item.name" v-for="(item, index) in openTabs"
                          :label="item.title"
@@ -120,6 +121,7 @@
 
 <script>
 
+  import HomePage from '../components/HomePage.vue'
   import * as Api from '../common/api.js';
   import * as Alert from '../common/alert.js';
   import * as Consts from '../common/consts.js';
@@ -144,7 +146,7 @@
           {id: '8', backgroundColor: '#545c64'},
           {id: '9', backgroundColor: '#000000'}
         ],
-        openTabs: [{route: '/homepage', title: '首页', name: '-1', closable: false}],
+        openTabs: [],
         openDrawer: false
       }
     },
@@ -269,6 +271,9 @@
       contentWrapperDiv.style.minHeight = (document.documentElement.clientHeight - 56 - 80) + 'px';
       // 初始化左侧菜单
       this.findPrivateMenuDatas();
+    },
+    components: {
+      HomePage
     }
   }
 

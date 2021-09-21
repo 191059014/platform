@@ -68,8 +68,8 @@ export const getUserPages = (params, pageNum, pageSize, scb) => {
   return Ajax.post(`sysUser/queryPages?pageNum=` + pageNum + '&pageSize=' + pageSize, params).then(res => commonHandleResponse(res, scb));
 };
 // 获取当前用户信息
-export const getCurrentUser = () => {
-  return Ajax.get(`bs/auth/user/getCurrentUser`).then(res => commonHandleResponse(res, scb));
+export const getCurrentUser = (scb) => {
+  return Ajax.get(`sysUser/getCurrentUser`).then(res => commonHandleResponse(res, scb));
 };
 // 添加用户
 export const addUser = (params, scb) => {
@@ -80,8 +80,8 @@ export const updateUser = (params, scb) => {
   return Ajax.post(`sysUser/updateById`, params).then(res => commonHandleResponse(res, scb));
 };
 // 修改密码
-export const updatePassword = (params, scb) => {
-  return Ajax.post(`sysUser/updatePassword`, params).then(res => commonHandleResponse(res, scb));
+export const updateCurrentUserPassword = (params, scb) => {
+  return Ajax.post(`sysUser/updateCurrentUserPassword`, params).then(res => commonHandleResponse(res, scb));
 };
 // 删除用户
 export const deleteUser = (id, scb) => {
@@ -157,6 +157,16 @@ export const deletePermission = (id, scb) => {
 export const getResourcesByResourceType = (resourceType, scb) => {
   return Ajax.get(`sysPermission/getResourcesByResourceType?resourceType=` + resourceType).then(res => commonHandleResponse(res, scb));
 };
-
+/**
+ * 工具箱
+ */
+// 获取缓存
+export const getCache = (key, scb) => {
+  return Ajax.get(`cache/get/` + key).then(res => commonHandleResponse(res, scb));
+};
+// 删除缓存
+export const deleteCache = (key, scb) => {
+  return Ajax.get(`cache/delete/` + key).then(res => commonHandleResponse(res, scb));
+};
 
 

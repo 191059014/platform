@@ -15,11 +15,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -36,14 +34,16 @@ import java.util.concurrent.TimeUnit;
  * @version v0.1, 2021/4/18 1:33, create by huangbiao.
  */
 @Slf4j
-@Component
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     /**
      * 配置
      */
-    @Resource
     private MySercurityConfig mySercurityConfig;
+
+    public TokenAuthenticationFilter(MySercurityConfig mySercurityConfig) {
+        this.mySercurityConfig = mySercurityConfig;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)

@@ -1,6 +1,8 @@
 package com.hb.platform.hbrbac;
 
+import com.hb.platform.hbbase.container.Tools;
 import com.hb.platform.hbrbac.model.dobj.SysUserDO;
+import com.hb.platform.hbrbac.util.RbacUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -37,6 +39,15 @@ public class RbacContext {
     public static SysUserDO getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return (SysUserDO)authentication.getPrincipal();
+    }
+
+    /**
+     * 清除用户信息
+     */
+    public static void clear() {
+        SysUserDO currentUser = getCurrentUser();
+        SecurityContextHolder.clearContext();
+        Tools.objectRedis().delete(RbacUtils.getCurrentUserCacheKey(currentUser.getId()));
     }
 
 }

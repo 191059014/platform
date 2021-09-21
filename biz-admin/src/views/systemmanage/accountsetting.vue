@@ -1,7 +1,7 @@
 <template>
   <div class="account_setting_wapper">
     <el-alert
-      title="以下设置，重启后才能生效，请谨慎操作"
+      title="修改以下设置后，需要重新登录，请谨慎操作"
       type="warning"
       close-text="知道了"
       show-icon>
@@ -50,14 +50,14 @@
         <ul class="account_bind_ul">
           <li>
             <span>
-              <img src="../../static/image/zhifubao.png"/>
+              <img src="../../../static/image/zhifubao.png"/>
               <p>支付宝</p>
               <el-link :underline="false" type="success">去绑定</el-link>
             </span>
           </li>
           <li>
             <span>
-              <img src="../../static/image/weixin.png"/>
+              <img src="../../../static/image/weixin.png"/>
               <p>微信</p>
               <el-link :underline="false" type="success">去绑定</el-link>
             </span>
@@ -70,17 +70,16 @@
 
 <script>
 
-  import * as Api from '../common/api.js';
-  import * as Alert from '../common/alert.js';
-  import * as Consts from '../common/consts.js';
-  import * as Utils from '../common/utils.js';
+  import * as Api from '../../common/api.js';
+  import * as Alert from '../../common/alert.js';
+  import * as Utils from '../../common/utils.js';
 
   export default {
     name: "AccountSetting",
     data() {
       return {
         userModel: {
-          userId: '',
+          id: '',
           userName: '',
           mobile: '',
           sex: '',
@@ -107,7 +106,7 @@
           Alert.warn("手机号不能为空");
           return false;
         }
-        if (this.userModel.email && !this.hbutils.isEmail(this.userModel.email)) {
+        if (this.userModel.email && !Utils.isEmail(this.userModel.email)) {
           Alert.warn("邮箱格式不正确");
           return false;
         }
@@ -133,13 +132,10 @@
           Alert.warn("所有信息均未修改");
           return false;
         }
-        Api.updateUser(updateParams, this.userModel.userId).then(res => {
-          if (Consts.ResponseEnum.SUCCESS.code === res.code) {
-            Alert.success(res.msg);
-          } else {
-            Alert.error(res.msg);
-          }
-        })
+        updateParams.id = this.userModel.id;
+        Api.updateUser(updateParams, (res => {
+          Alert.success(res.msg);
+        }))
       },
       onSubmitSecurity() {
         if (!this.oldPassword) {
@@ -162,23 +158,18 @@
           oldPassword: this.oldPassword,
           newPassword: this.newPassword
         };
-        Api.updatePassword(updateParams).then(res => {
-          if (Consts.ResponseEnum.SUCCESS.code === res.code) {
-            Alert.success(res.msg);
-          } else {
-            Alert.error(res.msg);
-          }
-        })
+        Api.updateCurrentUserPassword(updateParams, (res => {
+          Alert.success(res.msg);
+        }))
       },
       loadCurrentUserInfo() {
-        Api.getCurrentUser().then(res => {
-          if (Consts.ResponseEnum.SUCCESS.code === res.code) {
-            this.userModelPrimary = res.data;
-            this.userModel = res.data;
-          } else {
-            Alert.error(res.msg);
-          }
-        });
+        Api.getCurrentUser((res => {
+          this.userModel = res.data;
+          this.userModelPrimary.userName = res.data.userName;
+          this.userModelPrimary.mobile = res.data.mobile;
+          this.userModelPrimary.sex = res.data.sex;
+          this.userModelPrimary.email = res.data.email;
+        }));
       }
     },
     created() {

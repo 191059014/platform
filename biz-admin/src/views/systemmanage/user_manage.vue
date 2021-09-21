@@ -92,14 +92,6 @@
           <el-input v-model="userModelUpdate.mobile" autocomplete="off" maxlength="11" show-word-limit
                     clearable></el-input>
         </el-form-item>
-        <el-form-item label="密码" required>
-          <el-input v-model="userModelUpdate.password" autocomplete="off" show-password maxlength="20" show-word-limit
-                    clearable placeholder="只能输入英文 + 数字的格式，不要包含特殊字符"></el-input>
-        </el-form-item>
-        <el-form-item label="确认密码" required>
-          <el-input v-model="userModelUpdate.confirmPassword" autocomplete="off" show-password maxlength="20"
-                    show-word-limit clearable placeholder="只能输入英文 + 数字的格式，不要包含特殊字符"></el-input>
-        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="hideDialogOfUpdate()">取 消</el-button>
@@ -155,15 +147,11 @@
           id: '',
           userName: '',
           mobile: '',
-          password: '',
-          confirmPassword: '',
           tenantId: ''
         },
         userModelUpdatePrimary: {
           userName: '',
-          mobile: '',
-          password: '',
-          confirmPassword: ''
+          mobile: ''
         },
         subMerchantList: [],
         openDrawer: false,
@@ -279,18 +267,6 @@
           Alert.warn("手机号格式有误");
           return false;
         }
-        if (!this.userModelUpdate.password) {
-          Alert.warn("密码不能为空");
-          return false;
-        }
-        if (!this.userModelUpdate.confirmPassword) {
-          Alert.warn("确认密码不能为空");
-          return false;
-        }
-        if (this.userModelUpdate.password !== this.userModelUpdate.confirmPassword) {
-          Alert.warn("两次输入的密码不一致");
-          return false;
-        }
         let updateParams = {};
         let updateFlag = false;
         if (this.userModelUpdatePrimary.userName !== this.userModelUpdate.userName) {
@@ -299,14 +275,6 @@
         }
         if (this.userModelUpdatePrimary.mobile !== this.userModelUpdate.mobile) {
           updateParams.mobile = this.userModelUpdate.mobile;
-          updateFlag = true;
-        }
-        if (this.userModelUpdatePrimary.password !== this.userModelUpdate.password) {
-          if (Utils.isContainChinese(this.userModelUpdate.password) || Utils.isContainSpecialSymbol(this.userModelUpdate.password)) {
-            Alert.warn("密码格式有误");
-            return false;
-          }
-          updateParams.password = this.userModelUpdate.password;
           updateFlag = true;
         }
         if (!updateFlag) {

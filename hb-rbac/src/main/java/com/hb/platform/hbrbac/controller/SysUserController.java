@@ -8,12 +8,14 @@ import com.hb.platform.hbbase.model.Page;
 import com.hb.platform.hbcommon.validator.Assert;
 import com.hb.platform.hbcommon.validator.Check;
 import com.hb.platform.hbrbac.RbacContext;
+import com.hb.platform.hbrbac.enums.RbacResultCode;
 import com.hb.platform.hbrbac.enums.ResourceType;
 import com.hb.platform.hbrbac.model.dobj.SysPermissionDO;
 import com.hb.platform.hbrbac.model.dobj.SysRolePermissionDO;
 import com.hb.platform.hbrbac.model.dobj.SysUserDO;
 import com.hb.platform.hbrbac.model.dobj.SysUserRoleDO;
 import com.hb.platform.hbrbac.model.dto.ElementuiMenu;
+import com.hb.platform.hbrbac.model.vo.request.UpdatePasswordRequest;
 import com.hb.platform.hbrbac.model.vo.response.ElementuiMenuResponse;
 import com.hb.platform.hbrbac.service.ISysPermissionService;
 import com.hb.platform.hbrbac.service.ISysRolePermissionService;
@@ -21,7 +23,6 @@ import com.hb.platform.hbrbac.service.ISysUserRoleService;
 import com.hb.platform.hbrbac.service.ISysUserService;
 import com.hb.platform.hbrbac.util.RbacUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.CollectionUtils;
@@ -121,11 +122,13 @@ public class SysUserController {
     @PreAuthorize("hasAuthority('user_manage_update')")
     @PostMapping("/updateById")
     public Result updateById(@RequestBody SysUserDO sysUser) {
-        if (StringUtils.isNotBlank(sysUser.getPassword())) {
-            String encodePassword = new BCryptPasswordEncoder().encode(sysUser.getPassword());
-            sysUser.setPassword(encodePassword);
+        Assert.notNull(sysUser.getId(), ResultCode.PARAM_ILLEGAL);
+        int updateRows = sysUserService.updateById(sysUser);
+        if (updateRows != 1) {
+            return Result.fail(ResultCode.FAIL);
         }
-        return Result.success(sysUserService.updateById(sysUser));
+        RbacContext.clear();
+        return Result.success(updateRows);
     }
 
     /**
@@ -235,6 +238,46 @@ public class SysUserController {
             menuList.add(menu);
         });
         return menuList.size() > 0 ? menuList : null;
+    }
+
+    /**
+     * 获取当前用户信息
+     * 
+     * @return 结果
+     */
+    @InOutLog("获取当前用户信息")
+    @GetMapping("/getCurrentUser")
+    public Result<SysUserDO> getCurrentUser() {
+        return Result.success(RbacContext.getCurrentUser());
+    }
+
+    /**
+     * 更新密码
+     * 
+     * @return 结果
+     */
+    @InOutLog("更新密码")
+    @PostMapping("/updateCurrentUserPassword")
+    public Result<Integer> updateCurrentUserPassword(@RequestBody UpdatePasswordRequest request) {
+        SysUserDO currentUser = RbacContext.getCurrentUser();
+        Assert.notNull(request.getOldPassword(), ResultCode.PARAM_ILLEGAL);
+        Assert.notNull(request.getNewPassword(), ResultCode.PARAM_ILLEGAL);
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if (!passwordEncoder.matches(request.getOldPassword(), currentUser.getPassword())) {
+            return Result.fail(RbacResultCode.OLD_PASSWORD_ERROR);
+        }
+        String newPasswordEncode = passwordEncoder.encode(request.getNewPassword());
+        SysUserDO update = new SysUserDO();
+        update.setId(currentUser.getId());
+        update.setPassword(newPasswordEncode);
+
+        RbacContext.clear();
+        int updateRows = sysUserService.updateById(update);
+        if (updateRows != 1) {
+            return Result.fail(ResultCode.FAIL);
+        }
+        RbacContext.clear();
+        return Result.success(updateRows);
     }
 
 }

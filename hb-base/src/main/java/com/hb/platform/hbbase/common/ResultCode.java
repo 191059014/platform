@@ -11,13 +11,11 @@ public enum ResultCode implements IErrorCode {
 
     SUCCESS("10000", "成功"),
     ERROR("10001", "系统异常，请稍后再试！"),
-    PARAM_ILLEGAL("10002", "参数非法"),
-    PAGE_PARAM_ERROR("10003", "分页参数错误"),
-    REQUEST_TOO_FREQUENTLY("10004", "访问太频繁"),
-
-
-
-    NO_DATA("20000", "无数据"),
+    FAIL("10002", "操作失败"),
+    NO_DATA("10003", "无数据"),
+    PARAM_ILLEGAL("10004", "参数非法"),
+    PAGE_PARAM_ERROR("10005", "分页参数错误"),
+    REQUEST_TOO_FREQUENTLY("10006", "访问太频繁"),
     ;
 
     /**
