@@ -3,8 +3,9 @@ package com.hb.platform.hbbase.filter;
 import com.hb.platform.hbbase.common.Result;
 import com.hb.platform.hbbase.common.ResultCode;
 import com.hb.platform.hbbase.container.Tools;
+import com.hb.platform.hbbase.util.BaseUtils;
 import com.hb.platform.hbbase.util.ServletUtils;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -19,24 +20,23 @@ import java.util.concurrent.TimeUnit;
  *
  * @version v0.1, 2021/9/19 23:00, create by huangbiao.
  */
-@Slf4j
 public class RequestFrequencyLimitFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
         throws ServletException, IOException {
         String ipAddress = ServletUtils.getIpAddress(request);
-        String key = "requestFrequencyLimit:" + ipAddress;
-        Integer frequency = Tools.intRedis().opsForValue().get(key);
-        log.debug("ip={}, rate={}", ipAddress, frequency);
-        if (frequency == null) {
-            Tools.intRedis().opsForValue().set(key, 1, 3, TimeUnit.SECONDS);
+        String cacheKey = BaseUtils.getRequestLimitCacheKey(ipAddress);
+        String frequency = Tools.redis().opsForValue().get(cacheKey);
+        if (StringUtils.isEmpty(frequency)) {
+            Tools.redis().opsForValue().set(cacheKey, "1", 3, TimeUnit.SECONDS);
         } else {
-            if (frequency > 10) {
-                ServletUtils.writeJson(response, Result.fail(ResultCode.REQUEST_TOO_FREQUENTLY));
+            int times = Integer.parseInt(frequency);
+            if (times > 10) {
+                ServletUtils.writeJson(response, Result.fail(ResultCode.REQUEST_TOO_FREQUENTLY, times));
                 return;
             } else {
-                Tools.redis().opsForValue().increment(key);
+                Tools.redis().opsForValue().increment(cacheKey);
             }
         }
         chain.doFilter(request, response);

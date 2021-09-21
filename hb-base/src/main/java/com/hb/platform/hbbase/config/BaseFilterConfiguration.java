@@ -1,6 +1,10 @@
-package com.hb.platform.hbbase.filter;
+package com.hb.platform.hbbase.config;
 
+import com.hb.platform.hbbase.filter.BlackListFilter;
+import com.hb.platform.hbbase.filter.RequestFrequencyLimitFilter;
+import com.hb.platform.hbbase.filter.TraceIdMdcHttpFilter;
 import com.hb.platform.hbbase.util.FilterUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +19,21 @@ import org.springframework.context.annotation.Configuration;
 public class BaseFilterConfiguration {
 
     /**
-     * traceId的mdc方式过滤器
+     * 基础配置
+     */
+    @Autowired
+    private BaseConfig baseConfig;
+
+    /**
+     * 黑名单
+     */
+    @Bean
+    public FilterRegistrationBean blackListFilter() {
+        return FilterUtils.build(new BlackListFilter(), "blackListFilter", -1100, "/*");
+    }
+
+    /**
+     * traceId的mdc方式
      */
     @Bean
     public FilterRegistrationBean traceIdMdcHttpFilter() {
@@ -23,7 +41,7 @@ public class BaseFilterConfiguration {
     }
 
     /**
-     * 请求频率限制过滤器
+     * 请求频率限制
      */
     @Bean
     public FilterRegistrationBean requestFrequencyLimitFilter() {

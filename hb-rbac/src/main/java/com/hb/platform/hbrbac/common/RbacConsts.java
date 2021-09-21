@@ -13,16 +13,6 @@ public interface RbacConsts {
     String PROJECT_NAME = "rbac";
 
     /**
-     * 10分钟，单位毫秒
-     */
-    long MINUTE_10 = 10 * 60 * 1000;
-
-    /**
-     * 半小时，单位毫秒
-     */
-    long MINUTE_30 = 30 * 60 * 1000;
-
-    /**
      * Bearer
      */
     String BEARER = "Bearer ";

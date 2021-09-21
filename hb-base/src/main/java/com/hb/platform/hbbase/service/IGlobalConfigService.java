@@ -1,10 +1,10 @@
 package com.hb.platform.hbbase.service;
 
-import java.util.List;
-import java.util.Set;
-
 import com.hb.platform.hbbase.dao.dobj.GlobalConfigDO;
 import com.hb.platform.hbbase.model.Page;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * 全局配置表服务层接口
@@ -64,7 +64,6 @@ public interface IGlobalConfigService {
      */
     List<GlobalConfigDO> selectByIdSet(Set<Long> idSet, GlobalConfigDO globalConfig);
 
-
     /**
      * 新增
      *
@@ -92,4 +91,27 @@ public interface IGlobalConfigService {
      */
     int deleteById(GlobalConfigDO globalConfig);
 
+    /**
+     * 从缓存里获取配置
+     *
+     * @param systemName
+     *            系统名称
+     * @param groupName
+     *            分组名称
+     * @return 值
+     */
+    List<GlobalConfigDO> getFromCache(String systemName, String groupName);
+
+    /**
+     * 从缓存里获取配置
+     *
+     * @param systemName
+     *            系统名称
+     * @param groupName
+     *            分组名称
+     * @param configKey
+     *            键
+     * @return 值
+     */
+    GlobalConfigDO getFromCache(String systemName, String groupName, String configKey);
 }

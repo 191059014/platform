@@ -16,6 +16,8 @@ public enum ResultCode implements IErrorCode {
     PARAM_ILLEGAL("10004", "参数非法"),
     PAGE_PARAM_ERROR("10005", "分页参数错误"),
     REQUEST_TOO_FREQUENTLY("10006", "访问太频繁"),
+    BLACK_LIST_IP("10007", "您已经被列入黑名单，无法访问"),
+    RECORD_REPEAT("10008", "已存在唯一性相同的记录"),
     ;
 
     /**

@@ -1,14 +1,16 @@
 package com.hb.platform.hbbase.controller;
 
 import com.hb.platform.hbbase.annotation.InOutLog;
-import com.hb.platform.hbbase.dao.dobj.GlobalConfigDO;
-import com.hb.platform.hbbase.service.IGlobalConfigService;
 import com.hb.platform.hbbase.common.Result;
 import com.hb.platform.hbbase.common.ResultCode;
+import com.hb.platform.hbbase.dao.dobj.GlobalConfigDO;
 import com.hb.platform.hbbase.model.Page;
+import com.hb.platform.hbbase.service.IGlobalConfigService;
 import com.hb.platform.hbcommon.validator.Assert;
 import com.hb.platform.hbcommon.validator.Check;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 全局配置表控制层
@@ -47,7 +51,7 @@ public class GlobalConfigController {
      */
     @PostMapping("/queryPages")
     public Result<Page<GlobalConfigDO>> queryPages(@RequestBody GlobalConfigDO globalConfig,
-                                                   @RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize) {
+        @RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize) {
         Assert.ifTrueThrows(Check.incorrectPageParameter(pageNum, pageSize), ResultCode.PAGE_PARAM_ERROR);
         return Result.success(globalConfigService.selectPages(globalConfig, pageNum, pageSize));
     }
@@ -55,28 +59,65 @@ public class GlobalConfigController {
     /**
      * 新增全局配置表
      *
-     * @param globalConfig
+     * @param config
      *            新增对象信息
      * @return 影响的行数
      */
     @InOutLog("新增全局配置表")
     @PostMapping("/save")
-    public Result save(@RequestBody GlobalConfigDO globalConfig) {
-        return Result.success(globalConfigService.insert(globalConfig));
+    public Result save(@RequestBody GlobalConfigDO config) {
+        if (StringUtils.isAnyBlank(config.getSystemName(), config.getGroupName(), config.getConfigKey(),
+            config.getConfigValue())) {
+            return Result.fail(ResultCode.PARAM_ILLEGAL);
+        }
+        GlobalConfigDO query = new GlobalConfigDO();
+        query.setSystemName(config.getSystemName());
+        query.setGroupName(config.getGroupName());
+        query.setConfigKey(config.getConfigKey());
+        List<GlobalConfigDO> existList = globalConfigService.selectList(query);
+        if (!CollectionUtils.isEmpty(existList)) {
+            return Result.fail(ResultCode.RECORD_REPEAT);
+        }
+        return Result.success(globalConfigService.insert(config));
     }
 
     /**
      * 通过主键修改全局配置表
      *
-     * @param globalConfig
+     * @param config
      *            要修改的信息
      * @return 影响的行数
      */
     @InOutLog("通过主键修改全局配置表")
     @PostMapping("/updateById")
-    public Result updateById(@RequestBody GlobalConfigDO globalConfig) {
-        Assert.notNull(globalConfig.getId(), ResultCode.PARAM_ILLEGAL);
-        return Result.success(globalConfigService.updateById(globalConfig));
+    public Result updateById(@RequestBody GlobalConfigDO config) {
+        Assert.notNull(config.getId(), ResultCode.PARAM_ILLEGAL);
+        GlobalConfigDO old = globalConfigService.selectById(config.getId());
+        GlobalConfigDO query = new GlobalConfigDO();
+        if (StringUtils.isBlank(config.getSystemName())) {
+            query.setSystemName(old.getSystemName());
+        } else {
+            query.setSystemName(config.getSystemName());
+        }
+        if (StringUtils.isBlank(config.getGroupName())) {
+            query.setGroupName(old.getGroupName());
+        } else {
+            query.setGroupName(config.getGroupName());
+        }
+        if (StringUtils.isBlank(config.getConfigKey())) {
+            query.setConfigKey(old.getConfigKey());
+        } else {
+            query.setConfigKey(config.getConfigKey());
+        }
+        List<GlobalConfigDO> existList = globalConfigService.selectList(query);
+        if (!CollectionUtils.isEmpty(existList)) {
+            List<GlobalConfigDO> repeatList =
+                existList.stream().filter(cfg -> cfg.getId().compareTo(old.getId()) != 0).collect(Collectors.toList());
+            if (!CollectionUtils.isEmpty(repeatList)) {
+                return Result.fail(ResultCode.RECORD_REPEAT);
+            }
+        }
+        return Result.success(globalConfigService.updateById(config));
     }
 
     /**

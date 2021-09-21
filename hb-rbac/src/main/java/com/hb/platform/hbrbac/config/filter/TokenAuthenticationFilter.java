@@ -1,5 +1,7 @@
 package com.hb.platform.hbrbac.config.filter;
 
+import com.alibaba.fastjson.JSON;
+import com.hb.platform.hbbase.common.constant.Consts;
 import com.hb.platform.hbbase.common.Result;
 import com.hb.platform.hbbase.container.Tools;
 import com.hb.platform.hbbase.util.ServletUtils;
@@ -79,12 +81,12 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
          */
         String currentUserCacheKey = RbacUtils.getCurrentUserCacheKey(aesDecode);
         log.info("current user cache key: {}", currentUserCacheKey);
-        Object userCacheObject = Tools.objectRedis().opsForValue().get(currentUserCacheKey);
-        if (userCacheObject == null) {
+        String userCacheJson = Tools.redis().opsForValue().get(currentUserCacheKey);
+        if (StringUtils.isEmpty(userCacheJson)) {
             ServletUtils.writeJson(response, Result.fail(RbacResultCode.TOKEN_EXPIRED));
             return;
         }
-        UserCache userCache = (UserCache)userCacheObject;
+        UserCache userCache = JSON.parseObject(userCacheJson, UserCache.class);
         /*
          * 校验访问ip，防止token被截取
          */
@@ -96,9 +98,9 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         /*
          * token续航
          */
-        Long remainExpire = Tools.redis().getExpire(currentUserCacheKey, TimeUnit.MILLISECONDS);
-        if (remainExpire < RbacConsts.MINUTE_10) {
-            Tools.redis().expire(currentUserCacheKey, RbacConsts.MINUTE_30, TimeUnit.MILLISECONDS);
+        Long remainExpire = Tools.redis().getExpire(currentUserCacheKey, TimeUnit.SECONDS);
+        if (remainExpire < Consts.MINUTE_10) {
+            Tools.redis().expire(currentUserCacheKey, Consts.MINUTE_30, TimeUnit.SECONDS);
         }
         /*
          * 将用户信息放入spring security上下文，如果不设置，则视为匿名访问

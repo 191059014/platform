@@ -1,18 +1,23 @@
 package com.hb.platform.hbbase.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.hb.platform.hbbase.common.constant.Consts;
+import com.hb.platform.hbbase.container.Tools;
 import com.hb.platform.hbbase.dao.dobj.GlobalConfigDO;
 import com.hb.platform.hbbase.dao.mapper.IGlobalConfigMapper;
-import com.hb.platform.hbbase.service.IGlobalConfigService;
-import org.springframework.stereotype.Service;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.CollectionUtils;
-
-import java.util.List;
-import java.util.Set;
-import javax.annotation.Resource;
-
 import com.hb.platform.hbbase.model.Page;
 import com.hb.platform.hbbase.model.PageCondition;
+import com.hb.platform.hbbase.service.IGlobalConfigService;
+import com.hb.platform.hbbase.util.BaseUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
+import javax.annotation.Resource;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 全局配置表服务层实现类
@@ -80,7 +85,8 @@ public class GlobalConfigServiceImpl implements IGlobalConfigService {
     @Override
     public Page<GlobalConfigDO> selectPages(GlobalConfigDO globalConfig, int pageNum, int pageSize) {
         Long count = this.globalConfigMapper.selectCount(globalConfig);
-        List<GlobalConfigDO> dataList = this.globalConfigMapper.selectPages(globalConfig, PageCondition.create(pageNum, pageSize));
+        List<GlobalConfigDO> dataList =
+            this.globalConfigMapper.selectPages(globalConfig, PageCondition.create(pageNum, pageSize));
         return Page.create(count, dataList);
     }
 
@@ -97,7 +103,6 @@ public class GlobalConfigServiceImpl implements IGlobalConfigService {
     public List<GlobalConfigDO> selectByIdSet(Set<Long> idSet, GlobalConfigDO globalConfig) {
         return this.globalConfigMapper.selectByIdSet(idSet, globalConfig);
     }
-
 
     /**
      * 选择性新增
@@ -133,6 +138,69 @@ public class GlobalConfigServiceImpl implements IGlobalConfigService {
     @Override
     public int deleteById(GlobalConfigDO globalConfig) {
         return this.globalConfigMapper.deleteById(globalConfig);
+    }
+
+    /**
+     * 从缓存里获取配置
+     *
+     * @param systemName
+     *            系统名称
+     * @param groupName
+     *            分组名称
+     * @return 值
+     */
+    @Override
+    public List<GlobalConfigDO> getFromCache(String systemName, String groupName) {
+        if (StringUtils.isAnyBlank(systemName, groupName)) {
+            return null;
+        }
+        String cacheKey = BaseUtils.getGlobalConfigCacheKey(systemName, groupName, null);
+        String cache = Tools.redis().opsForValue().get(cacheKey);
+        if (StringUtils.isNotBlank(cache)) {
+            return JSON.parseArray(cache, GlobalConfigDO.class);
+        }
+        GlobalConfigDO query = new GlobalConfigDO();
+        query.setSystemName(systemName);
+        query.setGroupName(groupName);
+        List<GlobalConfigDO> configFromDb = selectList(query);
+        if (configFromDb != null) {
+            Tools.redis().opsForValue().set(cacheKey, JSON.toJSONString(configFromDb), Consts.MINUTE_30,
+                TimeUnit.SECONDS);
+        }
+        return configFromDb;
+    }
+
+    /**
+     * 从缓存里获取配置
+     * 
+     * @param systemName
+     *            系统名称
+     * @param groupName
+     *            分组名称
+     * @param configKey
+     *            键
+     * @return 值
+     */
+    @Override
+    public GlobalConfigDO getFromCache(String systemName, String groupName, String configKey) {
+        if (StringUtils.isAnyBlank(systemName, groupName, configKey)) {
+            return null;
+        }
+        String cacheKey = BaseUtils.getGlobalConfigCacheKey(systemName, groupName, configKey);
+        String cache = Tools.redis().opsForValue().get(cacheKey);
+        if (StringUtils.isNotBlank(cache)) {
+            return JSON.parseObject(cache, GlobalConfigDO.class);
+        }
+        GlobalConfigDO query = new GlobalConfigDO();
+        query.setSystemName(systemName);
+        query.setGroupName(groupName);
+        query.setConfigKey(configKey);
+        GlobalConfigDO configFromDb = selectOne(query);
+        if (configFromDb != null) {
+            Tools.redis().opsForValue().set(cacheKey, JSON.toJSONString(configFromDb), Consts.MINUTE_30,
+                TimeUnit.SECONDS);
+        }
+        return configFromDb;
     }
 
 }

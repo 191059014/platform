@@ -1,9 +1,11 @@
 package com.hb.platform.hbbase.dao.dobj;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.hb.platform.hbbase.dao.dobj.base.impl.AbstractBaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import com.hb.platform.hbbase.dao.dobj.base.impl.AbstractBaseDO;
+
+import java.io.Serializable;
 
 /**
  * 全局配置表数据模型
@@ -13,7 +15,12 @@ import com.hb.platform.hbbase.dao.dobj.base.impl.AbstractBaseDO;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
-public class GlobalConfigDO extends AbstractBaseDO {
+public class GlobalConfigDO extends AbstractBaseDO implements Serializable {
+
+    /**
+     * serialVersionUID
+     */
+    private static final long serialVersionUID = -5003182963529863598L;
 
     /**
      * 系统名称

@@ -25,7 +25,7 @@ public class MyLogoutHandler implements LogoutHandler {
         SysUserDO currentUser = (SysUserDO)authentication.getPrincipal();
         log.info("正在注销，当前用户={}", currentUser.getUserName());
         String currentUserCacheKey = RbacUtils.getCurrentUserCacheKey(currentUser.getId());
-        Tools.objectRedis().delete(currentUserCacheKey);
+        Tools.redis().delete(currentUserCacheKey);
         log.info("删除缓存成功, key={}", currentUserCacheKey);
         SecurityContextHolder.clearContext();
         log.info("清除当前用户上下文成功");

@@ -47,7 +47,7 @@ public class RbacContext {
     public static void clear() {
         SysUserDO currentUser = getCurrentUser();
         SecurityContextHolder.clearContext();
-        Tools.objectRedis().delete(RbacUtils.getCurrentUserCacheKey(currentUser.getId()));
+        Tools.redis().delete(RbacUtils.getCurrentUserCacheKey(currentUser.getId()));
     }
 
 }

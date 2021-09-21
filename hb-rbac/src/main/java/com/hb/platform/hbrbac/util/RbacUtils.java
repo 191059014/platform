@@ -1,5 +1,6 @@
 package com.hb.platform.hbrbac.util;
 
+import com.hb.platform.hbbase.util.BaseUtils;
 import com.hb.platform.hbrbac.common.RbacConsts;
 
 /**
@@ -28,8 +29,7 @@ public class RbacUtils {
      * @return 缓存key
      */
     public static String getCurrentUserCacheKey(Object userId) {
-        return new StringBuilder().append(RbacConsts.PROJECT_NAME).append(":").append("loginUser").append(":")
-            .append(userId).toString();
+        return BaseUtils.generateRedisKey(RbacConsts.PROJECT_NAME, "loginUser", userId.toString());
     }
 
 }
