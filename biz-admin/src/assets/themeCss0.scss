@@ -1,0 +1,141 @@
+$baseColor: rgb(64, 158, 255);
+$baseColor_slight: rgba(64, 158, 255, 0.1);
+
+/**
+ * Steps 步骤条
+ */
+.el-step__head.is-finish {
+  color: $baseColor;
+  border-color: $baseColor;
+}
+
+.el-step__title.is-finish {
+  color: $baseColor;
+}
+
+.el-step__description.is-finish {
+  color: $baseColor;
+}
+
+/**
+ * 头部
+ */
+.el-header {
+  background-color: $baseColor !important;
+}
+
+.logo {
+  background-color: $baseColor !important;
+  color: white !important;
+}
+
+/**
+ * NavMenu 导航菜单
+ */
+.el-submenu__title:focus, .el-submenu__title:hover {
+  background-color: $baseColor_slight;
+}
+
+.el-menu-item.is-active {
+  color: $baseColor;
+}
+
+.el-menu-item:focus, .el-menu-item:hover {
+  background-color: $baseColor_slight;
+}
+
+/**
+ * Tabs 标签页
+ */
+.el-tabs__item.is-active {
+  color: $baseColor;
+}
+
+.el-tabs__item:hover {
+  color: $baseColor;
+}
+
+.el-tabs__active-bar {
+  background-color: $baseColor;
+}
+
+/**
+ * Button 按钮
+ */
+.el-button--primary {
+  background-color: $baseColor;
+  border-color: $baseColor;
+}
+
+.el-button--primary:focus, .el-button--primary:hover {
+  background: $baseColor;
+  border-color: $baseColor;
+}
+
+.el-button--default:focus, .el-button--default:hover {
+  color: $baseColor;
+  border-color: $baseColor;
+  background-color: $baseColor_slight;
+}
+
+/**
+ * Input 输入框
+ */
+.el-input__inner:focus {
+  border-color: $baseColor;
+}
+
+/**
+ * Select 选择器
+ */
+.el-select .el-input.is-focus .el-input__inner {
+  border-color: $baseColor;
+}
+
+/**
+ * Pagination 分页
+ */
+.el-pager li.active {
+  color: $baseColor;
+}
+
+.el-pager li:hover {
+  color: $baseColor;
+}
+
+.el-select-dropdown__item:hover {
+  background-color: $baseColor_slight !important;
+}
+
+.el-select-dropdown__item.selected {
+  background-color: $baseColor_slight;
+  color: $baseColor;
+}
+
+.el-pagination__sizes .el-input .el-input__inner:hover {
+  border-color: $baseColor;
+}
+
+/**
+ * Dropdown 下拉菜单
+ */
+.el-dropdown-menu__item:hover {
+  background-color: $baseColor_slight !important;
+  color: $baseColor !important;
+}
+
+/**
+ * Radio 单选框
+ */
+.el-radio__input.is-checked .el-radio__inner {
+  border-color: $baseColor;
+  background: $baseColor;
+}
+
+.el-radio__inner:hover {
+  border-color: $baseColor;
+}
+
+.el-radio__input.is-checked + .el-radio__label {
+  color: $baseColor;
+}

@@ -2,9 +2,7 @@
  * 状态
  */
 let state = {
-  // 系统设置
-  openSystemSetting: false,
-  currentThemeStyleId: '0',
-  currentThemeBgColor: '#409EFF',
+  // 当前主题ID
+  currentThemeId: '0'
 };
 export default state

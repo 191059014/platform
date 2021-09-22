@@ -15,8 +15,5 @@ export const ResponseEnum = {
   TOKEN_EXPIRED: {"code": "1017", "msg": "token过期"},
   IP_CHANGE: {"code": "1018", "msg": "您和上次登录IP不一致，为保证安全，请重新登录"},
 };
-// 缓存的主题样式的key
-export const currentThemeStyleId_key = "currentThemeStyleId";
-// 缓存的主题的背景色的key
-export const currentThemeBgColor_key = "currentThemeBgColor";
+
 

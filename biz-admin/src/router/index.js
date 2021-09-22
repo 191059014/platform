@@ -11,6 +11,7 @@ import AccessManage from '../views/systemmanage/permission_manage.vue'
 import AccountSetting from '../views/systemmanage/accountsetting.vue'
 import CacheManage from '../views/toolkit/cachemanage.vue'
 import GlobalConfig from '../views/toolkit/globalconfig.vue'
+import Test from '../Test.vue'
 
 /**
  * 解决点击菜单时报重复路由的错，虽然不影响功能，但是console里会打印红色错误
@@ -24,6 +25,11 @@ Vue.use(Router);
 
 export default new Router({
   routes: [
+    {
+      path: '/test',
+      name: '测试',
+      component: Test
+    },
     {
       path: '/',
       name: '登陆',

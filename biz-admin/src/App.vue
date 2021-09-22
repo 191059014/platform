@@ -7,40 +7,12 @@
 <script>
   export default {
     name: 'App',
-    data() {
-      return {}
-    },
-    computed: {},
-    watch: {
-      "$store.state.currentThemeStyleId": function (newValue, oldValue) {
-
-      }
-    },
     created() {
-      this.state2LocalStorage();
+      this.loadTheme(localStorage.getItem("currentThemeId") ? localStorage.getItem("currentThemeId") : '0');
     },
     methods: {
-      state2LocalStorage() {
-        /**
-         * 页面创建的时候，把localStorage中的信息放进vuex的state中，防止页面刷新，vuex的state数据丢失
-         */
-        let stateCache = localStorage.getItem("stateCache");
-        if (stateCache) {
-          let cache = JSON.parse(stateCache);
-          this.$store.commit('setCurrentThemeStyleId', cache.currentThemeStyleId);
-          this.$store.commit('setCurrentThemeBgColor', cache.currentThemeBgColor);
-        }
-        /**
-         * 在页面刷新/关闭之前，将vuex里的信息保存到localStorage里，防止页面刷新，vuex的state数据丢失
-         */
-        window.addEventListener("beforeunload", () => {
-          let stateCache = {
-            currentThemeStyleId: this.$store.state.currentThemeStyleId,
-            currentThemeBgColor: this.$store.state.currentThemeBgColor,
-            multiTabs: this.$store.state.multiTabs
-          };
-          localStorage.setItem("stateCache", JSON.stringify(stateCache))
-        })
+      loadTheme(themeId) {
+        require("./assets/themeCss" + themeId + ".scss");
       }
     }
   }

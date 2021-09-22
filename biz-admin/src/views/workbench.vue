@@ -106,11 +106,12 @@
       :visible.sync="openDrawer"
       direction="rtl"
       :before-close="handleClose">
+      <el-alert title="修改以下设置后，会自动刷新页面，请知晓" type="warning" close-text="知道了" show-icon></el-alert>
       <p>主题色</p>
       <el-row>
-        <el-tag v-for="themeColor in themeColorList" :key="themeColor.id" :color="themeColor.backgroundColor"
-                :class="{'myicon-tick-checked': currentThemeStyleId === themeColor.id}"
-                @click="setCurrentThemeStyle(themeColor.id, themeColor.backgroundColor)">
+        <el-tag v-for="theme in themeList" :key="theme.id" :color="theme.backgroundColor"
+                :class="{'myicon-tick-checked': currentThemeId === theme.id}"
+                @click="changeTheme(theme.id)">
         </el-tag>
       </el-row>
       <el-divider></el-divider>
@@ -133,24 +134,32 @@
         isMenuCollapse: false,
         currentLoginUsername: sessionStorage.getItem(Consts.LOGIN_USERNAME),
         activeTabIndex: '-1',
-        currentThemeStyleId: '0',
-        themeColorList: [
-          {id: '0', backgroundColor: '#409EFF'},
+        themeList: [
+          {id: '0', backgroundColor: 'rgb(64, 158, 255)'},
           {id: '1', backgroundColor: 'rgb(245, 34, 45)'},
           {id: '2', backgroundColor: 'rgb(250, 84, 28)'},
-          {id: '3', backgroundColor: '#F56C6C'},
-          {id: '4', backgroundColor: 'rgb(250, 173, 20)'},
+          {id: '3', backgroundColor: 'rgb(250, 84, 28)'},
+          {id: '4', backgroundColor: 'rgb(245, 108, 56)'},
           {id: '5', backgroundColor: 'rgb(82, 196, 26)'},
           {id: '6', backgroundColor: 'rgb(19, 194, 194)'},
           {id: '7', backgroundColor: 'rgb(114, 46, 209)'},
-          {id: '8', backgroundColor: '#545c64'},
-          {id: '9', backgroundColor: '#000000'}
+          {id: '8', backgroundColor: 'rgb(84, 92, 100)'},
+          {id: '9', backgroundColor: 'rgb(0, 0, 0)'}
         ],
         openTabs: [],
         openDrawer: false
       }
     },
+    computed: {
+      currentThemeId: function () {
+        return localStorage.getItem("currentThemeId") ? localStorage.getItem("currentThemeId") : '0';
+      }
+    },
     methods: {
+      changeTheme(themeId) {
+        localStorage.setItem("currentThemeId", themeId);
+        window.location.reload();
+      },
       findPrivateMenuDatas() {
         Api.getPrivateMenuDatas((res) => {
           this.menuDatas = res.data;
