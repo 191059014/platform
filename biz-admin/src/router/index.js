@@ -11,6 +11,7 @@ import AccessManage from '../views/systemmanage/permission_manage.vue'
 import AccountSetting from '../views/systemmanage/accountsetting.vue'
 import CacheManage from '../views/toolkit/cachemanage.vue'
 import GlobalConfig from '../views/toolkit/globalconfig.vue'
+import ExceptionBoard from '../views/toolkit/exceptionboard.vue'
 import Test from '../Test.vue'
 
 /**
@@ -84,6 +85,11 @@ export default new Router({
           path: '/globalConfig',
           name: '全局配置',
           component: GlobalConfig
+        },
+        {
+          path: '/exceptionBoard',
+          name: '异常看板',
+          component: ExceptionBoard
         },
       ]
     }

@@ -1,5 +1,6 @@
 package com.hb.platform.hbbase.container;
 
+import com.hb.platform.hbbase.service.IExceptionBoardService;
 import com.hb.platform.hbbase.service.IGlobalConfigService;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,11 +37,19 @@ public class Tools implements InitializingBean {
     private IGlobalConfigService globalConfigService;
     private static IGlobalConfigService globalConfigServiceAgent;
 
+    /**
+     * 异常看板
+     */
+    @Autowired
+    private IExceptionBoardService exceptionBoardService;
+    private static IExceptionBoardService exceptionBoardServiceAgent;
+
     @Override
     public void afterPropertiesSet() {
         environmentAgent = environment;
         stringRedisTemplateAgent = stringRedisTemplate;
         globalConfigServiceAgent = globalConfigService;
+        exceptionBoardServiceAgent = exceptionBoardService;
     }
 
     /**
@@ -66,8 +75,17 @@ public class Tools implements InitializingBean {
      *
      * @return 结果
      */
-    public static IGlobalConfigService globalConfig() {
+    public static IGlobalConfigService globalCfg() {
         return globalConfigServiceAgent;
+    }
+
+    /**
+     * 异常看板
+     *
+     * @return 结果
+     */
+    public static IExceptionBoardService errBoard() {
+        return exceptionBoardServiceAgent;
     }
 
 }

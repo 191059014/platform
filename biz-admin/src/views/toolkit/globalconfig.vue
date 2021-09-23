@@ -158,7 +158,7 @@
         this.queryPages();
       },
       reset() {
-        this.queryCondition = {};
+        this.QueryCondition = {};
       },
       queryPages() {
         this.tableLoading = true;

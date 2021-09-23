@@ -8,17 +8,18 @@
   export default {
     name: 'App',
     created() {
-      this.loadTheme(localStorage.getItem("currentThemeId") ? localStorage.getItem("currentThemeId") : '0');
-    },
-    methods: {
-      loadTheme(themeId) {
-        require("./assets/themeCss" + themeId + ".scss");
-      }
+      let redVal = localStorage.getItem("redVal");
+      let greenVal = localStorage.getItem("greenVal");
+      let blueVal = localStorage.getItem("blueVal");
+      window.document.getElementsByTagName('body')[0].style.setProperty("--redVal", redVal);
+      window.document.getElementsByTagName('body')[0].style.setProperty("--greenVal", greenVal);
+      window.document.getElementsByTagName('body')[0].style.setProperty("--blueVal", blueVal);
+      require("./assets/dynamicThemeCss.scss");
     }
   }
 </script>
 
-<style>
+<style type="scss">
 
   body {
     margin: 0;
@@ -69,7 +70,7 @@
   /**
    *  修改滚动条样式
    *
-   *  ::-webkit-scrollbar 滚动条整体部分
+   *  ::-webkit-scrollbar 滚动条整体部分，width是竖向滚动条的宽度，height是横向滚动条的宽度
    *  ::-webkit-scrollbar-thumb  滚动条里面的小方块，能向上向下移动（或往左往右移动，取决于是垂直滚动条还是水平滚动条）
    *  ::-webkit-scrollbar-track  滚动条的轨道（里面装有Thumb）
    *  ::-webkit-scrollbar-button 滚动条的轨道的两端按钮，允许通过点击微调小方块的位置。
@@ -79,15 +80,16 @@
    */
   ::-webkit-scrollbar {
     width: 4px;
+    height: 8px;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: yellowgreen;
-    border-radius: 3px;
+    background: rgb(var(--redVal, 64), var(--greenVal, 158), var(--blueVal, 255), 0.5);
+    border-radius: 4px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: yellow;
+    background: rgb(var(--redVal, 64), var(--greenVal, 158), var(--blueVal, 255));
   }
 
 </style>

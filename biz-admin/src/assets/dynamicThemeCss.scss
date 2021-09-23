@@ -1,5 +1,9 @@
-$baseColor: rgb(250, 84, 28);
-$baseColor_slight: rgba(250, 84, 28, 0.1);
+$red: var(--redVal, 64);
+$green: var(--greenVal, 158);
+$blue: var(--blueVal, 255);
+$baseColor: rgb($red, $green, $blue);
+$baseColor_critical: rgba($red, $green, $blue, 0.8);
+$baseColor_slight: rgba($red, $green, $blue, 0.2);
 
 /**
  * Steps 步骤条
@@ -68,13 +72,13 @@ $baseColor_slight: rgba(250, 84, 28, 0.1);
 }
 
 .el-button--primary:focus, .el-button--primary:hover {
-  background: $baseColor;
-  border-color: $baseColor;
+  background: $baseColor_critical;
+  border-color: $baseColor_critical;
 }
 
 .el-button--default:focus, .el-button--default:hover {
   color: $baseColor;
-  border-color: $baseColor;
+  border-color: $baseColor_slight;
   background-color: $baseColor_slight;
 }
 
@@ -82,14 +86,22 @@ $baseColor_slight: rgba(250, 84, 28, 0.1);
  * Input 输入框
  */
 .el-input__inner:focus {
-  border-color: $baseColor;
+  border-color: $baseColor_critical;
 }
 
 /**
  * Select 选择器
  */
 .el-select .el-input.is-focus .el-input__inner {
-  border-color: $baseColor;
+  border-color: $baseColor_critical;
+}
+
+.el-select:hover .el-input__inner {
+  border-color: $baseColor_critical;
+}
+
+.el-select .el-input__inner:focus {
+  border-color: $baseColor_critical;
 }
 
 /**
@@ -113,7 +125,11 @@ $baseColor_slight: rgba(250, 84, 28, 0.1);
 }
 
 .el-pagination__sizes .el-input .el-input__inner:hover {
-  border-color: $baseColor;
+  border-color: $baseColor_critical;
+}
+
+.el-input__inner:hover {
+  border-color: $baseColor_critical;
 }
 
 /**

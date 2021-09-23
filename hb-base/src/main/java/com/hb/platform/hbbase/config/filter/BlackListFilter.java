@@ -27,7 +27,7 @@ public class BlackListFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
         throws ServletException, IOException {
         String ipAddress = ServletUtils.getIpAddress(request);
-        GlobalConfigDO config = Tools.globalConfig().getFromCache(GlobalConfigKey.BLACK_LIST.getSystemName(),
+        GlobalConfigDO config = Tools.globalCfg().getFromCache(GlobalConfigKey.BLACK_LIST.getSystemName(),
             GlobalConfigKey.BLACK_LIST.getGroupName(), GlobalConfigKey.BLACK_LIST.getConfigKey());
         if (config != null) {
             List<String> blackList = JSON.parseArray(config.getConfigValue(), String.class);

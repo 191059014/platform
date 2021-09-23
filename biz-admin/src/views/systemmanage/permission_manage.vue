@@ -257,7 +257,7 @@
           return false;
         }
         Api.addPermission(this.permissionModelAdd, (res => {
-          Alert.success(res.data.msg);
+          Alert.success(res.msg);
           this.showAddDialog = false;
           this.queryPages();
         }));
@@ -310,7 +310,7 @@
           icon: this.permissionModelUpdate.icon
         };
         Api.updatePermission(updateParams, (res) => {
-          Alert.success(res.data.msg);
+          Alert.success(res.msg);
           this.showUpdateDialog = false;
           this.queryPages();
         })

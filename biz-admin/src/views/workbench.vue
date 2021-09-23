@@ -111,7 +111,7 @@
       <el-row>
         <el-tag v-for="theme in themeList" :key="theme.id" :color="theme.backgroundColor"
                 :class="{'myicon-tick-checked': currentThemeId === theme.id}"
-                @click="changeTheme(theme.id)">
+                @click="changeTheme(theme.id, theme.backgroundColor)">
         </el-tag>
       </el-row>
       <el-divider></el-divider>
@@ -136,15 +136,20 @@
         activeTabIndex: '-1',
         themeList: [
           {id: '0', backgroundColor: 'rgb(64, 158, 255)'},
-          {id: '1', backgroundColor: 'rgb(245, 34, 45)'},
+          {id: '1', backgroundColor: 'rgb(255, 0, 0)'},
           {id: '2', backgroundColor: 'rgb(250, 84, 28)'},
-          {id: '3', backgroundColor: 'rgb(250, 84, 28)'},
-          {id: '4', backgroundColor: 'rgb(245, 108, 56)'},
-          {id: '5', backgroundColor: 'rgb(82, 196, 26)'},
-          {id: '6', backgroundColor: 'rgb(19, 194, 194)'},
-          {id: '7', backgroundColor: 'rgb(114, 46, 209)'},
-          {id: '8', backgroundColor: 'rgb(84, 92, 100)'},
-          {id: '9', backgroundColor: 'rgb(0, 0, 0)'}
+          {id: '3', backgroundColor: 'rgb(255,215,0)'},
+          {id: '4', backgroundColor: 'rgb(82, 196, 26)'},
+          {id: '5', backgroundColor: 'rgb(19, 194, 194)'},
+          {id: '6', backgroundColor: 'rgb(114, 46, 209)'},
+          {id: '7', backgroundColor: 'rgb(0, 0, 255)'},
+          {id: '8', backgroundColor: 'rgb(0, 255, 255)'},
+          {id: '9', backgroundColor: 'rgb(255, 0, 255)'},
+          {id: '10', backgroundColor: 'rgb(238 ,154 ,0)'},
+          {id: '11', backgroundColor: 'rgb(250 ,128 ,114)'},
+          {id: '12', backgroundColor: 'rgb(139 ,137 ,112)'},
+          {id: '13', backgroundColor: 'rgb(84, 92, 100)'},
+          {id: '14', backgroundColor: 'rgb(0, 0, 0)'},
         ],
         openTabs: [],
         openDrawer: false
@@ -156,8 +161,12 @@
       }
     },
     methods: {
-      changeTheme(themeId) {
+      changeTheme(themeId, backgroundColor) {
         localStorage.setItem("currentThemeId", themeId);
+        let rgbArr = backgroundColor.replace("rgb(", "").replace(")", "").split(",");
+        localStorage.setItem("redVal", parseInt(rgbArr[0]));
+        localStorage.setItem("greenVal", parseInt(rgbArr[1]));
+        localStorage.setItem("blueVal", parseInt(rgbArr[2]));
         window.location.reload();
       },
       findPrivateMenuDatas() {

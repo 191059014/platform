@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 @RequestMapping("/globalConfig")
-public class GlobalConfigController {
+public class GlobalConfigController extends BaseController {
 
     /**
      * 全局配置表服务层
@@ -52,6 +52,7 @@ public class GlobalConfigController {
     @PostMapping("/queryPages")
     public Result<Page<GlobalConfigDO>> queryPages(@RequestBody GlobalConfigDO globalConfig,
         @RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize) {
+        int i = 9/0;
         Assert.ifTrueThrows(Check.incorrectPageParameter(pageNum, pageSize), ResultCode.PAGE_PARAM_ERROR);
         return Result.success(globalConfigService.selectPages(globalConfig, pageNum, pageSize));
     }

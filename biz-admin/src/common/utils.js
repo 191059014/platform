@@ -34,6 +34,21 @@ export const shouldRedirectLogin = function (code) {
 };
 
 /**
+ * 通用的格式化处理
+ * @param sourceList 原集合
+ * @param value 待格式化的内容
+ * @returns 格式化后的结果
+ */
+export const formatter = function (sourceList, value) {
+  for (var i = 0; i < sourceList.length; i++) {
+    if (sourceList[i].value === value) {
+      return sourceList[i].name;
+    }
+  }
+  return value;
+};
+
+/**
  * 校验是否是指定长度范围
  * @param str 字符串
  * @param minLength 最小长度

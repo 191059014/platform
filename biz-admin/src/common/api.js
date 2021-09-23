@@ -151,7 +151,7 @@ export const updatePermission = (params, scb) => {
 };
 // 删除权限
 export const deletePermission = (id, scb) => {
-  return Ajax.get(`sysPermission?id=` + id).then(res => commonHandleResponse(res, scb));
+  return Ajax.get(`sysPermission/deleteById?id=` + id).then(res => commonHandleResponse(res, scb));
 };
 // 通过资源类型获取当前商户下的资源
 export const getResourcesByResourceType = (resourceType, scb) => {
@@ -184,6 +184,31 @@ export const updateGlobalConfigById = (globalConfig, scb) => {
 export const deleteGlobalConfigById = (id, scb) => {
   return Ajax.get(`/globalConfig/deleteById?id=` + id).then(res => commonHandleResponse(res, scb));
 };
+// 分页查询异常看板表
+export const getExceptionBoardPages = (exceptionBoard, pageNum, pageSize, scb) => {
+  return Ajax.post(`/exceptionBoard/queryPages?pageNum=` + pageNum + "&pageSize=" + pageSize, exceptionBoard).then(res => commonHandleResponse(res, scb));
+};
+// 通过主键修改异常信息
+export const updateExceptionBoardById = (exceptionBoard, scb) => {
+  return Ajax.post(`/exceptionBoard/updateById`, exceptionBoard).then(res => commonHandleResponse(res, scb));
+};
+// 获取异常系统名称下拉框
+export const getSystemNames = (scb) => {
+  return Ajax.get(`/exceptionBoard/dropdown/systemName`).then(res => commonHandleResponse(res, scb));
+};
+// 通过系统名称获取异常业务类型下拉框
+export const getBizTypesBySystemName = (systemName, scb) => {
+  return Ajax.get(`/exceptionBoard/dropdown/bizTypeBySystemName?systemName=` + systemName).then(res => commonHandleResponse(res, scb));
+};
+// 获取异常业务类型下拉框
+export const getBizTypes = (scb) => {
+  return Ajax.get(`/exceptionBoard/dropdown/bizTypes`).then(res => commonHandleResponse(res, scb));
+};
+// 获取异常处理状态下拉框
+export const getErrorProcessStates = (scb) => {
+  return Ajax.get(`/exceptionBoard/dropdown/processState`).then(res => commonHandleResponse(res, scb));
+};
+
 
 
 

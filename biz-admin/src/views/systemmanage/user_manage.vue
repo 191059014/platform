@@ -331,10 +331,6 @@
     mounted() {
       this.queryPages();
       this.getAllSubMerchants();
-      console.info("user");
-    },
-    beforeDestroy(){
-      console.info("user destory");
     }
   }
 </script>
