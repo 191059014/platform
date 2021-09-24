@@ -1,14 +1,14 @@
 package com.hb.platform.hbbase.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.hb.platform.hbbase.common.constant.Consts;
+import com.hb.platform.hbbase.common.util.BaseUtils;
 import com.hb.platform.hbbase.container.Tools;
 import com.hb.platform.hbbase.dao.dobj.GlobalConfigDO;
 import com.hb.platform.hbbase.dao.mapper.IGlobalConfigMapper;
 import com.hb.platform.hbbase.model.Page;
 import com.hb.platform.hbbase.model.PageCondition;
 import com.hb.platform.hbbase.service.IGlobalConfigService;
-import com.hb.platform.hbbase.common.util.BaseUtils;
+import com.hb.platform.hbcommon.constant.CommonConsts;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -166,7 +166,7 @@ public class GlobalConfigServiceImpl implements IGlobalConfigService {
         List<GlobalConfigDO> configFromDb = selectList(query);
         log.info("get config from db, key={}, value={}", cacheKey, configFromDb == null ? 0 : configFromDb.size());
         if (configFromDb != null) {
-            Tools.redis().opsForValue().set(cacheKey, JSON.toJSONString(configFromDb), Consts.MINUTE_10_S,
+            Tools.redis().opsForValue().set(cacheKey, JSON.toJSONString(configFromDb), CommonConsts.MINUTE_10_S,
                 TimeUnit.SECONDS);
         }
         return configFromDb;
@@ -201,7 +201,7 @@ public class GlobalConfigServiceImpl implements IGlobalConfigService {
         GlobalConfigDO configFromDb = selectOne(query);
         log.info("Get config from db, key: {}, value: {}", cacheKey, configFromDb);
         if (configFromDb != null) {
-            Tools.redis().opsForValue().set(cacheKey, JSON.toJSONString(configFromDb), Consts.MINUTE_10_S,
+            Tools.redis().opsForValue().set(cacheKey, JSON.toJSONString(configFromDb), CommonConsts.MINUTE_10_S,
                 TimeUnit.SECONDS);
         }
         return configFromDb;

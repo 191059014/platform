@@ -1,6 +1,6 @@
 package com.hb.platform.hbbase.service.impl;
 
-import com.hb.platform.hbbase.common.constant.Consts;
+import com.hb.platform.hbbase.common.constant.BaseConsts;
 import com.hb.platform.hbbase.common.enums.ErrorProcessState;
 import com.hb.platform.hbbase.common.enums.ErrorType;
 import com.hb.platform.hbbase.dao.dobj.ExceptionBoardDO;
@@ -123,7 +123,7 @@ public class ExceptionBoardServiceImpl implements IExceptionBoardService {
         exceptionBoard.setProcessState(processState.getValue());
         exceptionBoard.setContent(content);
         exceptionBoard.setRemark(remark);
-        exceptionBoard.setTraceId(MDC.get(Consts.TRACE_ID));
+        exceptionBoard.setTraceId(MDC.get(BaseConsts.TRACE_ID));
         return this.exceptionBoardMapper.insert(exceptionBoard);
     }
 

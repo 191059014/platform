@@ -2,9 +2,9 @@ package com.hb.platform.hbrbac.config.handler;
 
 import com.alibaba.fastjson.JSON;
 import com.hb.platform.hbbase.common.Result;
-import com.hb.platform.hbbase.common.constant.Consts;
 import com.hb.platform.hbbase.common.util.ServletUtils;
 import com.hb.platform.hbbase.container.Tools;
+import com.hb.platform.hbcommon.constant.CommonConsts;
 import com.hb.platform.hbcommon.security.AES;
 import com.hb.platform.hbcommon.security.Base64;
 import com.hb.platform.hbrbac.common.constant.RbacConsts;
@@ -57,7 +57,7 @@ public class MyLoginSuccessHandler implements AuthenticationSuccessHandler {
             authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
         UserCache userCache = new UserCache(ipAddress, user, permissionSet);
         String currentUserCacheKey = RbacUtils.getCurrentUserCacheKey(user.getId());
-        Tools.redis().opsForValue().set(currentUserCacheKey, JSON.toJSONString(userCache), Consts.MINUTE_30_S,
+        Tools.redis().opsForValue().set(currentUserCacheKey, JSON.toJSONString(userCache), CommonConsts.MINUTE_30_S,
             TimeUnit.SECONDS);
         log.info("将用户放入缓存成功, key={}", currentUserCacheKey);
         ServletUtils.writeJson(response, Result.of(RbacResultCode.LOGIN_SUCCESS, user.getUserName()));

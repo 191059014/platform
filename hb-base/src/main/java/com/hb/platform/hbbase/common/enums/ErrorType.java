@@ -1,6 +1,6 @@
 package com.hb.platform.hbbase.common.enums;
 
-import com.hb.platform.hbbase.common.constant.Consts;
+import com.hb.platform.hbbase.common.constant.BaseConsts;
 import lombok.Getter;
 
 import java.util.Arrays;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @Getter
 public enum ErrorType {
 
-    SYSTEM_ERR(Consts.PROJECT_NAME, "基础平台", "system_exception", "系统异常");
+    SYSTEM_ERR(BaseConsts.PROJECT_NAME, "基础平台", "system_exception", "系统异常");
 
     /**
      * 系统名称

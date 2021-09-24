@@ -1,6 +1,6 @@
 package com.hb.platform.hbbase.config.filter;
 
-import com.hb.platform.hbbase.common.constant.Consts;
+import com.hb.platform.hbbase.common.constant.BaseConsts;
 import com.hb.platform.hbcommon.util.UuidUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
@@ -25,15 +25,15 @@ public class TraceIdMdcHttpFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
         throws ServletException, IOException {
         try {
-            String traceId = request.getHeader(Consts.TRACE_ID);
+            String traceId = request.getHeader(BaseConsts.TRACE_ID);
             if (traceId == null) {
                 traceId = UuidUtils.uuidShort();
             }
-            MDC.put(Consts.TRACE_ID, traceId);
+            MDC.put(BaseConsts.TRACE_ID, traceId);
             log.debug("traceId filter, traceId={}", traceId);
             filterChain.doFilter(request, response);
         } finally {
-            MDC.remove(Consts.TRACE_ID);
+            MDC.remove(BaseConsts.TRACE_ID);
         }
     }
 

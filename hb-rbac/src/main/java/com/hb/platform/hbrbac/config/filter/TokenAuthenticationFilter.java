@@ -2,9 +2,9 @@ package com.hb.platform.hbrbac.config.filter;
 
 import com.alibaba.fastjson.JSON;
 import com.hb.platform.hbbase.common.Result;
-import com.hb.platform.hbbase.common.constant.Consts;
 import com.hb.platform.hbbase.common.util.ServletUtils;
 import com.hb.platform.hbbase.container.Tools;
+import com.hb.platform.hbcommon.constant.CommonConsts;
 import com.hb.platform.hbcommon.security.AES;
 import com.hb.platform.hbcommon.security.Base64;
 import com.hb.platform.hbrbac.common.constant.RbacConsts;
@@ -101,8 +101,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
          * token续航
          */
         Long remainExpire = Tools.redis().getExpire(currentUserCacheKey, TimeUnit.SECONDS);
-        if (remainExpire < Consts.MINUTE_10_S) {
-            Tools.redis().expire(currentUserCacheKey, Consts.MINUTE_30_S, TimeUnit.SECONDS);
+        if (remainExpire < CommonConsts.MINUTE_10_S) {
+            Tools.redis().expire(currentUserCacheKey, CommonConsts.MINUTE_30_S, TimeUnit.SECONDS);
         }
         /*
          * 将用户信息放入spring security上下文，如果不设置，则视为匿名访问

@@ -1,6 +1,6 @@
 package com.hb.platform.hbbase.common.util;
 
-import com.hb.platform.hbbase.common.constant.Consts;
+import com.hb.platform.hbbase.common.constant.BaseConsts;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -18,7 +18,7 @@ public class BaseUtils {
      * @return 缓存key
      */
     public static String getRequestLimitCacheKey(String ip) {
-        return generateRedisKey(Consts.PROJECT_NAME, "requestLimit", ip);
+        return generateRedisKey(BaseConsts.PROJECT_NAME, "requestLimit", ip);
     }
 
     /**
