@@ -1,6 +1,5 @@
 package com.hb.platform.hbbase.common.enums;
 
-import com.hb.platform.hbbase.common.constant.BaseConsts;
 import lombok.Getter;
 
 import java.util.Arrays;
@@ -15,7 +14,9 @@ import java.util.stream.Collectors;
 @Getter
 public enum ErrorType {
 
-    SYSTEM_ERR(BaseConsts.PROJECT_NAME, "基础平台", "system_exception", "系统异常");
+    BASE_SYSTEM_ERR("hbbase", "基础平台", "base_system_exception", "基础平台系统异常"),
+    RBAC_SYSTEM_ERR("hbrbac", "用户平台", "rbac_system_exception", "用户平台系统异常"),
+    WEB_SYSTEM_ERR("bizweb", "管理平台", "web_system_exception", "管理平台系统异常");
 
     /**
      * 系统名称
@@ -46,7 +47,7 @@ public enum ErrorType {
 
     /**
      * 通过系统名称查询
-     * 
+     *
      * @param systemName
      *            系统名称
      * @return 结果

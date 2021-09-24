@@ -54,7 +54,7 @@ public class BaseController {
     public Result exception(Exception e) {
         String baseLog = LogUtils.getBaseLog("系统异常");
         log.error("{}\n{}", baseLog, LogUtils.getStackTrace(e));
-        Tools.errBoard().insert(ErrorType.SYSTEM_ERR, ErrorProcessState.WHTHOUT, e.getMessage(), null);
+        Tools.errBoard().insert(ErrorType.BASE_SYSTEM_ERR, ErrorProcessState.WHTHOUT, e.getMessage(), null);
         return Result.fail(ResultCode.ERROR);
     }
 
