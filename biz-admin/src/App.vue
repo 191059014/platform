@@ -19,7 +19,7 @@
   }
 </script>
 
-<style type="scss">
+<style>
 
   body {
     margin: 0;
@@ -84,7 +84,7 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: rgb(var(--redVal, 64), var(--greenVal, 158), var(--blueVal, 255), 0.5);
+    background: rgba(var(--redVal, 64), var(--greenVal, 158), var(--blueVal, 255), 0.5);
     border-radius: 4px;
   }
 

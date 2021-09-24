@@ -1,10 +1,12 @@
 package com.hb.platform.hbbase.service;
 
-import java.util.List;
-import java.util.Set;
-
+import com.hb.platform.hbbase.common.enums.ErrorProcessState;
+import com.hb.platform.hbbase.common.enums.ErrorType;
 import com.hb.platform.hbbase.dao.dobj.ExceptionBoardDO;
 import com.hb.platform.hbbase.model.Page;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * 异常看板表服务层接口
@@ -64,15 +66,20 @@ public interface IExceptionBoardService {
      */
     List<ExceptionBoardDO> selectByIdSet(Set<Long> idSet, ExceptionBoardDO exceptionBoard);
 
-
     /**
      * 新增
      *
-     * @param exceptionBoard
-     *            实例对象
-     * @return 影响行数
+     * @param errorType
+     *            错误类型
+     * @param processState
+     *            处理状态
+     * @param content
+     *            内容
+     * @param remark
+     *            备注
+     * @return 影响行行数
      */
-    int insert(ExceptionBoardDO exceptionBoard);
+    int insert(ErrorType errorType, ErrorProcessState processState, String content, String remark);
 
     /**
      * 通过主键修改

@@ -37,4 +37,9 @@ public interface Consts {
      */
     String UTF_8 = "UTF-8";
 
+    /**
+     * traceId
+     */
+    String TRACE_ID = "traceId";
+
 }

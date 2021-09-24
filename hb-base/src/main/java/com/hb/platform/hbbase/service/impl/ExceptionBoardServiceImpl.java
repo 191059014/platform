@@ -1,18 +1,21 @@
 package com.hb.platform.hbbase.service.impl;
 
-import com.hb.platform.hbbase.dao.mapper.IExceptionBoardMapper;
-import com.hb.platform.hbbase.service.IExceptionBoardService;
+import com.hb.platform.hbbase.common.constant.Consts;
+import com.hb.platform.hbbase.common.enums.ErrorProcessState;
+import com.hb.platform.hbbase.common.enums.ErrorType;
 import com.hb.platform.hbbase.dao.dobj.ExceptionBoardDO;
-import org.springframework.stereotype.Service;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.CollectionUtils;
-
-import java.util.List;
-import java.util.Set;
-import javax.annotation.Resource;
-
+import com.hb.platform.hbbase.dao.mapper.IExceptionBoardMapper;
 import com.hb.platform.hbbase.model.Page;
 import com.hb.platform.hbbase.model.PageCondition;
+import com.hb.platform.hbbase.service.IExceptionBoardService;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
+import javax.annotation.Resource;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 异常看板表服务层实现类
@@ -100,14 +103,27 @@ public class ExceptionBoardServiceImpl implements IExceptionBoardService {
 
 
     /**
-     * 选择性新增
-     *
-     * @param exceptionBoard
-     *            实例对象
-     * @return 影响行数
+     * 新增
+     * 
+     * @param errorType
+     *            错误类型
+     * @param processState
+     *            处理状态
+     * @param content
+     *            内容
+     * @param remark
+     *            备注
+     * @return 影响行行数
      */
     @Override
-    public int insert(ExceptionBoardDO exceptionBoard) {
+    public int insert(ErrorType errorType, ErrorProcessState processState, String content, String remark) {
+        ExceptionBoardDO exceptionBoard = new ExceptionBoardDO();
+        exceptionBoard.setSystemName(errorType.getSystemName());
+        exceptionBoard.setBizType(errorType.getBizType());
+        exceptionBoard.setProcessState(processState.getValue());
+        exceptionBoard.setContent(content);
+        exceptionBoard.setRemark(remark);
+        exceptionBoard.setTraceId(MDC.get(Consts.TRACE_ID));
         return this.exceptionBoardMapper.insert(exceptionBoard);
     }
 

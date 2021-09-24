@@ -155,3 +155,38 @@ $baseColor_slight: rgba($red, $green, $blue, 0.2);
 .el-radio__input.is-checked + .el-radio__label {
   color: $baseColor;
 }
+
+/**
+ * checkbox 复选框
+ */
+.el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+  background-color: $baseColor;
+  border-color: $baseColor;
+}
+
+.el-checkbox__input.is-focus .el-checkbox__inner {
+  border-color: $baseColor_critical;
+}
+
+.el-checkbox__input.is-checked + .el-checkbox__label {
+  color: $baseColor;
+}
+
+.el-checkbox__inner:hover {
+  border-color: $baseColor;
+}
+
+/**
+ * Loading 加载
+ */
+.el-loading-spinner .el-loading-text {
+  color: white;
+}
+
+.el-loading-spinner i {
+  color: white;
+}
+
+.el-loading-spinner .path {
+  stroke: $baseColor;
+}

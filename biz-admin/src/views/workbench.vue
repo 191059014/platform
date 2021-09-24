@@ -329,7 +329,7 @@
     font-family: cursive;
   }
 
-  .el-row, .el-col {
+  .el-header .el-row, .el-col {
     height: 100%
   }
 

@@ -26,7 +26,6 @@
       <el-form-item>
         <el-button type="primary" @click="queryPages">查询</el-button>
         <el-button type="primary" @click="reset">重置</el-button>
-        <el-button type="primary" @click="openAddDialog(true)">新增</el-button>
       </el-form-item>
     </el-form>
     <!-- 数据表格 -->
@@ -67,7 +66,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="备注">
-          <el-input v-model="ExceptionBoardUpdate.remark"></el-input>
+          <el-input v-model="ExceptionBoardUpdate.remark" placeholder="备注"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -160,6 +159,7 @@
           this.ExceptionBoardUpdatePrimary.remark = row.remark;
         } else {
           this.ExceptionBoardUpdate = {};
+          this.ExceptionBoardUpdatePrimary = {};
         }
       },
       handleEdit() {

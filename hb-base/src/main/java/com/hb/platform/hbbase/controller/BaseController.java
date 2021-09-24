@@ -5,11 +5,9 @@ import com.hb.platform.hbbase.common.ResultCode;
 import com.hb.platform.hbbase.common.enums.ErrorProcessState;
 import com.hb.platform.hbbase.common.enums.ErrorType;
 import com.hb.platform.hbbase.container.Tools;
-import com.hb.platform.hbbase.dao.dobj.ExceptionBoardDO;
 import com.hb.platform.hbcommon.standard.BusinessException;
 import com.hb.platform.hbcommon.util.LogUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.MDC;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -56,13 +54,7 @@ public class BaseController {
     public Result exception(Exception e) {
         String baseLog = LogUtils.getBaseLog("系统异常");
         log.error("{}\n{}", baseLog, LogUtils.getStackTrace(e));
-        ExceptionBoardDO exceptionBoard = new ExceptionBoardDO();
-        exceptionBoard.setSystemName(ErrorType.SYSTEM_ERR.getSystemName());
-        exceptionBoard.setBizType(ErrorType.SYSTEM_ERR.getBizType());
-        exceptionBoard.setProcessState(ErrorProcessState.WHTHOUT.getValue());
-        exceptionBoard.setContent(e.getMessage());
-        exceptionBoard.setTraceId(MDC.get("traceId"));
-        Tools.errBoard().insert(exceptionBoard);
+        Tools.errBoard().insert(ErrorType.SYSTEM_ERR, ErrorProcessState.WHTHOUT, e.getMessage(), null);
         return Result.fail(ResultCode.ERROR);
     }
 

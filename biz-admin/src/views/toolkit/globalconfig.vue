@@ -234,6 +234,7 @@
           this.GlobalConfigUpdatePrimary.remark = row.remark;
         } else {
           this.GlobalConfigUpdate = {};
+          this.GlobalConfigUpdatePrimary = {};
         }
       },
       handleEdit() {

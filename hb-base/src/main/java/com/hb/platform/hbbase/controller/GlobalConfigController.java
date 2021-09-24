@@ -1,8 +1,8 @@
 package com.hb.platform.hbbase.controller;
 
-import com.hb.platform.hbbase.common.annotation.InOutLog;
 import com.hb.platform.hbbase.common.Result;
 import com.hb.platform.hbbase.common.ResultCode;
+import com.hb.platform.hbbase.common.annotation.InOutLog;
 import com.hb.platform.hbbase.dao.dobj.GlobalConfigDO;
 import com.hb.platform.hbbase.model.Page;
 import com.hb.platform.hbbase.service.IGlobalConfigService;
@@ -52,7 +52,6 @@ public class GlobalConfigController extends BaseController {
     @PostMapping("/queryPages")
     public Result<Page<GlobalConfigDO>> queryPages(@RequestBody GlobalConfigDO globalConfig,
         @RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize) {
-        int i = 9/0;
         Assert.ifTrueThrows(Check.incorrectPageParameter(pageNum, pageSize), ResultCode.PAGE_PARAM_ERROR);
         return Result.success(globalConfigService.selectPages(globalConfig, pageNum, pageSize));
     }
