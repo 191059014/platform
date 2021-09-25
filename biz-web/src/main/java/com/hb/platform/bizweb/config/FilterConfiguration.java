@@ -2,6 +2,7 @@ package com.hb.platform.bizweb.config;
 
 import com.hb.platform.bizweb.config.filter.BlackListFilter;
 import com.hb.platform.bizweb.config.filter.RequestFrequencyLimitFilter;
+import com.hb.unic.base.filter.CustomCorsFilter;
 import com.hb.unic.common.util.FilterUtils;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +16,14 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class FilterConfiguration {
+
+    /**
+     * 跨域
+     */
+    @Bean
+    public FilterRegistrationBean customCorsFilter() {
+        return FilterUtils.build(new CustomCorsFilter(), "customCorsFilter", -5000, "/*");
+    }
 
     /**
      * 请求频率限制
