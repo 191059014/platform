@@ -5,9 +5,6 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <modules>
-        <module>hb-base</module>
-        <module>hb-common</module>
-        <module>hb-rbac</module>
         <module>biz-web</module>
         <module>biz-core</module>
     </modules>
@@ -40,24 +37,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- hb-base -->
-            <dependency>
-                <groupId>com.hb.platform</groupId>
-                <artifactId>hb-base</artifactId>
-                <version>${hb.base.version}</version>
-            </dependency>
-            <!-- hb-rbac -->
-            <dependency>
-                <groupId>com.hb.platform</groupId>
-                <artifactId>hb-rbac</artifactId>
-                <version>${hb.rbac.version}</version>
-            </dependency>
-            <!-- hb-common -->
-            <dependency>
-                <groupId>com.hb.platform</groupId>
-                <artifactId>hb-common</artifactId>
-                <version>${hb.common.version}</version>
-            </dependency>
             <!-- springboot -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
