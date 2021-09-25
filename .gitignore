@@ -2,3 +2,5 @@
 /**/*.log
 /**/rebel.xml
 /**/*.iml
+*.idea
+
