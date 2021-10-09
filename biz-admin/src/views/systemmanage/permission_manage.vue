@@ -18,9 +18,9 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="queryPages">查询</el-button>
-        <el-button type="primary" @click="reset">重置</el-button>
-        <el-button type="primary" @click="showDialogOfAdd(true)">新增</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="queryPages">查询</el-button>
+        <el-button type="primary" icon="el-icon-refresh" @click="reset">重置</el-button>
+        <el-button type="primary" icon="el-icon-plus" @click="showDialogOfAdd(true)">新增</el-button>
       </el-form-item>
     </el-form>
 
@@ -38,8 +38,8 @@
       <el-table-column prop="updateBy" label="更新人" min-width="100" sortable></el-table-column>
       <el-table-column label="操作" min-width="120">
         <template slot-scope="scope">
-          <el-button size="mini" @click="showDialogOfUpdate(scope.$index, scope.row)">编辑</el-button>
-          <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          <el-button size="mini" icon="el-icon-edit" @click="showDialogOfUpdate(scope.$index, scope.row)">编辑</el-button>
+          <el-button size="mini" type="danger" icon="el-icon-minus" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -186,6 +186,7 @@
       },
       reset() {
         this.queryCondition = {};
+        this.queryPages();
       },
       queryPages() {
         this.tableLoading = true;

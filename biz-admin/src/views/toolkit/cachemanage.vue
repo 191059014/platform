@@ -5,8 +5,8 @@
         <el-input v-model="queryCondition.cacheKey" autocomplete="off" placeholder="缓存键"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="query">查询</el-button>
-        <el-button type="primary" @click="reset">重置</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="query">查询</el-button>
+        <el-button type="primary" icon="el-icon-refresh" @click="reset">重置</el-button>
       </el-form-item>
     </el-form>
     <el-row>
@@ -54,6 +54,7 @@
     methods: {
       reset() {
         this.queryCondition = {};
+        this.query();
       },
       query() {
         if (!this.queryCondition.cacheKey) {

@@ -95,6 +95,10 @@ export const updateUserRole = (userId, params, scb) => {
 export const getPrivateMenuDatas = (scb) => {
   return Ajax.get(`sysUser/getPrivateMenuDatas`).then(res => commonHandleResponse(res, scb));
 };
+// 导入用户
+export const importUsers = (params, scb) => {
+  return Ajax.post(`sysUser/importUsers`, params).then(res => commonHandleResponse(res, scb));
+};
 /**
  * 角色管理
  */
@@ -208,7 +212,28 @@ export const getBizTypes = (scb) => {
 export const getErrorProcessStates = (scb) => {
   return Ajax.get(`/exceptionBoard/dropdown/processState`).then(res => commonHandleResponse(res, scb));
 };
-
+// 导出excel
+export const exportExcel = (url, params) => {
+  return Ajax.post(url, params, {responseType: 'blob'}).then(res => {
+    const blob = new Blob([res.data], {type: "application/vnd.ms-excel;charset=utf-8"});
+    // 文件名称
+    const fileName = res.headers['content-disposition'].substring(20);
+    const linkNode = document.createElement('a');
+    // a标签的download属性规定下载文件的名称
+    linkNode.download = fileName;
+    linkNode.style.display = 'none';
+    linkNode.href = URL.createObjectURL(blob);
+    document.body.appendChild(linkNode);
+    // 模拟点击
+    linkNode.click();
+    // 释放URL对象
+    URL.revokeObjectURL(linkNode.href);
+    document.body.removeChild(linkNode);
+    Alert.success("下载成功");
+  }).catch(error => {
+    Alert.success("下载失败");
+  })
+};
 
 
 

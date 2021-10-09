@@ -14,9 +14,14 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="queryPages">查询</el-button>
-        <el-button type="primary" @click="reset">重置</el-button>
-        <el-button type="primary" @click="showDialogOfAdd(true)">新增</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="queryPages">查询</el-button>
+        <el-button type="primary" icon="el-icon-refresh" @click="reset">重置</el-button>
+        <el-button type="primary" icon="el-icon-plus" @click="showDialogOfAdd(true)">新增</el-button>
+        <el-button type="primary" icon="el-icon-download" @click="exprotUsers">导出</el-button>
+        <el-button type="primary" icon="el-icon-download" @click="downloadTemplate">下载模板</el-button>
+        <el-upload class="upload_single_file" action="#" :http-request="importUsers" :show-file-list="false">
+          <el-button type="primary" icon="el-icon-upload2">上传</el-button>
+        </el-upload>
       </el-form-item>
     </el-form>
 
@@ -30,8 +35,8 @@
       <el-table-column prop="updateBy" label="更新人" min-width="100" sortable></el-table-column>
       <el-table-column label="操作" min-width="120">
         <template slot-scope="scope">
-          <el-button size="mini" @click="showDialogOfUpdate(scope.$index, scope.row)">编辑</el-button>
-          <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          <el-button size="mini" icon="el-icon-edit" @click="showDialogOfUpdate(scope.$index, scope.row)">编辑</el-button>
+          <el-button size="mini" icon="el-icon-minus" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           <el-button size="mini" type="danger" @click="handleChangeRole(scope.$index, scope.row)">角色</el-button>
         </template>
       </el-table-column>
@@ -171,6 +176,7 @@
       },
       reset() {
         this.queryCondition = {};
+        this.queryPages();
       },
       queryPages() {
         this.tableLoading = true;
@@ -326,6 +332,19 @@
           this.rolesUnderMerchant = [];
           this.queryPages();
         })
+      },
+      downloadTemplate() {
+        Api.exportExcel('/excel/template/user', this.queryCondition);
+      },
+      importUsers(data) {
+        let formdata = new FormData();
+        formdata.append("file", data.file);
+        Api.importUsers(formdata, res => {
+          Alert(res.msg);
+        });
+      },
+      exprotUsers() {
+
       }
     },
     mounted() {

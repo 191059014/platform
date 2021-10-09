@@ -33,6 +33,14 @@
   }
 
   /**
+   * 全局设置单个文件上传样式
+   */
+  .upload_single_file {
+    display: inline;
+    margin-left: 10px;
+  }
+
+  /**
    * 全局设置所有dialog组件样式
    */
   .el-dialog__body {

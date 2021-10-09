@@ -18,27 +18,27 @@
         <el-input v-model="QueryCondition.remark" placeholder="备注"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="queryPages">查询</el-button>
-        <el-button type="primary" @click="reset">重置</el-button>
-        <el-button type="primary" @click="openAddDialog(true)">新增</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="queryPages">查询</el-button>
+        <el-button type="primary" icon="el-icon-refresh" @click="reset">重置</el-button>
+        <el-button type="primary" icon="el-icon-plus" @click="openAddDialog(true)">新增</el-button>
       </el-form-item>
     </el-form>
     <!-- 数据表格 -->
     <el-table :data="globalConfigList" stripe highlight-current-row v-loading="tableLoading">
-      <el-table-column type="index" label="序号" min-width="100"></el-table-column>
-      <el-table-column prop="systemName" label="系统名称" min-width="100" sortable></el-table-column>
-      <el-table-column prop="groupName" label="分组名称" min-width="100" sortable></el-table-column>
-      <el-table-column prop="configKey" label="配置标识" min-width="100" sortable></el-table-column>
-      <el-table-column prop="configValue" label="配置内容" min-width="100" sortable></el-table-column>
-      <el-table-column prop="remark" label="备注" min-width="100" sortable></el-table-column>
-      <el-table-column prop="createBy" label="创建人" min-width="100" sortable></el-table-column>
-      <el-table-column prop="createTime" label="创建时间" min-width="100" sortable></el-table-column>
-      <el-table-column prop="updateBy" label="更新人" min-width="100" sortable></el-table-column>
-      <el-table-column prop="updateTime" label="更新时间" min-width="100" sortable></el-table-column>
-      <el-table-column label="操作" min-width="100">
+      <el-table-column type="index" label="序号"></el-table-column>
+      <el-table-column prop="systemName" label="系统名称" sortable></el-table-column>
+      <el-table-column prop="groupName" label="分组名称" sortable></el-table-column>
+      <el-table-column prop="configKey" label="配置标识" sortable></el-table-column>
+      <el-table-column prop="configValue" label="配置内容" sortable></el-table-column>
+      <el-table-column prop="remark" label="备注" sortable></el-table-column>
+      <el-table-column prop="createBy" label="创建人" sortable></el-table-column>
+      <el-table-column prop="createTime" label="创建时间" sortable></el-table-column>
+      <el-table-column prop="updateBy" label="更新人" sortable></el-table-column>
+      <el-table-column prop="updateTime" label="更新时间" sortable></el-table-column>
+      <el-table-column label="操作" min-width="90">
         <template slot-scope="scope">
-          <el-button size="mini" @click="openUpdateDialog(true, scope.$index, scope.row)">编辑</el-button>
-          <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          <el-button size="mini" icon="el-icon-edit" @click="openUpdateDialog(true, scope.$index, scope.row)">编辑</el-button>
+          <el-button size="mini" type="danger" icon="el-icon-minus" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -159,6 +159,7 @@
       },
       reset() {
         this.QueryCondition = {};
+        this.queryPages();
       },
       queryPages() {
         this.tableLoading = true;

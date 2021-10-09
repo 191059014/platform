@@ -24,8 +24,8 @@
         <el-input v-model="QueryCondition.traceId" placeholder="链路追踪ID"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="queryPages">查询</el-button>
-        <el-button type="primary" @click="reset">重置</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="queryPages">查询</el-button>
+        <el-button type="primary" icon="el-icon-refresh" @click="reset">重置</el-button>
       </el-form-item>
     </el-form>
     <!-- 数据表格 -->
@@ -45,7 +45,7 @@
       <el-table-column prop="updateTime" label="更新时间" width="150" sortable></el-table-column>
       <el-table-column label="操作" min-width="100" fixed="right">
         <template slot-scope="scope">
-          <el-button size="mini" @click="openUpdateDialog(true, scope.$index, scope.row)">编辑</el-button>
+          <el-button size="mini" icon="el-icon-edit" @click="openUpdateDialog(true, scope.$index, scope.row)">编辑</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -127,6 +127,7 @@
       },
       reset() {
         this.QueryCondition = {};
+        this.queryPages();
       },
       queryPages() {
         this.tableLoading = true;
