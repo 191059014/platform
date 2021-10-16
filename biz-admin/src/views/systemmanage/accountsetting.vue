@@ -49,18 +49,14 @@
         <div class="tab_pane_title">账户绑定</div>
         <ul class="account_bind_ul">
           <li>
-            <span>
-              <img src="../../../static/image/zhifubao.png"/>
-              <p>支付宝</p>
-              <el-link :underline="false" type="success">去绑定</el-link>
-            </span>
+            <img src="../../../static/image/zhifubao.png"/>
+            <span>支付宝</span>
+            <el-link :underline="false" type="success">去绑定</el-link>
           </li>
           <li>
-            <span>
-              <img src="../../../static/image/weixin.png"/>
-              <p>微信</p>
-              <el-link :underline="false" type="success">去绑定</el-link>
-            </span>
+            <img src="../../../static/image/weixin.png"/>
+            <span>微信</span>
+            <el-link :underline="false" type="success">去绑定</el-link>
           </li>
         </ul>
       </el-tab-pane>
@@ -187,24 +183,22 @@
 
   .account_bind_ul {
     list-style: none;
-    text-align: left;
   }
 
   .account_bind_ul li {
-    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+  }
+
+  .account_bind_ul li img:after {
+    content: '';
+    width: 50px;
   }
 
   .account_bind_ul li span {
-    display: flex;
-    justify-content: left;
-  }
-
-  li span p {
-    padding-left: 10px;
-  }
-
-  li span a {
-    padding-left: 100px;
+    width: 100px;
+    margin-left: 10px;
   }
 
   .tab_pane_title {
